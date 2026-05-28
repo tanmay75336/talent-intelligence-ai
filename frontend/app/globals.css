@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #07111f;
+  --bg-elevated: #0b1728;
+  --bg-soft: rgba(14, 28, 47, 0.76);
+  --panel: rgba(13, 25, 42, 0.78);
+  --panel-strong: rgba(12, 24, 40, 0.94);
+  --border: rgba(148, 163, 184, 0.18);
+  --border-strong: rgba(148, 163, 184, 0.28);
+  --text: #e5edf7;
+  --muted: #91a4bc;
+  --accent: #8fb5ff;
+  --accent-soft: rgba(143, 181, 255, 0.16);
+  --success: #7dd3a6;
+  --warning: #f7c97c;
+  --danger: #f29f9f;
+  --shadow: 0 24px 80px rgba(2, 6, 23, 0.45);
+}
+
+@layer base {
+  * {
+    @apply border-slate-700/40;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top, rgba(56, 89, 138, 0.2), transparent 28%),
+      radial-gradient(circle at 85% 15%, rgba(37, 99, 235, 0.08), transparent 22%),
+      linear-gradient(180deg, #091220 0%, #07111f 52%, #050d18 100%);
+    color: var(--text);
+    font-family: Aptos, "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(143, 181, 255, 0.35);
+    color: #f8fbff;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-7xl px-4 pb-20 pt-8 sm:px-6 lg:px-8;
+  }
+
+  .card-surface {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    @apply rounded-3xl;
+  }
+
+  .card-muted {
+    background: linear-gradient(180deg, rgba(10, 21, 38, 0.95), rgba(8, 17, 31, 0.9));
+    border: 1px solid var(--border);
+    @apply rounded-2xl;
+  }
+
+  .section-label {
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    @apply text-[0.72rem] font-semibold uppercase;
+  }
+
+  .text-muted {
+    color: var(--muted);
+  }
+
+  .hairline {
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.3), transparent);
+    @apply h-px w-full;
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+    background-position: center;
+    background-size: 42px 42px;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}

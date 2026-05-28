@@ -1,0 +1,32 @@
+backend/__pycache__/
+backend/**/__pycache__/
+frontend/.next/
+frontend/tsconfig.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Node
+node_modules/
+.next/
+out/
+
+# Uploads
+uploads/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# Build
+dist/
+build/
