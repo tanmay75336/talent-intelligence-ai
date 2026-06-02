@@ -60,8 +60,8 @@ class MemorySampler:
 def run_benchmark(candidates_path: str | Path, job_path: str | Path) -> dict[str, object]:
     candidate_count = count_candidates(candidates_path)
     sampler = MemorySampler()
-    with tempfile.NamedTemporaryFile(prefix="redrob_benchmark_", suffix=".csv", delete=True) as output_file:
-        output_path = Path(output_file.name)
+    with tempfile.TemporaryDirectory(prefix="redrob_benchmark_") as tmp_dir:
+        output_path = Path(tmp_dir) / "redrob_benchmark.csv"
         sampler.start()
         start = time.perf_counter()
         run_competition_ranking(candidates_path, job_path, output_path)
