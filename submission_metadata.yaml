@@ -1,0 +1,39 @@
+project_name: Talent Intelligence AI
+
+track: Intelligent Candidate Discovery
+
+team_name: TODO
+
+primary_contact:
+  name: TODO
+  email: TODO
+  phone: TODO
+
+github_repository: TODO
+
+sandbox_demo_link: TODO
+
+compute_environment: "MacBook Air M-series, Python 3.x, CPU only"
+
+ai_tools_used:
+  - ChatGPT
+  - Cursor
+
+external_api_usage_during_ranking: false
+
+runtime_seconds: 82
+
+methodology_summary: |
+  Talent Intelligence AI ranks candidates against the released job description using
+  offline, deterministic evidence—not AI keyword density. Each profile is streamed from
+  JSONL, adapted to a unified schema, and scored on JD skill overlap, domain terms,
+  experience fit, and core execution signals extracted from career history. An evidence
+  calibrator applies bounded adjustments: it rewards career-backed retrieval, ranking,
+  embeddings, and production ownership language while penalizing framework-only profiles,
+  keyword stuffing, research-only mismatch, and hands-off seniority patterns. RedRob
+  behavioral signals (response rate, GitHub activity, open-to-work) act only as
+  secondary tie-breakers when technical evidence is comparable—they do not override
+  strong JD fit. The top 100 are retained via a min-heap over 100k candidates; reasoning
+  is templated from real profile facts, JD connection, and career snippets with no
+  hosted LLM during ranking. The pipeline runs CPU-only in ~82 seconds with no network
+  calls, meeting the 5-minute / 16GB reproduction constraints.
