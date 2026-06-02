@@ -1,0 +1,3000 @@
+{
+  "great_senior_ai_engineer_fit": [
+    {
+      "candidate_id": "CAND_0000001",
+      "evidence": {
+        "current_title": "Backend Engineer",
+        "years_of_experience": 6.9,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "pipeline",
+          "pipelines"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "llm",
+          "ml",
+          "nlp",
+          "rag"
+        ],
+        "career_evidence": "Implemented streaming data pipelines on Kafka and Spark Streaming for a real-time user-activity processing platform. Designed the schema-registry integration, the watermark/state management approach, and the deduplication logic for late-arr",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-05-20",
+          "recruiter_response_rate": 0.34,
+          "notice_period_days": 60,
+          "github_activity_score": 9.2,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.71
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000031",
+      "evidence": {
+        "current_title": "Recommendation Systems Engineer",
+        "years_of_experience": 6.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "embedding",
+          "ranking",
+          "recommendation",
+          "retrieval"
+        ],
+        "production_hits": [
+          "pipeline",
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "machine learning",
+          "ml",
+          "nlp"
+        ],
+        "career_evidence": "Trained and shipped multiple ranking models for our product's discovery feed using XGBoost and LightGBM. Designed features across three families: content metadata, user behavior signals, and item engagement history. Owned the offline-online",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-05-24",
+          "recruiter_response_rate": 0.91,
+          "notice_period_days": 60,
+          "github_activity_score": 32.6,
+          "saved_by_recruiters_30d": 13,
+          "interview_completion_rate": 0.6
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000082",
+      "evidence": {
+        "current_title": "Data Analyst",
+        "years_of_experience": 7.4,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "pipeline",
+          "pipelines"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "llm",
+          "ml",
+          "rag"
+        ],
+        "career_evidence": "Implemented streaming data pipelines on Kafka and Spark Streaming for a real-time user-activity processing platform. Designed the schema-registry integration, the watermark/state management approach, and the deduplication logic for late-arr",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-01-23",
+          "recruiter_response_rate": 0.82,
+          "notice_period_days": 120,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 7,
+          "interview_completion_rate": 0.9
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000088",
+      "evidence": {
+        "current_title": "Java Developer",
+        "years_of_experience": 7.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-24",
+          "recruiter_response_rate": 0.53,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.66
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000097",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 5.8,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search",
+          "vector"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-30",
+          "recruiter_response_rate": 0.46,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.48
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000120",
+      "evidence": {
+        "current_title": "Graphic Designer",
+        "years_of_experience": 5.7,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-10",
+          "recruiter_response_rate": 0.58,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 8,
+          "interview_completion_rate": 0.41
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000130",
+      "evidence": {
+        "current_title": "Cloud Engineer",
+        "years_of_experience": 8.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "langchain",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Cloud infrastructure and DevOps work at an enterprise SaaS company. Owned the AWS account architecture (VPC, IAM, networking), the Terraform modules for our service deployments, and the Kubernetes cluster operations. Designed the CI/CD pipe",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-22",
+          "recruiter_response_rate": 0.83,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 15,
+          "interview_completion_rate": 0.74
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000165",
+      "evidence": {
+        "current_title": "AI Specialist",
+        "years_of_experience": 6.8,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "ranking",
+          "retrieval"
+        ],
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "pipelines",
+          "production",
+          "serving"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "llm",
+          "machine learning",
+          "ml",
+          "nlp",
+          "semantic search",
+          "vector"
+        ],
+        "career_evidence": "Built computer vision models for our product's image moderation feature using PyTorch \u2014 fine-tuned ResNet variants on a labeled dataset of ~200K images. Set up the training pipeline (data loading, augmentation, evaluation) and the inference",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-05-11",
+          "recruiter_response_rate": 0.3,
+          "notice_period_days": 120,
+          "github_activity_score": 61.5,
+          "saved_by_recruiters_30d": 18,
+          "interview_completion_rate": 0.96
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000187",
+      "evidence": {
+        "current_title": "DevOps Engineer",
+        "years_of_experience": 6.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Full-stack web application development at a SaaS company. Built React-based admin interfaces and the Node.js REST API backing them. Worked across the stack: frontend components, REST endpoint design, PostgreSQL schema, deployment via Docker",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-01-08",
+          "recruiter_response_rate": 0.72,
+          "notice_period_days": 90,
+          "github_activity_score": 8.3,
+          "saved_by_recruiters_30d": 9,
+          "interview_completion_rate": 0.41
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000191",
+      "evidence": {
+        "current_title": "Java Developer",
+        "years_of_experience": 5.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Android mobile development using Java and (more recently) Kotlin at a consumer-app company. Built and maintained multiple production features including the main shopping flow, push notification system, and the offline-first sync layer. Comf",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-08",
+          "recruiter_response_rate": 0.48,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 16,
+          "interview_completion_rate": 0.85
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000198",
+      "evidence": {
+        "current_title": "Software Engineer",
+        "years_of_experience": 6.3,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Cloud infrastructure and DevOps work at an enterprise SaaS company. Owned the AWS account architecture (VPC, IAM, networking), the Terraform modules for our service deployments, and the Kubernetes cluster operations. Designed the CI/CD pipe",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-03-26",
+          "recruiter_response_rate": 0.11,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 16,
+          "interview_completion_rate": 0.82
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000211",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 5.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Content writing and SEO strategy for a tech-focused publication. Wrote longform articles on developer tools, cloud platforms, and AI/ML topics \u2014 including some that ranked on the first page of search for high-competition keywords. Managed a",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-12",
+          "recruiter_response_rate": 0.61,
+          "notice_period_days": 60,
+          "github_activity_score": 10.0,
+          "saved_by_recruiters_30d": 3,
+          "interview_completion_rate": 0.35
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000225",
+      "evidence": {
+        "current_title": "Analytics Engineer",
+        "years_of_experience": 5.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines",
+          "serving"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "ml",
+          "rag"
+        ],
+        "career_evidence": "Backend development with Python (FastAPI), PostgreSQL, and Redis at a B2B SaaS product. Owned the analytics-and-reporting service which serves dashboards to ~3K paying customers. Recent work includes integrating a model-serving service (bui",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-04-26",
+          "recruiter_response_rate": 0.45,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 23,
+          "interview_completion_rate": 0.82
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000273",
+      "evidence": {
+        "current_title": "ML Engineer",
+        "years_of_experience": 5.8,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "ranking",
+          "recommendation",
+          "retrieval"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "llm",
+          "machine learning",
+          "ml",
+          "nlp"
+        ],
+        "career_evidence": "Built recommendation-style features at a mid-stage startup \u2014 lighter weight than ranking systems at FAANG, but production. Used a combination of collaborative filtering (matrix factorization in implicit-feedback library) and gradient-booste",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-05-07",
+          "recruiter_response_rate": 0.47,
+          "notice_period_days": 60,
+          "github_activity_score": 29.2,
+          "saved_by_recruiters_30d": 31,
+          "interview_completion_rate": 0.78
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000302",
+      "evidence": {
+        "current_title": "Frontend Engineer",
+        "years_of_experience": 7.4,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Android mobile development using Java and (more recently) Kotlin at a consumer-app company. Built and maintained multiple production features including the main shopping flow, push notification system, and the offline-first sync layer. Comf",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2025-12-24",
+          "recruiter_response_rate": 0.7,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 18,
+          "interview_completion_rate": 0.89
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000343",
+      "evidence": {
+        "current_title": "Analytics Engineer",
+        "years_of_experience": 6.4,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "pipeline",
+          "pipelines"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "machine learning",
+          "ml",
+          "rag"
+        ],
+        "career_evidence": "Built and maintained data pipelines on Apache Airflow processing ~500GB of daily transactional data across 12 source systems. Worked extensively with Spark (PySpark) for batch processing and dbt for the transformation/modeling layer in our ",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-03-02",
+          "recruiter_response_rate": 0.59,
+          "notice_period_days": 90,
+          "github_activity_score": 46.3,
+          "saved_by_recruiters_30d": 19,
+          "interview_completion_rate": 0.76
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000354",
+      "evidence": {
+        "current_title": "Analytics Engineer",
+        "years_of_experience": 6.3,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines",
+          "serving"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "ml",
+          "rag"
+        ],
+        "career_evidence": "Backend development with Python (FastAPI), PostgreSQL, and Redis at a B2B SaaS product. Owned the analytics-and-reporting service which serves dashboards to ~3K paying customers. Recent work includes integrating a model-serving service (bui",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-02-10",
+          "recruiter_response_rate": 0.45,
+          "notice_period_days": 60,
+          "github_activity_score": 51.6,
+          "saved_by_recruiters_30d": 15,
+          "interview_completion_rate": 0.96
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000360",
+      "evidence": {
+        "current_title": "Mobile Developer",
+        "years_of_experience": 8.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Android mobile development using Java and (more recently) Kotlin at a consumer-app company. Built and maintained multiple production features including the main shopping flow, push notification system, and the offline-first sync layer. Comf",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-03-01",
+          "recruiter_response_rate": 0.51,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.69
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000388",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 6.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Customer support team lead at a SaaS product. Managed a team of 8 support agents handling tier-1 and tier-2 tickets; owned the escalation process to engineering and the customer-feedback loop to product. Built out the support knowledge base",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-26",
+          "recruiter_response_rate": 0.11,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.5
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000389",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 5.4,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Enterprise sales of cloud software solutions into the mid-market segment. Carried a $1.8M ARR quota and consistently delivered against it across the last three years. Owned the full sales cycle: prospecting, discovery, technical evaluation ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-06",
+          "recruiter_response_rate": 0.13,
+          "notice_period_days": 120,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 9,
+          "interview_completion_rate": 0.81
+        }
+      }
+    }
+  ],
+  "keyword_stuffer": [
+    {
+      "candidate_id": "CAND_0000344",
+      "evidence": {
+        "current_title": "Business Analyst",
+        "years_of_experience": 2.5,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-24",
+          "recruiter_response_rate": 0.58,
+          "notice_period_days": 150,
+          "github_activity_score": 39.6,
+          "saved_by_recruiters_30d": 6,
+          "interview_completion_rate": 0.59
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000552",
+      "evidence": {
+        "current_title": "Accountant",
+        "years_of_experience": 4.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-10",
+          "recruiter_response_rate": 0.23,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.72
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000815",
+      "evidence": {
+        "current_title": "Project Manager",
+        "years_of_experience": 2.5,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search",
+          "vector"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-08",
+          "recruiter_response_rate": 0.39,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 12,
+          "interview_completion_rate": 0.54
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000821",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 6.9,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-17",
+          "recruiter_response_rate": 0.73,
+          "notice_period_days": 150,
+          "github_activity_score": 14.6,
+          "saved_by_recruiters_30d": 12,
+          "interview_completion_rate": 0.79
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000906",
+      "evidence": {
+        "current_title": "Marketing Manager",
+        "years_of_experience": 3.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-07",
+          "recruiter_response_rate": 0.65,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.51
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001403",
+      "evidence": {
+        "current_title": "Content Writer",
+        "years_of_experience": 1.8,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-25",
+          "recruiter_response_rate": 0.55,
+          "notice_period_days": 120,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.52
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001406",
+      "evidence": {
+        "current_title": "Business Analyst",
+        "years_of_experience": 5.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-03",
+          "recruiter_response_rate": 0.21,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.52
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001535",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 2.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-01-19",
+          "recruiter_response_rate": 0.07,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 8,
+          "interview_completion_rate": 0.81
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001632",
+      "evidence": {
+        "current_title": "Graphic Designer",
+        "years_of_experience": 1.4,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-16",
+          "recruiter_response_rate": 0.67,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.82
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001723",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 1.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-28",
+          "recruiter_response_rate": 0.09,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.76
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001896",
+      "evidence": {
+        "current_title": "Sales Executive",
+        "years_of_experience": 2.7,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-17",
+          "recruiter_response_rate": 0.39,
+          "notice_period_days": 60,
+          "github_activity_score": 37.6,
+          "saved_by_recruiters_30d": 3,
+          "interview_completion_rate": 0.74
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001921",
+      "evidence": {
+        "current_title": "Marketing Manager",
+        "years_of_experience": 5.3,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-11",
+          "recruiter_response_rate": 0.42,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.59
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0002040",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 3.6,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-13",
+          "recruiter_response_rate": 0.51,
+          "notice_period_days": 120,
+          "github_activity_score": 28.6,
+          "saved_by_recruiters_30d": 10,
+          "interview_completion_rate": 0.53
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0002140",
+      "evidence": {
+        "current_title": "Sales Executive",
+        "years_of_experience": 5.8,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2025-10-26",
+          "recruiter_response_rate": 0.09,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.55
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0002813",
+      "evidence": {
+        "current_title": "Civil Engineer",
+        "years_of_experience": 3.7,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-09",
+          "recruiter_response_rate": 0.31,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.68
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0003278",
+      "evidence": {
+        "current_title": "Customer Support",
+        "years_of_experience": 1.5,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-12",
+          "recruiter_response_rate": 0.59,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.83
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0003310",
+      "evidence": {
+        "current_title": "Graphic Designer",
+        "years_of_experience": 1.3,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-05-24",
+          "recruiter_response_rate": 0.56,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 1,
+          "interview_completion_rate": 0.77
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0003461",
+      "evidence": {
+        "current_title": "Marketing Manager",
+        "years_of_experience": 8.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-12-08",
+          "recruiter_response_rate": 0.56,
+          "notice_period_days": 60,
+          "github_activity_score": 0.6,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.87
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0003501",
+      "evidence": {
+        "current_title": "Accountant",
+        "years_of_experience": 3.8,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2025-10-04",
+          "recruiter_response_rate": 0.4,
+          "notice_period_days": 120,
+          "github_activity_score": 2.2,
+          "saved_by_recruiters_30d": 1,
+          "interview_completion_rate": 0.45
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0003687",
+      "evidence": {
+        "current_title": "Graphic Designer",
+        "years_of_experience": 1.5,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-08",
+          "recruiter_response_rate": 0.41,
+          "notice_period_days": 90,
+          "github_activity_score": 46.8,
+          "saved_by_recruiters_30d": 1,
+          "interview_completion_rate": 0.45
+        }
+      }
+    }
+  ],
+  "strong_ml_bad_availability": [
+    {
+      "candidate_id": "CAND_0000004",
+      "evidence": {
+        "current_title": "Marketing Manager",
+        "years_of_experience": 3.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Mechanical engineering design role at a hardware-product company. Led the design of two product subsystems through full lifecycle: concept, DFM/DFMA review, prototype, production tooling. Comfortable with CAD (SolidWorks, Creo), FEA (ANSYS)",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-25",
+          "recruiter_response_rate": 0.26,
+          "notice_period_days": 120,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 8,
+          "interview_completion_rate": 0.35
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000007",
+      "evidence": {
+        "current_title": "Civil Engineer",
+        "years_of_experience": 5.5,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-05-25",
+          "recruiter_response_rate": 0.62,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 8,
+          "interview_completion_rate": 0.47
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000009",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 11.0,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-27",
+          "recruiter_response_rate": 0.53,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 1,
+          "interview_completion_rate": 0.54
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000010",
+      "evidence": {
+        "current_title": "Data Engineer",
+        "years_of_experience": 4.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "pipeline",
+          "pipelines"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "ml",
+          "rag"
+        ],
+        "career_evidence": "Mixed data science and analytics-engineering role at a marketing-analytics startup. Spent maybe 30% of my time on lightweight ML (clustering, classification, churn prediction in sklearn/XGBoost) and 70% on data infrastructure and dashboards",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-29",
+          "recruiter_response_rate": 0.4,
+          "notice_period_days": 120,
+          "github_activity_score": 33.7,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.53
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000011",
+      "evidence": {
+        "current_title": "QA Engineer",
+        "years_of_experience": 2.0,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Android mobile development using Java and (more recently) Kotlin at a consumer-app company. Built and maintained multiple production features including the main shopping flow, push notification system, and the offline-first sync layer. Comf",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-19",
+          "recruiter_response_rate": 0.56,
+          "notice_period_days": 90,
+          "github_activity_score": 32.3,
+          "saved_by_recruiters_30d": 13,
+          "interview_completion_rate": 0.45
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000014",
+      "evidence": {
+        "current_title": "Frontend Engineer",
+        "years_of_experience": 8.4,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Frontend engineering at a media company. React, TypeScript, and the typical surrounding tooling (Webpack, Jest, Cypress). Built the company's design system from scratch and led the migration from a legacy AngularJS app. Strong on the fronte",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-12",
+          "recruiter_response_rate": 0.8,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.55
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000017",
+      "evidence": {
+        "current_title": "Accountant",
+        "years_of_experience": 12.3,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Customer support team lead at a SaaS product. Managed a team of 8 support agents handling tier-1 and tier-2 tickets; owned the escalation process to engineering and the customer-feedback loop to product. Built out the support knowledge base",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-04",
+          "recruiter_response_rate": 0.27,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.32
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000018",
+      "evidence": {
+        "current_title": "Frontend Engineer",
+        "years_of_experience": 6.6,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-18",
+          "recruiter_response_rate": 0.16,
+          "notice_period_days": 120,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 16,
+          "interview_completion_rate": 0.7
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000019",
+      "evidence": {
+        "current_title": "Project Manager",
+        "years_of_experience": 6.5,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-05-21",
+          "recruiter_response_rate": 0.34,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.31
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000020",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 6.3,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-05",
+          "recruiter_response_rate": 0.55,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.71
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000021",
+      "evidence": {
+        "current_title": "Project Manager",
+        "years_of_experience": 14.5,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-21",
+          "recruiter_response_rate": 0.49,
+          "notice_period_days": 60,
+          "github_activity_score": 6.4,
+          "saved_by_recruiters_30d": 3,
+          "interview_completion_rate": 0.53
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000022",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 1.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Content writing and SEO strategy for a tech-focused publication. Wrote longform articles on developer tools, cloud platforms, and AI/ML topics \u2014 including some that ranked on the first page of search for high-competition keywords. Managed a",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-05-03",
+          "recruiter_response_rate": 0.27,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.45
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000023",
+      "evidence": {
+        "current_title": "Software Engineer",
+        "years_of_experience": 3.7,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-06",
+          "recruiter_response_rate": 0.57,
+          "notice_period_days": 30,
+          "github_activity_score": 48.5,
+          "saved_by_recruiters_30d": 14,
+          "interview_completion_rate": 0.9
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000024",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 7.5,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-20",
+          "recruiter_response_rate": 0.78,
+          "notice_period_days": 60,
+          "github_activity_score": 46.3,
+          "saved_by_recruiters_30d": 7,
+          "interview_completion_rate": 0.72
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000025",
+      "evidence": {
+        "current_title": "Frontend Engineer",
+        "years_of_experience": 7.3,
+        "fit_bucket": "strong",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "langchain",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Android mobile development using Java and (more recently) Kotlin at a consumer-app company. Built and maintained multiple production features including the main shopping flow, push notification system, and the offline-first sync layer. Comf",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-03-30",
+          "recruiter_response_rate": 0.74,
+          "notice_period_days": 120,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 9,
+          "interview_completion_rate": 0.7
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000026",
+      "evidence": {
+        "current_title": "Graphic Designer",
+        "years_of_experience": 6.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Customer support team lead at a SaaS product. Managed a team of 8 support agents handling tier-1 and tier-2 tickets; owned the escalation process to engineering and the customer-feedback loop to product. Built out the support knowledge base",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-03",
+          "recruiter_response_rate": 0.59,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.49
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000028",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 1.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Brand design and creative direction at a consumer-products company. Owned brand identity (logo, visual system, typography), packaging design, and digital creative across web and social. Led the recent rebrand and managed a small external ag",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-31",
+          "recruiter_response_rate": 0.14,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.86
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000029",
+      "evidence": {
+        "current_title": "Business Analyst",
+        "years_of_experience": 7.2,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-09-29",
+          "recruiter_response_rate": 0.12,
+          "notice_period_days": 60,
+          "github_activity_score": 42.5,
+          "saved_by_recruiters_30d": 8,
+          "interview_completion_rate": 0.67
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000030",
+      "evidence": {
+        "current_title": "Marketing Manager",
+        "years_of_experience": 10.0,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-27",
+          "recruiter_response_rate": 0.66,
+          "notice_period_days": 60,
+          "github_activity_score": 21.7,
+          "saved_by_recruiters_30d": 1,
+          "interview_completion_rate": 0.73
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000032",
+      "evidence": {
+        "current_title": ".NET Developer",
+        "years_of_experience": 8.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Java backend development at a large enterprise \u2014 Spring Boot microservices, Kafka for inter-service messaging, Postgres + Redis for storage. Worked on the customer onboarding flow which involved orchestrating multiple downstream services. S",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-12-29",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.78
+        }
+      }
+    }
+  ],
+  "strong_behavior_weak_jd_fit": [
+    {
+      "candidate_id": "CAND_0000089",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 1.1,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-04",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 8,
+          "interview_completion_rate": 0.47
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000109",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 2.2,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-18",
+          "recruiter_response_rate": 0.7,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.3
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000181",
+      "evidence": {
+        "current_title": "Project Manager",
+        "years_of_experience": 4.7,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-05-26",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.87
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000189",
+      "evidence": {
+        "current_title": "Customer Support",
+        "years_of_experience": 3.7,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Enterprise sales of cloud software solutions into the mid-market segment. Carried a $1.8M ARR quota and consistently delivered against it across the last three years. Owned the full sales cycle: prospecting, discovery, technical evaluation ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-01",
+          "recruiter_response_rate": 0.7,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.76
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000218",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 6.2,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-30",
+          "recruiter_response_rate": 0.72,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 2,
+          "interview_completion_rate": 0.59
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000246",
+      "evidence": {
+        "current_title": "Content Writer",
+        "years_of_experience": 4.6,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-04-17",
+          "recruiter_response_rate": 0.68,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.65
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000247",
+      "evidence": {
+        "current_title": "Civil Engineer",
+        "years_of_experience": 10.2,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Customer support team lead at a SaaS product. Managed a team of 8 support agents handling tier-1 and tier-2 tickets; owned the escalation process to engineering and the customer-feedback loop to product. Built out the support knowledge base",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-01-18",
+          "recruiter_response_rate": 0.77,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.61
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000283",
+      "evidence": {
+        "current_title": "Project Manager",
+        "years_of_experience": 3.5,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-25",
+          "recruiter_response_rate": 0.75,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 9,
+          "interview_completion_rate": 0.69
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000291",
+      "evidence": {
+        "current_title": "Content Writer",
+        "years_of_experience": 12.9,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-21",
+          "recruiter_response_rate": 0.72,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.41
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000305",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 4.7,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-12-14",
+          "recruiter_response_rate": 0.68,
+          "notice_period_days": 150,
+          "github_activity_score": 18.8,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.67
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000320",
+      "evidence": {
+        "current_title": "Customer Support",
+        "years_of_experience": 8.0,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-01",
+          "recruiter_response_rate": 0.68,
+          "notice_period_days": 90,
+          "github_activity_score": 10.2,
+          "saved_by_recruiters_30d": 7,
+          "interview_completion_rate": 0.45
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000328",
+      "evidence": {
+        "current_title": "Civil Engineer",
+        "years_of_experience": 11.7,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-07",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 60,
+          "github_activity_score": 22.5,
+          "saved_by_recruiters_30d": 3,
+          "interview_completion_rate": 0.47
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000335",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 4.0,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-16",
+          "recruiter_response_rate": 0.65,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 9,
+          "interview_completion_rate": 0.41
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000336",
+      "evidence": {
+        "current_title": "Accountant",
+        "years_of_experience": 4.9,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-21",
+          "recruiter_response_rate": 0.74,
+          "notice_period_days": 60,
+          "github_activity_score": 9.2,
+          "saved_by_recruiters_30d": 12,
+          "interview_completion_rate": 0.76
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000347",
+      "evidence": {
+        "current_title": "Civil Engineer",
+        "years_of_experience": 6.2,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Operations management role at a logistics company. Owned daily fulfillment operations across 3 warehouses, managing a team of 80 across receiving, picking, packing, and outbound. Built and tracked the operational KPIs (on-time fulfillment, ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-27",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 10,
+          "interview_completion_rate": 0.31
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000405",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 2.7,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-06",
+          "recruiter_response_rate": 0.68,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 7,
+          "interview_completion_rate": 0.53
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000470",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 14.2,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-07",
+          "recruiter_response_rate": 0.77,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 12,
+          "interview_completion_rate": 0.45
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000513",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 2.3,
+        "fit_bucket": "keyword_only",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-18",
+          "recruiter_response_rate": 0.71,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.41
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000621",
+      "evidence": {
+        "current_title": "Content Writer",
+        "years_of_experience": 7.7,
+        "fit_bucket": "unrelated",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-30",
+          "recruiter_response_rate": 0.76,
+          "notice_period_days": 150,
+          "github_activity_score": 18.1,
+          "saved_by_recruiters_30d": 6,
+          "interview_completion_rate": 0.33
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000637",
+      "evidence": {
+        "current_title": "Civil Engineer",
+        "years_of_experience": 3.9,
+        "fit_bucket": "keyword_only",
+        "ai_infra_hits": [],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-01-05",
+          "recruiter_response_rate": 0.74,
+          "notice_period_days": 90,
+          "github_activity_score": 10.8,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.6
+        }
+      }
+    }
+  ],
+  "possible_hidden_gems": [
+    {
+      "candidate_id": "CAND_0000032",
+      "evidence": {
+        "current_title": ".NET Developer",
+        "years_of_experience": 8.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Java backend development at a large enterprise \u2014 Spring Boot microservices, Kafka for inter-service messaging, Postgres + Redis for storage. Worked on the customer onboarding flow which involved orchestrating multiple downstream services. S",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-12-29",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.78
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000062",
+      "evidence": {
+        "current_title": "DevOps Engineer",
+        "years_of_experience": 4.3,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "nlp",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-04-28",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 90,
+          "github_activity_score": 45.9,
+          "saved_by_recruiters_30d": 7,
+          "interview_completion_rate": 0.89
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000112",
+      "evidence": {
+        "current_title": "AI Specialist",
+        "years_of_experience": 3.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "machine learning",
+          "ml",
+          "nlp"
+        ],
+        "career_evidence": "Built NLP pipelines for sentiment analysis and document classification \u2014 primarily for an internal feedback-analytics dashboard. Started with sklearn-based bag-of-words models, then moved to transformer-based classifiers (DistilBERT) for th",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-26",
+          "recruiter_response_rate": 0.31,
+          "notice_period_days": 45,
+          "github_activity_score": 79.4,
+          "saved_by_recruiters_30d": 4,
+          "interview_completion_rate": 0.9
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000249",
+      "evidence": {
+        "current_title": "QA Engineer",
+        "years_of_experience": 9.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Frontend engineering at a media company. React, TypeScript, and the typical surrounding tooling (Webpack, Jest, Cypress). Built the company's design system from scratch and led the migration from a legacy AngularJS app. Strong on the fronte",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-26",
+          "recruiter_response_rate": 0.67,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 13,
+          "interview_completion_rate": 0.43
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000429",
+      "evidence": {
+        "current_title": "Java Developer",
+        "years_of_experience": 2.7,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-15",
+          "recruiter_response_rate": 0.66,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 15,
+          "interview_completion_rate": 0.87
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000431",
+      "evidence": {
+        "current_title": "Sales Executive",
+        "years_of_experience": 11.6,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Business analyst at a consulting firm, working primarily with retail and CPG clients. Conducted business diagnostics, process re-engineering work, and digital transformation strategy projects. Strong on stakeholder management, structured pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-12",
+          "recruiter_response_rate": 0.7,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 1,
+          "interview_completion_rate": 0.55
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000862",
+      "evidence": {
+        "current_title": "Content Writer",
+        "years_of_experience": 11.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Customer support team lead at a SaaS product. Managed a team of 8 support agents handling tier-1 and tier-2 tickets; owned the escalation process to engineering and the customer-feedback loop to product. Built out the support knowledge base",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-10-13",
+          "recruiter_response_rate": 0.71,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 11,
+          "interview_completion_rate": 0.72
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000932",
+      "evidence": {
+        "current_title": "Operations Manager",
+        "years_of_experience": 6.9,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "embedding",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-03-02",
+          "recruiter_response_rate": 0.72,
+          "notice_period_days": 90,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 9,
+          "interview_completion_rate": 0.3
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000969",
+      "evidence": {
+        "current_title": "AI Specialist",
+        "years_of_experience": 5.5,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "machine learning",
+          "ml",
+          "nlp",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Built computer vision models for our product's image moderation feature using PyTorch \u2014 fine-tuned ResNet variants on a labeled dataset of ~200K images. Set up the training pipeline (data loading, augmentation, evaluation) and the inference",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-05-20",
+          "recruiter_response_rate": 0.8,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 45,
+          "interview_completion_rate": 0.77
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0000971",
+      "evidence": {
+        "current_title": "Mobile Developer",
+        "years_of_experience": 4.3,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Full-stack web application development at a SaaS company. Built React-based admin interfaces and the Node.js REST API backing them. Worked across the stack: frontend components, REST endpoint design, PostgreSQL schema, deployment via Docker",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-04-18",
+          "recruiter_response_rate": 0.65,
+          "notice_period_days": 90,
+          "github_activity_score": 37.8,
+          "saved_by_recruiters_30d": 7,
+          "interview_completion_rate": 0.54
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001068",
+      "evidence": {
+        "current_title": "QA Engineer",
+        "years_of_experience": 2.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "langchain",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Full-stack web application development at a SaaS company. Built React-based admin interfaces and the Node.js REST API backing them. Worked across the stack: frontend components, REST endpoint design, PostgreSQL schema, deployment via Docker",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-04-12",
+          "recruiter_response_rate": 0.65,
+          "notice_period_days": 90,
+          "github_activity_score": 61.7,
+          "saved_by_recruiters_30d": 6,
+          "interview_completion_rate": 0.84
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001181",
+      "evidence": {
+        "current_title": "HR Manager",
+        "years_of_experience": 6.4,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production",
+          "scale"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Senior accounting role at a mid-sized company \u2014 month-end close, financial reporting, statutory compliance (GAAP / Ind-AS), and tax filings. Owned the GL, fixed-asset register, and the audit-readiness function. Managed a team of 3 staff acc",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-20",
+          "recruiter_response_rate": 0.7,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 5,
+          "interview_completion_rate": 0.8
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001189",
+      "evidence": {
+        "current_title": ".NET Developer",
+        "years_of_experience": 1.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Full-stack web application development at a SaaS company. Built React-based admin interfaces and the Node.js REST API backing them. Worked across the stack: frontend components, REST endpoint design, PostgreSQL schema, deployment via Docker",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-04-29",
+          "recruiter_response_rate": 0.84,
+          "notice_period_days": 30,
+          "github_activity_score": 17.9,
+          "saved_by_recruiters_30d": 14,
+          "interview_completion_rate": 0.74
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001323",
+      "evidence": {
+        "current_title": "Mechanical Engineer",
+        "years_of_experience": 8.5,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "ml"
+        ],
+        "career_evidence": "Customer support team lead at a SaaS product. Managed a team of 8 support agents handling tier-1 and tier-2 tickets; owned the escalation process to engineering and the customer-feedback loop to product. Built out the support knowledge base",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-01-10",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 3,
+          "interview_completion_rate": 0.74
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001399",
+      "evidence": {
+        "current_title": "Cloud Engineer",
+        "years_of_experience": 3.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Full-stack web application development at a SaaS company. Built React-based admin interfaces and the Node.js REST API backing them. Worked across the stack: frontend components, REST endpoint design, PostgreSQL schema, deployment via Docker",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-28",
+          "recruiter_response_rate": 0.67,
+          "notice_period_days": 30,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 0,
+          "interview_completion_rate": 0.85
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001480",
+      "evidence": {
+        "current_title": "Java Developer",
+        "years_of_experience": 5.6,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-03-31",
+          "recruiter_response_rate": 0.74,
+          "notice_period_days": 150,
+          "github_activity_score": 3.1,
+          "saved_by_recruiters_30d": 19,
+          "interview_completion_rate": 0.5
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001508",
+      "evidence": {
+        "current_title": "Marketing Manager",
+        "years_of_experience": 9.2,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag",
+          "vector database"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "fine-tuning",
+          "langchain",
+          "llm",
+          "ml",
+          "openai",
+          "rag",
+          "semantic search"
+        ],
+        "career_evidence": "Marketing leadership role at a B2B SaaS company. Owned the demand-generation function \u2014 content marketing, paid acquisition, SEO, email nurture. Built and managed a team of 5 across content, performance marketing, and marketing operations. ",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-02-18",
+          "recruiter_response_rate": 0.69,
+          "notice_period_days": 60,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 12,
+          "interview_completion_rate": 0.74
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001571",
+      "evidence": {
+        "current_title": "Mobile Developer",
+        "years_of_experience": 5.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag",
+          "vector"
+        ],
+        "career_evidence": "Test automation and QA engineering for a fintech product. Built and maintained the end-to-end test suite using Selenium and pytest, plus the load-testing setup using Locust. Worked closely with developers on testability patterns and with pr",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2025-11-30",
+          "recruiter_response_rate": 0.85,
+          "notice_period_days": 90,
+          "github_activity_score": 15.0,
+          "saved_by_recruiters_30d": 20,
+          "interview_completion_rate": 0.88
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001724",
+      "evidence": {
+        "current_title": "Frontend Engineer",
+        "years_of_experience": 2.1,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [
+          "rag"
+        ],
+        "production_hits": [],
+        "ai_skill_hits": [
+          "ai",
+          "ml",
+          "openai",
+          "rag"
+        ],
+        "career_evidence": "Full-stack web application development at a SaaS company. Built React-based admin interfaces and the Node.js REST API backing them. Worked across the stack: frontend components, REST endpoint design, PostgreSQL schema, deployment via Docker",
+        "redrob_signals": {
+          "open_to_work_flag": true,
+          "last_active_date": "2026-04-04",
+          "recruiter_response_rate": 0.72,
+          "notice_period_days": 150,
+          "github_activity_score": -1,
+          "saved_by_recruiters_30d": 12,
+          "interview_completion_rate": 0.84
+        }
+      }
+    },
+    {
+      "candidate_id": "CAND_0001808",
+      "evidence": {
+        "current_title": "ML Engineer",
+        "years_of_experience": 3.8,
+        "fit_bucket": "medium",
+        "ai_infra_hits": [],
+        "production_hits": [
+          "production"
+        ],
+        "ai_skill_hits": [
+          "ai",
+          "llm",
+          "machine learning",
+          "ml",
+          "nlp"
+        ],
+        "career_evidence": "Worked on customer-facing predictive modeling for an e-commerce platform \u2014 churn prediction, conversion likelihood, lifetime value estimation. Used scikit-learn and XGBoost; main models were gradient-boosted trees with ~80 hand-engineered f",
+        "redrob_signals": {
+          "open_to_work_flag": false,
+          "last_active_date": "2026-02-17",
+          "recruiter_response_rate": 0.7,
+          "notice_period_days": 30,
+          "github_activity_score": 53.6,
+          "saved_by_recruiters_30d": 35,
+          "interview_completion_rate": 0.63
+        }
+      }
+    }
+  ]
+}

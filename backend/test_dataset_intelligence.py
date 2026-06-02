@@ -7,8 +7,15 @@ import pandas as pd
 from fastapi.testclient import TestClient
 
 from backend.dataset_intelligence.evaluation import compare_ranking_strategies, evaluate_ranking
+from backend.dataset_intelligence.find_signal_examples import find_signal_examples
+from backend.dataset_intelligence.jd_signal_analyzer import analyze_jd_signals
 from backend.dataset_intelligence.loader import load_dataset
 from backend.dataset_intelligence.profiler import profile_dataframe, profile_dataset_path
+from backend.dataset_intelligence.redrob_fit_profiler import extract_candidate_features, profile_redrob_dataset
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_ROOT / "data"
 
 
 class DatasetProfilingTests(unittest.TestCase):
@@ -79,6 +86,45 @@ class DatasetProfilingTests(unittest.TestCase):
         self.assertIn("current.title", frame.columns)
         self.assertTrue(any("platform_activity" in field.signal_categories for field in report.fields))
         self.assertTrue(any("certifications" in field.signal_categories for field in report.fields))
+
+    def test_redrob_analysis_outputs_are_generated_from_sample(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output_dir = Path(temp_dir)
+            jd_report = analyze_jd_signals(DATA_DIR / "job_description.docx", output_dir / "jd_signal_profile.json")
+            dataset_report = profile_redrob_dataset(DATA_DIR / "sample_candidates.json", output_dir=output_dir)
+            examples = find_signal_examples(DATA_DIR / "sample_candidates.json", output_dir / "example_candidates.json", limit_per_category=2)
+
+            self.assertIn("must_have_positive_signals", jd_report)
+            self.assertTrue((output_dir / "jd_signal_profile.json").exists())
+            self.assertTrue((output_dir / "redrob_fit_distribution_report.json").exists())
+            self.assertTrue((output_dir / "trap_pattern_report.json").exists())
+            self.assertTrue((output_dir / "redrob_behavioral_signal_study.json").exists())
+            self.assertTrue((output_dir / "reasoning_signal_inventory.md").exists())
+            self.assertTrue((output_dir / "redrob_dataset_strategy_report.md").exists())
+            self.assertTrue((output_dir / "example_candidates.json").exists())
+            self.assertEqual(dataset_report["fit_report"]["candidate_count"], 50)
+            self.assertIn("great_senior_ai_engineer_fit", examples)
+
+    def test_redrob_analysis_handles_missing_fields_and_empty_arrays(self):
+        candidate = {
+            "candidate_id": "CAND_TEST",
+            "profile": {
+                "headline": "",
+                "summary": "",
+                "years_of_experience": 0,
+                "current_title": "",
+            },
+            "career_history": [],
+            "education": [],
+            "skills": [],
+            "certifications": [],
+            "redrob_signals": {},
+        }
+
+        features = extract_candidate_features(candidate)
+
+        self.assertEqual(features["fit_bucket"], "unrelated")
+        self.assertEqual(features["ai_infra_hits"], [])
 
 
 class RankingEvaluationLayerTests(unittest.TestCase):
@@ -153,4 +199,3 @@ class DatasetApiTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
