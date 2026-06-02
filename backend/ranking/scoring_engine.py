@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import logging
 import math
+from typing import TYPE_CHECKING
 
 from backend.ranking.recruiter_reasoning import build_recruiter_reasoning
 from backend.utils.embeddings import calculate_similarity_between_text_sets
@@ -15,6 +16,9 @@ from backend.utils.skill_taxonomy import (
 
 logger = logging.getLogger(__name__)
 
+if TYPE_CHECKING:
+    from backend.retrieval.evidence_retriever import RetrievalContext
+
 
 @dataclass
 class ScoringWeights:
@@ -27,6 +31,57 @@ class ScoringWeights:
 
 
 DEFAULT_WEIGHTS = ScoringWeights()
+
+IMPLEMENTATION_VERBS = {
+    "built",
+    "developed",
+    "implemented",
+    "integrated",
+    "deployed",
+    "shipped",
+    "owned",
+    "architected",
+    "launched",
+    "automated",
+    "optimized",
+    "designed",
+    "delivered",
+    "created",
+    "managed",
+    "improved",
+}
+
+ARCHITECTURE_TERMS = {
+    "api",
+    "apis",
+    "backend",
+    "database",
+    "postgresql",
+    "supabase",
+    "pipeline",
+    "pipelines",
+    "deployment",
+    "docker",
+    "ci/cd",
+    "monitoring",
+    "semantic",
+    "retrieval",
+    "embeddings",
+    "llm",
+    "integration",
+    "integrations",
+    "services",
+    "production",
+    "frontend",
+    "dashboard",
+    "dashboards",
+    "ui",
+    "react",
+    "next.js",
+    "typescript",
+    "customer-facing",
+    "performance",
+}
 
 
 def _safe_ratio(numerator, denominator):
@@ -102,6 +157,66 @@ def _transfer_coverage_ratio(target_skills, candidate_skills):
     }
 
     return _safe_ratio(len(covered_skills), len(target_skills))
+
+
+def _exact_support_ratio(skill_result, retrieval_context: "RetrievalContext | None" = None):
+    direct_ratio = float(skill_result.get("required_direct_ratio", 0.0) or 0.0)
+    coverage = getattr(retrieval_context, "must_have_coverage", {}) if retrieval_context else {}
+    if not coverage:
+        return direct_ratio
+    strong_coverage = _safe_ratio(
+        sum(1 for score in coverage.values() if float(score or 0.0) >= 0.75),
+        len(coverage),
+    )
+    return round(max(direct_ratio, strong_coverage), 4)
+
+
+def _weak_must_have_ratio(retrieval_context: "RetrievalContext | None" = None):
+    coverage = getattr(retrieval_context, "must_have_coverage", {}) if retrieval_context else {}
+    if not coverage:
+        return 0.0
+    weak_count = sum(1 for score in coverage.values() if float(score or 0.0) < 0.2)
+    return round(_safe_ratio(weak_count, len(coverage)), 4)
+
+
+def _retrieval_project_experience_ratio(retrieval_context: "RetrievalContext | None", pillar: str):
+    if not retrieval_context:
+        return 0.0
+    evidence = retrieval_context.pillar_evidence.get(pillar, [])
+    if not evidence:
+        return 0.0
+    authoritative = [item for item in evidence if item.source_type in {"project", "experience"}]
+    return round(_safe_ratio(len(authoritative), len(evidence)), 4)
+
+
+def _generic_engineering_penalty(profile, jd_analysis):
+    evidence_text = " ".join(profile.projects + profile.experience).lower()
+    if not evidence_text:
+        evidence_text = (profile.summary or profile.raw_text or "").lower()
+    tokens = [token.strip(".,:;()[]{}").lower() for token in evidence_text.split()]
+    token_count = max(1, len(tokens))
+    implementation_count = sum(1 for verb in IMPLEMENTATION_VERBS if verb in evidence_text)
+    architecture_count = sum(1 for term in ARCHITECTURE_TERMS if term in evidence_text)
+    skill_count = len(profile.skills)
+    skill_density = min(1.0, skill_count / token_count)
+    deployment_support = bool(set(profile.deployment_signals) & set(jd_analysis.deployment_keywords)) or bool(profile.deployment_signals)
+
+    penalty = 0.0
+    reasons = []
+    if implementation_count <= 1:
+        penalty += 0.08
+        reasons.append("low_implementation_verb_density")
+    if architecture_count <= 2:
+        penalty += 0.07
+        reasons.append("low_architecture_specificity")
+    if skill_density >= 0.16 and implementation_count <= 2:
+        penalty += 0.06
+        reasons.append("high_skill_density_weak_support")
+    if jd_analysis.deployment_keywords and not deployment_support:
+        penalty += 0.05
+        reasons.append("weak_deployment_evidence")
+
+    return min(0.22, penalty), reasons
 
 
 def _determine_recommendation(final_score, hidden_gem_flag):
@@ -198,7 +313,21 @@ def _score_skills_overlap(profile, jd_analysis):
     }
 
 
-def _score_project_relevance(profile, jd_analysis):
+def _score_project_relevance(profile, jd_analysis, retrieval_context: "RetrievalContext | None" = None):
+    if retrieval_context and retrieval_context.pillar_scores.get("semantic_fit"):
+        suppression_penalty = _retrieval_suppression_penalty(retrieval_context)
+        semantic_fit_scores = retrieval_context.pillar_scores.get("semantic_fit", [])
+        execution_scores = retrieval_context.pillar_scores.get("execution_maturity", [])
+        technical_scores = retrieval_context.pillar_scores.get("technical_depth", [])
+        aggregate = (
+            (_safe_ratio(sum(semantic_fit_scores), len(semantic_fit_scores) or 1) * 100 * 0.52)
+            + (_safe_ratio(sum(execution_scores), len(execution_scores) or 1) * 100 * 0.28)
+            + (_safe_ratio(sum(technical_scores), len(technical_scores) or 1) * 100 * 0.20)
+        )
+        if suppression_penalty:
+            aggregate *= 1.0 - (suppression_penalty * 0.55)
+        return _clamp_score(aggregate)
+
     project_texts = profile.projects or profile.experience or [profile.summary or profile.raw_text]
     target_texts = jd_analysis.responsibilities or jd_analysis.semantic_targets()
     semantic_targets = unique_preserve_order(target_texts + [jd_analysis.raw_text])
@@ -273,7 +402,52 @@ def _score_project_relevance(profile, jd_analysis):
     return _clamp_score(sum(top_scores) / len(top_scores))
 
 
-def _score_semantic_alignment(profile, jd_analysis):
+def _score_semantic_alignment(profile, jd_analysis, retrieval_context: "RetrievalContext | None" = None):
+    if retrieval_context and retrieval_context.pillar_scores.get("semantic_fit"):
+        suppression_penalty = _retrieval_suppression_penalty(retrieval_context)
+        semantic_scores = retrieval_context.pillar_scores.get("semantic_fit", [])
+        transfer_scores = retrieval_context.pillar_scores.get("transferability", [])
+        technical_scores = retrieval_context.pillar_scores.get("technical_depth", [])
+        evidence_count = len(retrieval_context.pillar_evidence.get("semantic_fit", []))
+        aggregate = (
+            (_safe_ratio(sum(semantic_scores), len(semantic_scores) or 1) * 100 * 0.58)
+            + (_safe_ratio(sum(transfer_scores), len(transfer_scores) or 1) * 100 * 0.22)
+            + (_safe_ratio(sum(technical_scores), len(technical_scores) or 1) * 100 * 0.20)
+        )
+        if suppression_penalty:
+            aggregate *= 1.0 - (suppression_penalty * 0.72)
+        return {
+            "score": _clamp_score(aggregate),
+            "diagnostics": {
+                "section_scores": {"retrieved_evidence": round(_clamp_score(aggregate), 2)},
+                "section_weights_used": {"retrieval_semantic": 1.0},
+                "top_section": "retrieved_evidence",
+                "section_details": {
+                    "retrieved_evidence": {
+                        "mode": "retrieval_embedding",
+                        "aggregate_similarity": round(_safe_ratio(sum(semantic_scores), len(semantic_scores) or 1), 4),
+                        "source_focus": round(_safe_ratio(sum(semantic_scores), len(semantic_scores) or 1), 4),
+                        "target_focus": round(_safe_ratio(sum(transfer_scores), len(transfer_scores) or 1), 4),
+                        "coverage_ratio": round(min(1.0, evidence_count / 3), 4),
+                        "lexical_alignment": 0.0,
+                        "source_chunks": evidence_count,
+                        "target_chunks": len(jd_analysis.semantic_targets()),
+                        "top_source_matches": [round(float(score), 4) for score in semantic_scores[:5]],
+                        "top_target_matches": [round(float(score), 4) for score in transfer_scores[:5]],
+                        "raw_section_score": round(_clamp_score(aggregate), 2),
+                        "calibrated_section_score": round(_clamp_score(aggregate), 2),
+                        "skill_support_ratio": round(_safe_ratio(len(profile.skills), max(1, len(jd_analysis.all_skills))), 4),
+                        "group_support_ratio": round(_group_coverage_ratio(profile.skills, jd_analysis.all_skills), 4),
+                        "transfer_support_ratio": round(_safe_ratio(sum(transfer_scores), len(transfer_scores) or 1), 4),
+                        "domain_support_ratio": round(_safe_ratio(len(jd_analysis.domain_keywords), 10), 4),
+                    }
+                },
+                "retrieval_diagnostics": retrieval_context.diagnostics,
+                "calibration_floor_applied": 0.0,
+                "must_have_gap_penalty": suppression_penalty,
+            },
+        }
+
     jd_targets = jd_analysis.semantic_targets()
     section_scores = []
     section_diagnostics = {}
@@ -449,7 +623,17 @@ def _score_ai_api(profile, jd_analysis):
     return _clamp_score(48 + (ai_breadth * 28) + (api_breadth * 14))
 
 
-def _score_adjacency(missing_skills, adjacent_matches):
+def _score_adjacency(missing_skills, adjacent_matches, retrieval_context: "RetrievalContext | None" = None):
+    if retrieval_context and retrieval_context.pillar_scores.get("transferability"):
+        suppression_penalty = _retrieval_suppression_penalty(retrieval_context)
+        retrieval_scores = retrieval_context.pillar_scores["transferability"]
+        retrieval_average = _safe_ratio(sum(retrieval_scores), len(retrieval_scores) or 1) * 100
+        if not missing_skills:
+            return _clamp_score(max(72.0, retrieval_average) * (1.0 - (suppression_penalty * 0.35)))
+        heuristic_score = _clamp_score((_safe_ratio(len({item["missing_skill"] for item in adjacent_matches}), len(missing_skills)) * 68) + 26)
+        blended = (heuristic_score * 0.45) + (retrieval_average * 0.55)
+        return _clamp_score(blended * (1.0 - (suppression_penalty * 0.45)))
+
     if not missing_skills:
         return 72.0
 
@@ -461,6 +645,112 @@ def _score_adjacency(missing_skills, adjacent_matches):
 
 def _is_hidden_gem(keyword_score, semantic_score, project_relevance_score):
     return keyword_score < 55 and semantic_score >= 72 and project_relevance_score >= 70
+
+
+def _retrieval_suppression_penalty(retrieval_context: "RetrievalContext | None") -> float:
+    if not retrieval_context:
+        return 0.0
+    diagnostics = getattr(retrieval_context, "diagnostics", {}) or {}
+    suppression = diagnostics.get("must_have_suppression", {})
+    if not isinstance(suppression, dict):
+        return 0.0
+    try:
+        base_penalty = max(0.0, float(suppression.get("penalty", 0.0) or 0.0))
+    except (TypeError, ValueError):
+        return 0.0
+    missing = suppression.get("missing", [])
+    missing_count = len(missing) if isinstance(missing, list) else 0
+    if missing_count <= 0:
+        progressive_penalty = 0.0
+    elif missing_count == 1:
+        progressive_penalty = 0.06
+    elif missing_count <= 3:
+        progressive_penalty = 0.14
+    else:
+        progressive_penalty = 0.24
+    return max(0.0, min(0.30, max(base_penalty, progressive_penalty)))
+
+
+def _apply_semantic_inflation_caps(
+    semantic_score,
+    project_relevance_score,
+    adjacency_score,
+    exact_support_ratio,
+    weak_must_have_ratio,
+    project_experience_ratio,
+):
+    capped_semantic = semantic_score
+    capped_project = project_relevance_score
+    capped_adjacency = adjacency_score
+    caps = []
+
+    if exact_support_ratio < 0.35 and semantic_score >= 68:
+        cap = 58.0 if weak_must_have_ratio >= 0.45 else 64.0
+        capped_semantic = min(capped_semantic, cap)
+        caps.append(f"semantic_cap_low_exact_support_{cap}")
+    elif exact_support_ratio < 0.55 and semantic_score >= 78:
+        capped_semantic = min(capped_semantic, 74.0)
+        caps.append("semantic_cap_moderate_exact_support_74")
+
+    if exact_support_ratio < 0.60 and adjacency_score >= 72:
+        capped_adjacency = min(capped_adjacency, 66.0)
+        caps.append("adjacency_cap_without_strong_must_have_support")
+
+    if project_experience_ratio < 0.50:
+        if project_relevance_score >= 70:
+            capped_project = min(capped_project, 62.0)
+            caps.append("project_cap_weak_authoritative_evidence")
+        if capped_semantic >= 70:
+            capped_semantic = min(capped_semantic, 66.0)
+            caps.append("semantic_cap_summary_or_skills_dominated")
+
+    return (
+        _clamp_score(capped_semantic),
+        _clamp_score(capped_project),
+        _clamp_score(capped_adjacency),
+        caps,
+    )
+
+
+def _benchmark_calibration_adjustment(
+    final_score,
+    keyword_score,
+    semantic_score,
+    project_relevance_score,
+    deployment_score,
+    ai_experience_score,
+    exact_support_ratio,
+    weak_must_have_ratio,
+    generic_penalty,
+    hidden_gem_flag,
+):
+    adjusted = final_score
+    reasons = []
+
+    if exact_support_ratio < 0.35 and weak_must_have_ratio >= 0.50:
+        adjusted = min(adjusted, 48.0)
+        reasons.append("hard_cap_many_missing_must_haves")
+    elif exact_support_ratio < 0.55 and adjusted > 85:
+        adjusted = min(adjusted, 84.5)
+        reasons.append("elite_cap_adjacent_fit")
+
+    if keyword_score < 20 and project_relevance_score < 40 and semantic_score < 55:
+        adjusted = min(adjusted, 14.5)
+        reasons.append("irrelevant_candidate_cap")
+    elif keyword_score < 30 and exact_support_ratio < 0.25 and generic_penalty >= 0.12:
+        adjusted = min(adjusted, 18.0)
+        reasons.append("generic_low_exact_support_cap")
+
+    if (
+        hidden_gem_flag
+        and exact_support_ratio >= 0.45
+        and project_relevance_score >= 70
+        and max(deployment_score, ai_experience_score) >= 65
+    ):
+        adjusted = max(adjusted, min(final_score, 72.0))
+        reasons.append("preserved_hidden_gem_floor")
+
+    return _clamp_score(adjusted), reasons
 
 
 def _apply_semantic_safety_floor(
@@ -551,10 +841,14 @@ def _calibration_bonus(
     return bonus, rationale
 
 
-def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS):
+def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS, retrieval_context: "RetrievalContext | None" = None):
+    retrieval_gap_penalty = _retrieval_suppression_penalty(retrieval_context)
     skill_result = _score_skills_overlap(profile, jd_analysis)
-    project_relevance_score = _score_project_relevance(profile, jd_analysis)
-    semantic_result = _score_semantic_alignment(profile, jd_analysis)
+    exact_support_ratio = _exact_support_ratio(skill_result, retrieval_context)
+    weak_must_have_ratio = _weak_must_have_ratio(retrieval_context)
+    generic_penalty, generic_penalty_reasons = _generic_engineering_penalty(profile, jd_analysis)
+    project_relevance_score = _score_project_relevance(profile, jd_analysis, retrieval_context=retrieval_context)
+    semantic_result = _score_semantic_alignment(profile, jd_analysis, retrieval_context=retrieval_context)
     semantic_score_raw = semantic_result["score"]
     semantic_score = semantic_score_raw
     deployment_score = _score_deployment(profile, jd_analysis)
@@ -562,6 +856,16 @@ def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS):
     adjacency_score = _score_adjacency(
         skill_result["missing_skills"],
         skill_result["adjacent_matches"],
+        retrieval_context=retrieval_context,
+    )
+    project_experience_ratio = _retrieval_project_experience_ratio(retrieval_context, "semantic_fit") if retrieval_context else 1.0
+    semantic_score, project_relevance_score, adjacency_score, semantic_caps = _apply_semantic_inflation_caps(
+        semantic_score,
+        project_relevance_score,
+        adjacency_score,
+        exact_support_ratio,
+        weak_must_have_ratio,
+        project_experience_ratio,
     )
     semantic_score, semantic_floor_adjustment = _apply_semantic_safety_floor(
         semantic_score,
@@ -572,6 +876,24 @@ def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS):
         skill_result["keyword_score"],
     )
     semantic_result["diagnostics"]["calibration_floor_applied"] = semantic_floor_adjustment
+    semantic_score, project_relevance_score, adjacency_score, post_floor_caps = _apply_semantic_inflation_caps(
+        semantic_score,
+        project_relevance_score,
+        adjacency_score,
+        exact_support_ratio,
+        weak_must_have_ratio,
+        project_experience_ratio,
+    )
+    semantic_caps.extend([cap for cap in post_floor_caps if cap not in semantic_caps])
+    semantic_gap_suppression = 0.0
+    if retrieval_gap_penalty:
+        semantic_gap_suppression = round(min(16.0, semantic_score * retrieval_gap_penalty * 0.78), 2)
+        semantic_score = _clamp_score(semantic_score - semantic_gap_suppression)
+    generic_score_suppression = round(min(10.0, generic_penalty * 36.0), 2)
+    if generic_score_suppression:
+        semantic_score = _clamp_score(semantic_score - (generic_score_suppression * 0.55))
+        project_relevance_score = _clamp_score(project_relevance_score - (generic_score_suppression * 0.45))
+        adjacency_score = _clamp_score(adjacency_score - (generic_score_suppression * 0.25))
 
     weighted_raw_score = (
         (skill_result["keyword_score"] * weights.skills_overlap)
@@ -614,8 +936,22 @@ def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS):
         + hidden_gem_bonus
         + calibration_bonus
         - seniority_penalty
+        - generic_score_suppression
     )
     final_score = _normalize_final_score(pre_normalized_score)
+    final_score_before_benchmark_calibration = final_score
+    final_score, benchmark_calibration_reasons = _benchmark_calibration_adjustment(
+        final_score,
+        skill_result["keyword_score"],
+        semantic_score,
+        project_relevance_score,
+        deployment_score,
+        ai_experience_score,
+        exact_support_ratio,
+        weak_must_have_ratio,
+        generic_penalty,
+        hidden_gem_flag,
+    )
 
     recommendation = _determine_recommendation(final_score, hidden_gem_flag)
     component_scores = [
@@ -666,6 +1002,9 @@ def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS):
                 "required_effective_ratio": skill_result["required_effective_ratio"],
                 "preferred_ratio": skill_result["preferred_ratio"],
                 "group_coverage_ratio": skill_result["group_coverage_ratio"],
+                "exact_skill_support_ratio": exact_support_ratio,
+                "weak_must_have_ratio": weak_must_have_ratio,
+                "retrieval_project_experience_ratio": project_experience_ratio,
             },
             "semantic_details": semantic_result["diagnostics"],
             "adjustments": {
@@ -675,6 +1014,14 @@ def score_candidate_profile(profile, jd_analysis, weights=DEFAULT_WEIGHTS):
                 "calibration_rationale": calibration_rationale,
                 "seniority_penalty": seniority_penalty,
                 "semantic_floor_adjustment": semantic_floor_adjustment,
+                "semantic_gap_suppression": semantic_gap_suppression,
+                "retrieval_must_have_penalty": retrieval_gap_penalty,
+                "semantic_inflation_caps": semantic_caps,
+                "generic_engineering_penalty": round(generic_penalty, 4),
+                "generic_engineering_penalty_reasons": generic_penalty_reasons,
+                "generic_score_suppression": generic_score_suppression,
+                "final_score_before_benchmark_calibration": final_score_before_benchmark_calibration,
+                "benchmark_calibration_reasons": benchmark_calibration_reasons,
                 "pre_normalized_score": round(pre_normalized_score, 2),
                 "final_score": final_score,
             },

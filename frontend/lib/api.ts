@@ -1,5 +1,7 @@
 import type {
   RankDatasetResponse,
+  RankingRunSummary,
+  SavedRankingRunResults,
   UploadAndRankResponse,
 } from "@/types/recruitment";
 
@@ -48,4 +50,17 @@ export async function rankDatasetCandidates(
   );
 
   return parseResponse<RankDatasetResponse>(response);
+}
+
+export async function listRankingRuns(): Promise<RankingRunSummary[]> {
+  const response = await fetch(`${API_BASE_URL}/ranking-runs/`);
+  const payload = await parseResponse<{ ranking_runs: RankingRunSummary[] }>(response);
+  return payload.ranking_runs ?? [];
+}
+
+export async function getRankingRunResults(
+  runId: string,
+): Promise<SavedRankingRunResults> {
+  const response = await fetch(`${API_BASE_URL}/ranking-runs/${runId}/results`);
+  return parseResponse<SavedRankingRunResults>(response);
 }

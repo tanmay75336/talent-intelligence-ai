@@ -1,4 +1,4 @@
-import { calculateAnalytics, formatScore } from "@/lib/utils";
+import { calculateAnalytics } from "@/lib/utils";
 import type { RankedCandidate } from "@/types/recruitment";
 
 interface AnalyticsPanelProps {
@@ -10,49 +10,37 @@ export function AnalyticsPanel({ candidates }: AnalyticsPanelProps) {
 
   const items = [
     {
-      label: "Total resumes processed",
+      label: "Candidates",
       value: analytics.total,
-      caption: "Candidates returned by the ranking API",
     },
     {
-      label: "Top match score",
-      value: `${formatScore(analytics.topScore)} / 100`,
-      caption: "Highest-ranked candidate in the leaderboard",
-    },
-    {
-      label: "Average score",
-      value: `${formatScore(analytics.averageScore)} / 100`,
-      caption: "Average final score across processed resumes",
-    },
-    {
-      label: "Recommended candidates",
+      label: "Recommended",
       value: analytics.recommendedCount,
-      caption: "Highly Recommended or Recommended profiles",
+    },
+    {
+      label: "Top band",
+      value: analytics.topScore >= 85 ? "Strong" : analytics.topScore >= 70 ? "Good" : analytics.total ? "Review" : "-",
     },
   ];
 
   return (
-    <section className="animate-fade-up">
-      <div className="mb-5 flex items-end justify-between gap-4">
+    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="section-label">Analytics Snapshot</p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-50">
-            Recruiter-ready pipeline metrics
-          </h2>
+          <p className="section-label">Slate Summary</p>
+          <h2 className="mt-2 text-xl font-semibold text-slate-950">Current review</h2>
+          <p className="mt-1 text-sm text-slate-600">
+            A quiet summary of the active candidate slate.
+          </p>
         </div>
-        <p className="hidden text-sm text-slate-400 sm:block">
-          Quick read on volume, quality, and recommendation density.
-        </p>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {items.map((item) => (
-          <div key={item.label} className="card-muted p-5">
-            <p className="text-sm text-slate-400">{item.label}</p>
-            <p className="mt-4 text-3xl font-semibold text-slate-50">{item.value}</p>
-            <p className="mt-3 text-sm leading-6 text-slate-500">{item.caption}</p>
-          </div>
-        ))}
+        <div className="grid grid-cols-3 gap-3">
+          {items.map((item) => (
+            <div key={item.label} className="rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
+              <p className="text-xs text-slate-500">{item.label}</p>
+              <p className="mt-1 text-xl font-semibold text-slate-950">{item.value}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

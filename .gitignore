@@ -3,6 +3,14 @@ backend/**/__pycache__/
 frontend/.next/
 frontend/tsconfig.tsbuildinfo
 
+backend/.chroma/
+backend/data/
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+.env
+
 # Python
 __pycache__/
 *.pyc

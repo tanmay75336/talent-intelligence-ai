@@ -42,6 +42,28 @@ export function getRecommendationTone(recommendation?: string) {
 }
 
 export function getConfidence(candidate: RankedCandidate) {
+  const recruiterConfidence = candidate.ranking?.recruiter_confidence;
+  if (recruiterConfidence === "High") {
+    return {
+      label: "High confidence",
+      tone: "text-emerald-200 bg-emerald-500/12 border-emerald-400/25",
+    };
+  }
+
+  if (recruiterConfidence === "Medium") {
+    return {
+      label: "Moderate confidence",
+      tone: "text-sky-200 bg-sky-500/12 border-sky-400/25",
+    };
+  }
+
+  if (recruiterConfidence === "Low") {
+    return {
+      label: "Needs validation",
+      tone: "text-amber-200 bg-amber-500/12 border-amber-400/25",
+    };
+  }
+
   const finalScore = candidate.ranking?.final_score ?? 0;
   const semanticScore = candidate.ranking?.semantic_score ?? 0;
   const keywordScore = candidate.ranking?.keyword_score ?? 0;
@@ -67,6 +89,10 @@ export function getConfidence(candidate: RankedCandidate) {
 }
 
 export function isHiddenGem(candidate: RankedCandidate) {
+  if (candidate.ranking?.hidden_gem_flag) {
+    return true;
+  }
+
   const semanticScore = candidate.ranking?.semantic_score ?? 0;
   const keywordScore = candidate.ranking?.keyword_score ?? 0;
   const adjacencyBonus = candidate.ranking?.adjacency_bonus ?? 0;
@@ -75,7 +101,19 @@ export function isHiddenGem(candidate: RankedCandidate) {
 }
 
 export function getCandidateKey(candidate: RankedCandidate, index: number) {
-  return `${candidate.resume_file ?? candidate.candidate_name ?? "candidate"}-${index}`;
+  const stableLabel =
+    candidate.resume_file ??
+    candidate.candidate_name ??
+    candidate.candidate_intelligence?.candidate_name;
+
+  if (stableLabel) {
+    return stableLabel
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  return `candidate-${index}`;
 }
 
 export function sortCandidates(
@@ -86,6 +124,8 @@ export function sortCandidates(
 
   sorted.sort((left, right) => {
     switch (sortOption) {
+      case "ranked":
+        return 0;
       case "name":
         return (left.candidate_name ?? "").localeCompare(right.candidate_name ?? "");
       case "semantic":

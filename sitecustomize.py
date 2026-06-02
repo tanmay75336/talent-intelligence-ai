@@ -1,7 +1,5 @@
 import warnings
 
-# Chroma's native dependency stack can emit SWIG deprecation warnings during
-# interpreter shutdown/import. They are not actionable for this application.
 warnings.filterwarnings(
     "ignore",
     message=r"builtin type SwigPy.* has no __module__ attribute",
