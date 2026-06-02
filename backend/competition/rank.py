@@ -11,10 +11,15 @@ from pathlib import Path
 from typing import Any
 from xml.etree import ElementTree
 
+from backend.competition.evidence_calibrator import (
+    EvidenceCalibration,
+    best_evidence_for_calibration,
+    calibrate_candidate_evidence,
+)
 from backend.competition.redrob_adapter import adapt_redrob_candidate
 from backend.competition.validate_submission import validate_submission
 from backend.dataset_intelligence.loader import iter_dataset_records
-from backend.intelligence.candidate_engine import build_candidate_intelligence
+from backend.intelligence.candidate_engine import build_candidate_intelligence, build_competition_core_signals
 from backend.parsers.jd_analyzer import analyze_job_description
 from backend.utils.skill_taxonomy import (
     extract_domain_keywords,
@@ -24,13 +29,19 @@ from backend.utils.skill_taxonomy import (
 )
 
 TOP_K = 100
+MAX_EVIDENCE_ADJUSTMENT = 0.080
 
 
 @dataclass
 class CompetitionCandidate:
     candidate_id: str
     score: float
-    reasoning: str
+    reasoning: str = ""
+    base_score: float = 0.0
+    evidence_adjustment: float = 0.0
+    calibration: EvidenceCalibration | None = None
+    profile: Any | None = None
+    evidence_library: dict[str, Any] | None = None
 
 
 def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, output_path: str | Path) -> list[CompetitionCandidate]:
@@ -46,13 +57,19 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
         if not candidate_profile.candidate_id or candidate_profile.candidate_id in seen_candidate_ids:
             continue
         seen_candidate_ids.add(candidate_profile.candidate_id)
-        candidate_intelligence, evidence_library = build_candidate_intelligence(candidate_profile)
-        score = _competition_score(candidate_profile, candidate_intelligence.core_signals, job_analysis, job_terms)
-        reasoning = _competition_reasoning(candidate_profile, job_analysis, evidence_library)
+        core_signals = build_competition_core_signals(candidate_profile)
+        base_score = _competition_score(candidate_profile, core_signals, job_analysis, job_terms)
+        if len(top_candidates) >= TOP_K and base_score + MAX_EVIDENCE_ADJUSTMENT < top_candidates[0][0]:
+            continue
+        calibration = calibrate_candidate_evidence(candidate_profile)
+        score = _calibrated_score(base_score, calibration)
         candidate = CompetitionCandidate(
             candidate_id=candidate_profile.candidate_id,
             score=score,
-            reasoning=reasoning,
+            base_score=base_score,
+            evidence_adjustment=calibration.adjustment,
+            calibration=calibration,
+            profile=candidate_profile,
         )
         heap_item = (candidate.score, candidate.candidate_id, candidate)
         if len(top_candidates) < TOP_K:
@@ -64,6 +81,17 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
         item[2]
         for item in sorted(top_candidates, key=lambda item: (-item[2].score, item[2].candidate_id))
     ]
+    for candidate in ranked_candidates:
+        if candidate.profile is not None:
+            _, evidence_library = build_candidate_intelligence(candidate.profile)
+            candidate.reasoning = _competition_reasoning(
+                candidate.profile,
+                job_analysis,
+                evidence_library,
+                candidate.calibration,
+            )
+            candidate.profile = None
+            candidate.evidence_library = None
     write_submission_csv(ranked_candidates, output_path)
     errors = validate_submission(output_path)
     if errors:
@@ -134,22 +162,63 @@ def _competition_score(profile, core_signals: dict[str, float], job_analysis, jo
     return round(max(0.0, min(1.0, score)), 6)
 
 
-def _competition_reasoning(profile, job_analysis, evidence_library: dict[str, Any]) -> str:
+def _calibrated_score(base_score: float, calibration: EvidenceCalibration) -> float:
+    return round(max(0.0, min(1.0, base_score + calibration.adjustment)), 6)
+
+
+def _competition_reasoning(
+    profile,
+    job_analysis,
+    evidence_library: dict[str, Any],
+    calibration: EvidenceCalibration | None = None,
+) -> str:
     matched_skills = [skill for skill in profile.skills if skill in set(job_analysis.all_skills)]
     current_title = profile.structured_profile.get("current_title") or "candidate"
     current_company = profile.structured_profile.get("current_company") or "current company"
     years = profile.years_of_experience
-    evidence = _best_evidence_text(evidence_library) or profile.summary or profile.searchable_profile_text
+    evidence = ""
+    if calibration:
+        evidence = calibration.best_evidence or best_evidence_for_calibration(profile, calibration)
+    evidence = evidence or _best_evidence_text(evidence_library) or profile.summary or profile.searchable_profile_text
     evidence = normalize_whitespace(evidence)
-    if len(evidence) > 170:
-        evidence = evidence[:167].rstrip() + "..."
+    if len(evidence) > 145:
+        evidence = evidence[:142].rstrip() + "..."
     skill_text = ", ".join(matched_skills[:4]) if matched_skills else ", ".join(profile.skills[:4])
+    jd_connection = _jd_connection_text(calibration, skill_text)
+    availability = _availability_text(profile.redrob_signals)
+    parts = [
+        f"{years:.1f} years as {current_title} at {current_company}",
+        jd_connection,
+        evidence,
+        availability,
+    ]
+    return ". ".join(part.strip(" .") for part in parts if part).strip() + "."
+
+
+def _jd_connection_text(calibration: EvidenceCalibration | None, skill_text: str) -> str:
+    if calibration and calibration.career_ai_infra_hits:
+        terms = ", ".join(calibration.career_ai_infra_hits[:3])
+        if calibration.production_hits or calibration.ownership_hits:
+            return f"JD match is backed by career evidence in {terms} with production ownership"
+        return f"JD match is backed by career evidence in {terms}"
     if skill_text:
-        return (
-            f"{current_title} at {current_company} with {years:.1f} years; profile evidence references {skill_text}. "
-            f"{evidence}"
-        )
-    return f"{current_title} at {current_company} with {years:.1f} years. {evidence}"
+        return f"JD skill overlap includes {skill_text}"
+    return "JD connection is based on available structured profile evidence"
+
+
+def _availability_text(signals: dict[str, Any]) -> str:
+    if not signals:
+        return ""
+    facts = []
+    if signals.get("open_to_work_flag") is True:
+        facts.append("open to work")
+    response_rate = signals.get("recruiter_response_rate")
+    if isinstance(response_rate, (int, float)) and response_rate >= 0.7:
+        facts.append(f"{response_rate:.2f} recruiter response rate")
+    github = signals.get("github_activity_score")
+    if isinstance(github, (int, float)) and github >= 40:
+        facts.append(f"{github:.1f} GitHub activity")
+    return "RedRob signals show " + ", ".join(facts[:2]) if facts else ""
 
 
 def _best_evidence_text(evidence_library: dict[str, Any]) -> str:

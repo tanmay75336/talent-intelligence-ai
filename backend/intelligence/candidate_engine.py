@@ -148,22 +148,15 @@ def _build_contradictions(profile: CandidateProfile, evidence_library: dict[str,
     return contradictions
 
 
-def build_candidate_intelligence(profile: CandidateProfile) -> tuple[CandidateIntelligence, dict[str, EvidenceSnippet]]:
-    combined_text = "\n".join(
+def _combined_profile_text(profile: CandidateProfile) -> str:
+    return "\n".join(
         part for part in [profile.summary, profile.raw_text, "\n".join(profile.projects), "\n".join(profile.experience)] if part
     )
-    project_signals, project_evidence = _build_project_signals(profile)
-    experience_signals, experience_evidence = _build_experience_signals(profile)
-    summary_evidence = _build_summary_evidence(profile)
 
-    evidence_library = {
-        **project_evidence,
-        **experience_evidence,
-        **summary_evidence,
-    }
 
-    contradiction_flags = _build_contradictions(profile, evidence_library)
-    core_signals = {
+def build_competition_core_signals(profile: CandidateProfile) -> dict[str, float]:
+    combined_text = _combined_profile_text(profile)
+    return {
         "ownership": _signal_score(combined_text, OWNERSHIP_TERMS),
         "communication": _signal_score(combined_text, COMMUNICATION_TERMS, base=18.0, step=10.0),
         "execution_maturity": average_score(
@@ -198,6 +191,22 @@ def build_candidate_intelligence(profile: CandidateProfile) -> tuple[CandidateIn
             ]
         ),
     }
+
+
+def build_candidate_intelligence(profile: CandidateProfile) -> tuple[CandidateIntelligence, dict[str, EvidenceSnippet]]:
+    combined_text = _combined_profile_text(profile)
+    project_signals, project_evidence = _build_project_signals(profile)
+    experience_signals, experience_evidence = _build_experience_signals(profile)
+    summary_evidence = _build_summary_evidence(profile)
+
+    evidence_library = {
+        **project_evidence,
+        **experience_evidence,
+        **summary_evidence,
+    }
+
+    contradiction_flags = _build_contradictions(profile, evidence_library)
+    core_signals = build_competition_core_signals(profile)
     supporting_signals = {
         "trajectory": _signal_score(combined_text, TRAJECTORY_TERMS, base=20.0, step=14.0),
         "adaptability": _signal_score(combined_text, {"integrated", "cross-domain", "rapid", "prototype", "varied"}, base=24.0, step=11.0),

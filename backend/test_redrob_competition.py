@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from backend.competition.evidence_calibrator import calibrate_candidate_evidence
 from backend.competition.rank import run_competition_ranking
 from backend.competition.redrob_adapter import adapt_redrob_candidate
 from backend.competition.validate_submission import validate_submission
@@ -48,6 +49,78 @@ class RedRobAdapterTests(unittest.TestCase):
         self.assertIn(candidate["profile"]["headline"], profile.searchable_profile_text)
         self.assertIn(candidate["career_history"][0]["description"], profile.searchable_profile_text)
         self.assertIn(candidate["skills"][0]["name"], profile.searchable_profile_text)
+
+
+class RedRobEvidenceCalibrationTests(unittest.TestCase):
+    def test_calibration_rewards_career_backed_ai_infrastructure(self):
+        candidate = {
+            "candidate_id": "CAND_TEST_AI",
+            "profile": {
+                "headline": "Senior AI Engineer",
+                "summary": "Builds search and recommendation systems.",
+                "years_of_experience": 7,
+                "current_title": "Senior AI Engineer",
+                "current_company": "MarketplaceCo",
+            },
+            "career_history": [
+                {
+                    "title": "Senior AI Engineer",
+                    "company": "MarketplaceCo",
+                    "duration_months": 36,
+                    "description": (
+                        "Built and shipped a production recommendation ranking system using embeddings, "
+                        "retrieval, monitoring, and latency optimization for millions of users."
+                    ),
+                }
+            ],
+            "education": [],
+            "skills": [
+                {"name": "Python", "proficiency": "expert", "endorsements": 12, "duration_months": 60},
+                {"name": "Embeddings", "proficiency": "expert", "endorsements": 8, "duration_months": 36},
+            ],
+            "certifications": [],
+            "redrob_signals": {"github_activity_score": 44, "recruiter_response_rate": 0.75},
+        }
+
+        calibration = calibrate_candidate_evidence(adapt_redrob_candidate(candidate))
+
+        self.assertGreater(calibration.adjustment, 0)
+        self.assertIn("ranking", calibration.career_ai_infra_hits)
+        self.assertIn("production", calibration.production_hits)
+        self.assertEqual(calibration.trap_flags, [])
+
+    def test_calibration_detects_framework_only_keyword_profile(self):
+        candidate = {
+            "candidate_id": "CAND_TEST_WEAK",
+            "profile": {
+                "headline": "AI enthusiast",
+                "summary": "Learning LangChain, OpenAI, and LLM tools.",
+                "years_of_experience": 3,
+                "current_title": "Analyst",
+                "current_company": "ServicesCo",
+            },
+            "career_history": [
+                {
+                    "title": "Analyst",
+                    "company": "ServicesCo",
+                    "duration_months": 24,
+                    "description": "Coordinated stakeholder reports and managed dashboard updates for operations teams.",
+                }
+            ],
+            "education": [],
+            "skills": [
+                {"name": "LangChain", "proficiency": "beginner", "endorsements": 1, "duration_months": 3},
+                {"name": "OpenAI", "proficiency": "beginner", "endorsements": 1, "duration_months": 3},
+                {"name": "LLM", "proficiency": "beginner", "endorsements": 0, "duration_months": 3},
+            ],
+            "certifications": [],
+            "redrob_signals": {},
+        }
+
+        calibration = calibrate_candidate_evidence(adapt_redrob_candidate(candidate))
+
+        self.assertLess(calibration.adjustment, 0)
+        self.assertIn("framework_only_ai_profile", calibration.trap_flags)
 
 
 class RedRobSubmissionTests(unittest.TestCase):
