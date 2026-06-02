@@ -42,15 +42,15 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     seen_candidate_ids: set[str] = set()
 
     for raw_candidate in iter_dataset_records(candidates_path):
-        profile = adapt_redrob_candidate(raw_candidate)
-        if not profile.candidate_id or profile.candidate_id in seen_candidate_ids:
+        candidate_profile = adapt_redrob_candidate(raw_candidate)
+        if not candidate_profile.candidate_id or candidate_profile.candidate_id in seen_candidate_ids:
             continue
-        seen_candidate_ids.add(profile.candidate_id)
-        candidate_intelligence, evidence_library = build_candidate_intelligence(profile)
-        score = _competition_score(profile, candidate_intelligence.core_signals, job_analysis, job_terms)
-        reasoning = _competition_reasoning(profile, job_analysis, evidence_library)
+        seen_candidate_ids.add(candidate_profile.candidate_id)
+        candidate_intelligence, evidence_library = build_candidate_intelligence(candidate_profile)
+        score = _competition_score(candidate_profile, candidate_intelligence.core_signals, job_analysis, job_terms)
+        reasoning = _competition_reasoning(candidate_profile, job_analysis, evidence_library)
         candidate = CompetitionCandidate(
-            candidate_id=profile.candidate_id,
+            candidate_id=candidate_profile.candidate_id,
             score=score,
             reasoning=reasoning,
         )
