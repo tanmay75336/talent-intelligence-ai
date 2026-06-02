@@ -54,7 +54,9 @@ submission.csv
 
 **Stage 3 requires a single command** that regenerates the submission CSV from the official candidate pool and job description.
 
-From the repository root (with official files in `data/`):
+Run from the repository root (with official files in `data/`).
+
+### macOS / Linux
 
 ```bash
 python -m backend.competition.rank \
@@ -63,14 +65,38 @@ python -m backend.competition.rank \
   --output submission.csv
 ```
 
-Compressed pool is also supported:
+### Windows PowerShell
 
-```bash
-python -m backend.competition.rank \
-  --candidates data/candidates.jsonl.gz \
-  --job data/job_description.docx \
+Use backtick continuation:
+
+```powershell
+python -m backend.competition.rank `
+  --candidates data/candidates.jsonl `
+  --job data/job_description.docx `
   --output submission.csv
 ```
+
+### Universal single-line version
+
+Works on macOS, Linux, and Windows:
+
+```bash
+python -m backend.competition.rank --candidates data/candidates.jsonl --job data/job_description.docx --output submission.csv
+```
+
+Compressed pool (`.jsonl.gz`) — single line:
+
+```bash
+python -m backend.competition.rank --candidates data/candidates.jsonl.gz --job data/job_description.docx --output submission.csv
+```
+
+### Windows note
+
+**Windows users:** PowerShell uses the backtick character (`` ` ``) for multiline commands.
+
+Unix/macOS backslash (`\`) continuation will **not** work in PowerShell.
+
+If unsure, use the [universal single-line](#universal-single-line-version) commands above.
 
 The ranking step runs **CPU-only**, with **no external API calls** and **no hosted LLM** (see `configure_offline_environment()` in `backend/competition/rank.py`).
 
@@ -78,7 +104,9 @@ Dependencies: install from `backend/requirements.txt` (Python 3.10+ recommended)
 
 ## 4. Validation command
 
-Validate format before upload (100 rows, ranks 1–100, unique IDs, monotonic non-increasing scores):
+Validate format before upload (100 rows, ranks 1–100, unique IDs, monotonic non-increasing scores).
+
+Universal command (macOS, Linux, Windows):
 
 ```bash
 python -m backend.competition.validate_submission submission.csv
@@ -88,12 +116,28 @@ Expected output on success: `Submission is valid.`
 
 ## 5. Benchmark command
 
-Measure runtime, memory, and validation against official constraints:
+Measure runtime, memory, and validation against official constraints.
+
+### macOS / Linux
 
 ```bash
 python -m backend.competition.benchmark \
   --candidates data/candidates.jsonl \
   --job data/job_description.docx
+```
+
+### Windows PowerShell
+
+```powershell
+python -m backend.competition.benchmark `
+  --candidates data/candidates.jsonl `
+  --job data/job_description.docx
+```
+
+### Universal single-line version
+
+```bash
+python -m backend.competition.benchmark --candidates data/candidates.jsonl --job data/job_description.docx
 ```
 
 Reported on the reference machine used for final packaging:
@@ -109,7 +153,7 @@ Limits enforced by the benchmark helper (`backend/competition/benchmark.py`): ru
 
 ## 6. Compute constraints
 
-Per [official submission spec](data/submission_spec.docx):
+Per the official RedRob submission specification:
 
 | Constraint | Limit |
 |------------|--------|
@@ -122,24 +166,28 @@ Intermediate disk usage should stay within organizer limits; the pipeline stream
 
 ## 7. Data setup
 
-Place **official hackathon bundle files** in:
+**Dataset files are not committed to this repository** (see `data/.gitignore`).
 
-```text
-data/
-```
+After cloning the repository:
 
-**Required for full reproduction:**
+1. Create the folder:
 
-- `candidates.jsonl` **or** `candidates.jsonl.gz` (100,000 candidates)
-- `job_description.docx` (released JD)
+   ```text
+   data/
+   ```
+
+2. Place official hackathon bundle files:
+
+   - `data/candidates.jsonl` (or `data/candidates.jsonl.gz`)
+   - `data/job_description.docx`
+
+3. Run the ranking command in [Section 3](#3-exact-reproduction-command).
 
 **Useful references** (included in many bundles, not required to run rank):
 
 - `sample_candidates.json` — small schema inspection set
 - `candidate_schema.json` — JSON Schema
 - `submission_spec.docx`, `README.docx`, `redrob_signals_doc.docx` — official documentation
-
-**Dataset files are not committed to this repository** (see `data/.gitignore`). Clone the repo, copy the official bundle into `data/`, then run the reproduction command in [Section 3](#3-exact-reproduction-command).
 
 ## 8. Tests
 

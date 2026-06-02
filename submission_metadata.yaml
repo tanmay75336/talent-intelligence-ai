@@ -13,10 +13,11 @@ github_repository: TODO
 
 sandbox_demo_link: TODO
 
-compute_environment: "MacBook Air M-series, Python 3.x, CPU only"
+compute_environment: "MacBook Air 13-inch (M4, 2025), Apple M4 10-core CPU, 16GB unified memory, 256GB SSD, Python 3.13.5, CPU only"
 
 ai_tools_used:
   - ChatGPT
+  - Codex
   - Cursor
 
 external_api_usage_during_ranking: false
