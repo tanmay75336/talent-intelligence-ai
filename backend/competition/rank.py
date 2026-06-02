@@ -29,7 +29,7 @@ from backend.utils.skill_taxonomy import (
 )
 
 TOP_K = 100
-MAX_EVIDENCE_ADJUSTMENT = 0.080
+MAX_EVIDENCE_ADJUSTMENT = 0.100
 
 
 @dataclass

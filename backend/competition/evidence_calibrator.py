@@ -90,6 +90,48 @@ PRODUCTION_TERMS = {
     "inference",
 }
 
+RETRIEVAL_EXCELLENCE_GROUPS = {
+    "vector_search": {
+        "faiss",
+        "pinecone",
+        "weaviate",
+        "qdrant",
+        "milvus",
+        "elasticsearch",
+        "opensearch",
+        "vector database",
+        "vector search",
+        "semantic search",
+    },
+    "embeddings": {"embedding", "embeddings"},
+    "retrieval_search": {"retrieval", "search", "hybrid retrieval", "semantic search"},
+    "ranking": {"ranking", "learning-to-rank", "search ranking"},
+    "recommendation": {"recommendation", "recommendations", "recommender"},
+}
+
+PRODUCTION_EXCELLENCE_TERMS = PRODUCTION_TERMS | {
+    "built",
+    "owned",
+    "deployed",
+    "a/b test",
+    "ab test",
+}
+
+EVALUATION_MATURITY_TERMS = {
+    "ndcg",
+    "mrr",
+    "mean average precision",
+    "offline evaluation",
+    "offline-online",
+    "a/b test",
+    "ab test",
+    "ranking evaluation",
+    "evaluation framework",
+}
+
+KEYWORD_HEAVY_TERMS = {"interested in", "learning", "transitioning", "self-directed", "side projects"}
+WRONG_AI_DOMAIN_TERMS = {"computer vision", "image classification", "speech", "tts", "robotics", "gan"}
+
 STARTUP_TERMS = {
     "startup",
     "founding",
@@ -195,6 +237,21 @@ def calibrate_candidate_evidence(profile: CandidateProfile) -> EvidenceCalibrati
         adjustment += behavioral_tie_breaker
         promoted_reasons.append("positive RedRob platform signals used as close-candidate tie breaker")
 
+    excellence_bonus = _retrieval_ranking_excellence_bonus(career_lower)
+    if excellence_bonus:
+        adjustment += excellence_bonus
+        promoted_reasons.append("career evidence shows retrieval/ranking excellence")
+
+    evaluation_bonus = _evaluation_maturity_bonus(career_lower)
+    if evaluation_bonus:
+        adjustment += evaluation_bonus
+        promoted_reasons.append("career evidence includes ranking evaluation maturity")
+
+    close_call_penalty = _close_call_weak_ai_penalty(career_lower, skill_summary_lower)
+    if close_call_penalty:
+        adjustment -= close_call_penalty
+        demoted_reasons.append("weak retrieval/ranking evidence in close-call profile")
+
     trap_penalty = {
         "framework_only_ai_profile": 0.022,
         "keyword_stuffing": 0.030,
@@ -207,7 +264,7 @@ def calibrate_candidate_evidence(profile: CandidateProfile) -> EvidenceCalibrati
         if penalty:
             demoted_reasons.append(flag.replace("_", " "))
 
-    adjustment = round(max(-0.060, min(0.080, adjustment)), 6)
+    adjustment = round(max(-0.060, min(0.100, adjustment)), 6)
     return EvidenceCalibration(
         adjustment=adjustment,
         ai_infra_hits=all_ai_hits,
@@ -268,6 +325,43 @@ def _detect_traps(
         flags.append("framework_only_ai_profile")
 
     return _unique_preserve_order(flags)
+
+
+def _retrieval_ranking_excellence_bonus(career_lower: str) -> float:
+    matched_groups = sum(
+        1
+        for terms in RETRIEVAL_EXCELLENCE_GROUPS.values()
+        if any(term in career_lower for term in terms)
+    )
+    if matched_groups < 3:
+        return 0.0
+    production_hits = sum(1 for term in PRODUCTION_EXCELLENCE_TERMS if term in career_lower)
+    if production_hits == 0:
+        return 0.0
+    bonus = 0.005 + max(0, matched_groups - 3) * 0.002 + min(production_hits, 4) * 0.001
+    return min(0.015, bonus)
+
+
+def _evaluation_maturity_bonus(career_lower: str) -> float:
+    hits = sum(1 for term in EVALUATION_MATURITY_TERMS if term in career_lower)
+    if hits == 0:
+        return 0.0
+    return min(0.005, 0.003 + max(0, hits - 1) * 0.001)
+
+
+def _close_call_weak_ai_penalty(career_lower: str, skill_summary_lower: str) -> float:
+    matched_groups = sum(
+        1
+        for terms in RETRIEVAL_EXCELLENCE_GROUPS.values()
+        if any(term in career_lower for term in terms)
+    )
+    if matched_groups > 0:
+        return 0.0
+    keyword_heavy = any(term in skill_summary_lower for term in KEYWORD_HEAVY_TERMS)
+    wrong_domain = any(term in career_lower or term in skill_summary_lower for term in WRONG_AI_DOMAIN_TERMS)
+    if not (keyword_heavy or wrong_domain):
+        return 0.0
+    return 0.015 if keyword_heavy and wrong_domain else 0.010
 
 
 def _behavioral_tie_breaker(signals: dict[str, Any]) -> float:
