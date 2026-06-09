@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import csv
 import heapq
 import os
@@ -135,8 +136,11 @@ def write_submission_csv(candidates: list[CompetitionCandidate], output_path: st
 
 def _competition_score(profile, core_signals: dict[str, float], job_analysis, job_terms: set[str]) -> float:
     candidate_skills = set(profile.skills)
-    job_skills = set(job_analysis.all_skills)
-    skill_overlap = _ratio(len(candidate_skills & job_skills), len(job_skills))
+    # Use core_skills (excluding contextual AI mentions like OpenAI/LLM/RAG)
+    # for precise skill matching to prevent generic AI terms from inflating scores.
+    job_core_skills = set(job_analysis.core_skills)
+    skill_overlap = _ratio(len(candidate_skills & job_core_skills), len(job_core_skills)) if job_core_skills else 0.0
+    # Use all_skills for group-level overlap (broader category matching is OK)
     candidate_groups = set(get_active_groups(profile.skills))
     job_groups = set(get_active_groups(job_analysis.all_skills))
     group_overlap = _ratio(len(candidate_groups & job_groups), len(job_groups))
@@ -162,6 +166,7 @@ def _competition_score(profile, core_signals: dict[str, float], job_analysis, jo
     return round(max(0.0, min(1.0, score)), 6)
 
 
+
 def _calibrated_score(base_score: float, calibration: EvidenceCalibration) -> float:
     return round(max(0.0, min(1.0, base_score + calibration.adjustment)), 6)
 
@@ -172,38 +177,140 @@ def _competition_reasoning(
     evidence_library: dict[str, Any],
     calibration: EvidenceCalibration | None = None,
 ) -> str:
-    matched_skills = [skill for skill in profile.skills if skill in set(job_analysis.all_skills)]
     current_title = profile.structured_profile.get("current_title") or "candidate"
     current_company = profile.structured_profile.get("current_company") or "current company"
     years = profile.years_of_experience
+
+    # --- Evidence sentence: pick best career evidence, truncate at sentence boundary ---
     evidence = ""
     if calibration:
         evidence = calibration.best_evidence or best_evidence_for_calibration(profile, calibration)
     evidence = evidence or _best_evidence_text(evidence_library) or profile.summary or profile.searchable_profile_text
     evidence = normalize_whitespace(evidence)
-    if len(evidence) > 145:
-        evidence = evidence[:142].rstrip() + "..."
-    skill_text = ", ".join(matched_skills[:4]) if matched_skills else ", ".join(profile.skills[:4])
-    jd_connection = _jd_connection_text(calibration, skill_text)
+    evidence = _truncate_at_sentence(evidence, 180)
+
+    # --- System-level contribution summary ---
+    system_type = _system_type_label(calibration)
+    jd_connection = _jd_connection_text(calibration, profile, job_analysis)
+
+    # --- Limitations (only if data-supported) ---
+    limitation = _evidence_based_limitation(calibration, profile)
+
+    # --- Availability ---
     availability = _availability_text(profile.redrob_signals)
-    parts = [
-        f"{years:.1f} years as {current_title} at {current_company}",
-        jd_connection,
-        evidence,
-        availability,
-    ]
+
+    # --- Assemble ---
+    opening = f"{years:.1f}y {current_title} at {current_company}"
+    if system_type:
+        opening += f" ({system_type})"
+
+    parts = [opening, jd_connection, evidence]
+    if limitation:
+        parts.append(limitation)
+    if availability:
+        parts.append(availability)
     return ". ".join(part.strip(" .") for part in parts if part).strip() + "."
 
 
-def _jd_connection_text(calibration: EvidenceCalibration | None, skill_text: str) -> str:
-    if calibration and calibration.career_ai_infra_hits:
-        terms = ", ".join(calibration.career_ai_infra_hits[:3])
-        if calibration.production_hits or calibration.ownership_hits:
-            return f"JD match is backed by career evidence in {terms} with production ownership"
-        return f"JD match is backed by career evidence in {terms}"
-    if skill_text:
-        return f"JD skill overlap includes {skill_text}"
-    return "JD connection is based on available structured profile evidence"
+def _system_type_label(calibration: EvidenceCalibration | None) -> str:
+    """Infer the type of system the candidate has built from career evidence."""
+    if not calibration or not calibration.career_ai_infra_hits:
+        return ""
+    hits = set(calibration.career_ai_infra_hits)
+    labels = []
+    if hits & {"retrieval", "rag", "semantic search"}:
+        labels.append("retrieval")
+    if hits & {"ranking", "search ranking"}:
+        labels.append("ranking")
+    if hits & {"recommendation", "recommender"}:
+        labels.append("recommendation")
+    if hits & {"embedding", "embeddings"}:
+        labels.append("embeddings")
+    if hits & {"faiss", "pinecone", "weaviate", "qdrant", "milvus", "elasticsearch", "opensearch", "vector database", "vector search"}:
+        labels.append("vector infra")
+    if hits & {"model serving", "inference"}:
+        labels.append("inference")
+    if not labels:
+        return ""
+    return " + ".join(labels[:3])
+
+
+def _jd_connection_text(
+    calibration: EvidenceCalibration | None,
+    profile,
+    job_analysis,
+) -> str:
+    """Generate varied JD connection text based on the type of evidence."""
+    if not calibration:
+        return "JD alignment based on structured profile data"
+
+    career_hits = calibration.career_ai_infra_hits
+    production = calibration.production_hits
+    ownership = calibration.ownership_hits
+
+    if not career_hits:
+        matched = [s for s in profile.skills if s in set(job_analysis.all_skills)]
+        if matched:
+            return f"Skill profile aligns via {', '.join(matched[:3])}"
+        return "Profile aligns with JD on general technical background"
+
+    # Pick the 2-3 most distinctive career hits (avoid generic ones)
+    distinctive_order = [
+        "faiss", "pinecone", "weaviate", "qdrant", "milvus", "elasticsearch",
+        "opensearch", "semantic search", "vector search", "vector database",
+        "ranking", "recommendation", "recommender", "retrieval", "rag",
+        "embedding", "embeddings", "model serving", "inference", "ml platform",
+    ]
+    ordered_hits = sorted(career_hits, key=lambda h: distinctive_order.index(h) if h in distinctive_order else 99)
+    hit_text = ", ".join(ordered_hits[:3])
+
+    # Vary phrasing based on evidence + deterministic selector
+    if production and ownership:
+        verbs = [v for v in ownership if v in {"built", "designed", "architected", "owned", "shipped"}]
+        verb = verbs[0] if verbs else "built"
+        # Use hash of hit_text to deterministically select a template variant
+        variant = int(hashlib.sha256((hit_text + verb).encode("utf-8")).hexdigest(), 16) % 5
+        if variant == 0:
+            phrase = f"Career shows {verb} production systems around {hit_text}"
+        elif variant == 1:
+            phrase = f"Hands-on production work in {hit_text} — {verb} and deployed"
+        elif variant == 2:
+            phrase = f"Demonstrated {verb} and operating {hit_text} in production"
+        elif variant == 3:
+            phrase = f"Production-proven: {verb} systems using {hit_text}"
+        else:
+            phrase = f"{verb.capitalize()} production {hit_text} infrastructure with ownership"
+        return phrase
+    elif production:
+        return f"Career evidence in {hit_text} deployed to production"
+    elif ownership:
+        return f"Career evidence in {hit_text} with engineering ownership"
+    else:
+        return f"Career mentions {hit_text}"
+
+
+
+def _evidence_based_limitation(calibration: EvidenceCalibration | None, profile) -> str:
+    """Add a brief limitation ONLY when trap flags or calibration data support it."""
+    if not calibration:
+        return ""
+    flags = calibration.trap_flags
+    if not flags:
+        return ""
+    # Map flags to human-readable short limitations
+    flag_text = {
+        "wrong_domain_standalone": "limited retrieval/ranking career evidence outside inference",
+        "framework_only_ai_profile": "AI experience is primarily framework-level, not systems",
+        "research_only_mismatch": "career is research-focused without production shipping evidence",
+        "hands_off_senior": "seniority is management-track with limited hands-on ownership",
+        "honeypot_weak_evidence": "employer background could not be independently verified",
+        "honeypot_fictional_company": "employer background flagged as unverifiable",
+        "non_ml_role_ai_keywords": "primary role is outside ML/AI despite related skill tags",
+    }
+    parts = [flag_text[f] for f in flags if f in flag_text]
+    if not parts:
+        return ""
+    return "Caveat: " + parts[0]
 
 
 def _availability_text(signals: dict[str, Any]) -> str:
@@ -212,13 +319,35 @@ def _availability_text(signals: dict[str, Any]) -> str:
     facts = []
     if signals.get("open_to_work_flag") is True:
         facts.append("open to work")
+    notice = signals.get("notice_period_days")
+    if isinstance(notice, (int, float)) and notice <= 30:
+        facts.append(f"{int(notice)}d notice")
+    if signals.get("willing_to_relocate") is True:
+        facts.append("willing to relocate")
     response_rate = signals.get("recruiter_response_rate")
     if isinstance(response_rate, (int, float)) and response_rate >= 0.7:
-        facts.append(f"{response_rate:.2f} recruiter response rate")
+        facts.append(f"{response_rate:.0%} recruiter response")
     github = signals.get("github_activity_score")
     if isinstance(github, (int, float)) and github >= 40:
-        facts.append(f"{github:.1f} GitHub activity")
-    return "RedRob signals show " + ", ".join(facts[:2]) if facts else ""
+        facts.append(f"GitHub {github:.0f}")
+    return "Signals: " + ", ".join(facts[:3]) if facts else ""
+
+
+def _truncate_at_sentence(text: str, max_len: int) -> str:
+    """Truncate text at the last sentence boundary before max_len."""
+    if len(text) <= max_len:
+        return text
+    # Find last sentence-ending punctuation before max_len
+    truncated = text[:max_len]
+    for end_char in [".", "!", "?"]:
+        last_pos = truncated.rfind(end_char)
+        if last_pos > max_len // 3:  # Don't truncate too aggressively
+            return truncated[:last_pos + 1].rstrip()
+    # No sentence boundary found — truncate at last space
+    last_space = truncated.rfind(" ")
+    if last_space > max_len // 2:
+        return truncated[:last_space].rstrip() + "..."
+    return truncated.rstrip() + "..."
 
 
 def _best_evidence_text(evidence_library: dict[str, Any]) -> str:

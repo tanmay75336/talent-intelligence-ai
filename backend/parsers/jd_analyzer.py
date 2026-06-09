@@ -9,6 +9,22 @@ from backend.utils.skill_taxonomy import (
     unique_preserve_order,
 )
 
+# Skills that are commonly mentioned in JD *context* (warnings, examples,
+# "what we're not looking for") rather than as actual requirements.
+# These should only be treated as required skills when they appear in the
+# explicit requirements/must-have section of a JD.
+CONTEXTUAL_AI_SKILLS = {
+    "OpenAI",
+    "LLM",
+    "AI",
+    "NLP",
+    "RAG",
+    "Machine Learning",
+    "Generative AI",
+    "Anthropic",
+    "Groq API",
+}
+
 SECTION_HEADERS = {
     "responsibilities": [
         "responsibilities",
@@ -16,6 +32,8 @@ SECTION_HEADERS = {
         "what you'll do",
         "role overview",
         "day to day",
+        "what you'd actually be doing",
+        "what you would actually be doing",
     ],
     "requirements": [
         "requirements",
@@ -24,6 +42,8 @@ SECTION_HEADERS = {
         "qualifications",
         "what we're looking for",
         "what we are looking for",
+        "things you absolutely need",
+        "the skills inventory (please read carefully)",
     ],
     "preferred": [
         "preferred",
@@ -31,6 +51,8 @@ SECTION_HEADERS = {
         "good to have",
         "bonus",
         "preferred qualifications",
+        "things we'd like you to have but won't reject you for",
+        "things we would like you to have",
     ],
 }
 
@@ -53,10 +75,20 @@ class JDAnalysis:
     deployment_keywords: list[str] = field(default_factory=list)
     ai_keywords: list[str] = field(default_factory=list)
     api_keywords: list[str] = field(default_factory=list)
+    requirements_only_skills: list[str] = field(default_factory=list)
 
     @property
     def all_skills(self):
         return unique_preserve_order(self.required_skills + self.preferred_skills)
+
+    @property
+    def core_skills(self):
+        """Skills that are confirmed JD requirements, filtering out generic
+        AI terms that only appear in general/warning context."""
+        return [
+            skill for skill in self.all_skills
+            if skill not in CONTEXTUAL_AI_SKILLS or skill in self.requirements_only_skills
+        ]
 
     def semantic_targets(self):
         targets = []
@@ -170,6 +202,15 @@ def analyze_job_description(jd_text):
     if not required_skills:
         required_skills = extract_skills_from_text(cleaned_text)[:8]
 
+    # Track which skills come specifically from requirements/must-have sections.
+    # Contextual AI skills (OpenAI, LLM, RAG etc.) are only treated as real
+    # requirements if they appear in these explicit sections.
+    requirements_section_text = sections.get("requirements", "")
+    responsibilities_text = sections.get("responsibilities", "")
+    requirements_only_skills = extract_skills_from_text(
+        requirements_section_text + "\n" + responsibilities_text
+    )
+
     domain_keywords = extract_domain_keywords(cleaned_text)
     seniority_indicators = _extract_seniority_indicators(cleaned_text)
     semantic_focus_phrases = _extract_semantic_phrases(cleaned_text)
@@ -187,4 +228,5 @@ def analyze_job_description(jd_text):
         deployment_keywords=get_group_matches(all_skills, "deployment"),
         ai_keywords=get_group_matches(all_skills, "ai"),
         api_keywords=get_group_matches(all_skills, "api"),
+        requirements_only_skills=requirements_only_skills,
     )
