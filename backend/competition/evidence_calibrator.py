@@ -235,6 +235,17 @@ def calibrate_candidate_evidence(profile: CandidateProfile) -> EvidenceCalibrati
     promoted_reasons: list[str] = []
     demoted_reasons: list[str] = []
 
+    # Phase 8B.3 — Domain relevance gate
+    # Ownership, production, startup, and experience bonuses are only awarded when
+    # the candidate has at least one AI infrastructure term in their career history.
+    # This prevents generic operational ownership ("owned warehouse operations",
+    # "managed demand-generation function") from receiving the same credit as
+    # JD-relevant ML system ownership ("built ranking layer", "shipped retrieval pipeline").
+    # Candidates with actual AI infrastructure career evidence keep all existing bonuses.
+    # Gate is intentionally broad: any career_ai_hits match (including 'ranking',
+    # 'recommendation', 'search ranking', 'embedding') satisfies the requirement.
+    has_domain_relevant_career: bool = bool(career_ai_hits)
+
     if career_ai_hits:
         delta = min(0.030, 0.010 + (len(career_ai_hits) * 0.004))
         adjustment += delta
@@ -243,18 +254,18 @@ def calibrate_candidate_evidence(profile: CandidateProfile) -> EvidenceCalibrati
         adjustment += 0.006
         promoted_reasons.append("AI infrastructure appears outside career history")
 
-    if production_hits and ownership_hits:
+    if production_hits and ownership_hits and has_domain_relevant_career:
         adjustment += min(0.024, 0.008 + (len(production_hits) * 0.003) + (len(ownership_hits) * 0.002))
         promoted_reasons.append("production ownership is backed by work history")
 
-    if 5.0 <= profile.years_of_experience <= 9.0 and ownership_hits:
+    if 5.0 <= profile.years_of_experience <= 9.0 and ownership_hits and has_domain_relevant_career:
         adjustment += 0.010
         promoted_reasons.append("experience range matches senior founding engineer target")
     elif profile.years_of_experience >= 15.0:
         adjustment -= 0.010
         demoted_reasons.append("very high experience is not treated as automatic fit")
 
-    if startup_hits and ownership_hits:
+    if startup_hits and ownership_hits and has_domain_relevant_career:
         adjustment += 0.006
         promoted_reasons.append("builder/startup ownership language is present")
 
