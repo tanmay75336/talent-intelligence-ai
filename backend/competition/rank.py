@@ -30,7 +30,7 @@ from backend.utils.skill_taxonomy import (
     unique_preserve_order,
 )
 from backend.competition.evaluate import _extract_career_signals, _extract_behavioral_signals
-from backend.competition.phase8e1_prose_reasoning import generate_prose_reasoning, _extract_career_signals as _prose_career_sigs
+from backend.competition.reasoning_generator import generate_prose_reasoning, _extract_career_signals as _prose_career_sigs
 
 TOP_K = 100
 MAX_EVIDENCE_ADJUSTMENT = 0.100

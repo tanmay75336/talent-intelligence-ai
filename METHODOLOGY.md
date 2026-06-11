@@ -1,118 +1,165 @@
-# Methodology — RedRob Track 1 (Intelligent Candidate Discovery)
+# Methodology — OctaOps | RedRob Track 1
 
-This document is written for RedRob judges evaluating **Stages 4–5**: manual methodology review, reasoning quality, and technical defense. It describes the **frozen** offline pipeline in `backend/competition/` without re-tuning.
+This document is written for **Stage 4–5** review: methodology coherence, reasoning quality, and technical defense. It explains why we designed the system the way we did, not just what it does.
 
-## 1. Problem understanding
+---
 
-The challenge is not “find candidates who mention the most AI terms.” The goal is to **understand candidate evidence** in context of a specific job description: what they built, in what environment, with what depth, and whether that evidence is credible.
+## 1. Problem framing
 
-**Example:** A candidate who built production recommendation, search, or ranking systems with embeddings and evaluation discipline should rank above someone who only lists RAG, LLM, or LangChain on their skills inventory without matching career history.
+We read the job description before writing any code. The JD is not asking for "the most AI-skilled candidate" — it is asking for someone who has **owned production retrieval and ranking systems** and has the measurement discipline to improve them over time.
 
-The released JD emphasizes product engineering over research-only profiles, hands-on ownership, and AI infrastructure depth (retrieval, ranking, embeddings, production ML). The ranker is aligned to that intent.
+That distinction shapes everything. A candidate whose skills section lists FAISS, Weaviate, and Qdrant but whose career history shows no evidence of building or operating such systems is not the right hire. A candidate whose career shows they built a recommendation engine at a product company — even if they don't use the exact vocabulary from the JD — is a much better match.
 
-## 2. Ranking philosophy
+Our system is designed to detect that difference.
 
-**Priority: career evidence > skill keywords.**
+---
 
-| Signal class | Examples |
-|--------------|----------|
-| **Strong positive** | Retrieval systems, ranking/recommendation systems, embeddings, vector search, semantic search, production ML, backend/platform ownership, A/B evaluation maturity |
-| **Weaker / risky** | Framework names (LangChain, OpenAI) or generic “AI/ML/NLP” labels without career backing |
-| **Secondary** | RedRob behavioral signals (availability, response rate, GitHub activity) — used as small tie-breakers when technical evidence is already comparable |
+## 2. Scoring design
 
-Base scoring (`backend/competition/rank.py`) combines JD skill overlap, skill-group overlap, important term overlap, experience-band fit, and competition core signals from `backend/intelligence/candidate_engine.py`. Evidence calibration (`backend/competition/evidence_calibrator.py`) applies a **bounded** adjustment (±0.10 max) on top of that base score.
+We score each candidate on six signals:
 
-## 3. Candidate evidence extraction
+```
+score = skill_overlap    × 0.26
+      + group_overlap    × 0.16
+      + term_overlap     × 0.18
+      + experience_fit   × 0.12
+      + execution_signals × 0.20
+      + career_evidence   × 0.08
+```
 
-Each `candidates.jsonl` record is adapted into a unified `CandidateProfile` (`backend/competition/redrob_adapter.py`). Evidence is drawn from:
+**Why these weights?**
 
-- **profile** — headline, summary, title, company, years of experience
-- **career_history** — role descriptions (primary source for “what they actually did”)
-- **skills** — names, proficiency, endorsements, duration months
-- **education** — degrees, institutions, tiers
-- **certifications** — named credentials
-- **redrob_signals** — 23 behavioral/platform fields (see `data/redrob_signals_doc.docx`)
+The first three terms (skill, group, term overlap) form the JD-matching backbone. Together they account for 60% of the base score. We separated skill overlap from group overlap because the JD mentions specific technologies (vector databases, ranking systems) but also implies broader system categories — a candidate with strong retrieval expertise who uses different tool names should still be visible.
 
-`build_candidate_intelligence()` builds structured signals and an evidence library (experience/summary snippets) used for reasoning text, not for hosted LLM generation.
+`experience_fit` rewards the 5–9 year target band without hard-excluding people outside it. The JD itself says "5-9 years is a range, not a requirement." We honour that.
 
-## 4. Trap handling
+`execution_signals` captures depth, domain relevance, and startup readiness extracted from the candidate's career profile structure — rewarding people who have shipped things, not just studied them.
 
-The dataset includes intentional traps (keyword stuffers, framework-only profiles, behavioral twins, honeypots with inconsistent timelines). The calibrator applies **explicit penalties** when patterns match; this is **heuristic**, not perfect detection.
+`career_evidence` was added after we noticed that strong keyword overlap could come from profiles that list AI terms in skills but have no matching career history. This term counts JD-relevant AI infrastructure terms found **only in career history text** — not in skills or summaries — capped at 5 hits. It rewards demonstrated experience, not claimed experience.
 
-| Trap pattern | Detection idea | Effect |
-|--------------|----------------|--------|
-| **Keyword stuffing** | Many AI-tagged skills with low duration/endorsements and no career AI-infra hits | Penalty flag `keyword_stuffing` |
-| **Framework-only AI profile** | LangChain/OpenAI/LLM-heavy skills/summary without career retrieval/ranking/production evidence | `framework_only_ai_profile` |
-| **Research-only mismatch** | Research language without production/ownership hits | `research_only_mismatch` |
-| **Fake / hands-off seniority** | Very high years + management language, weak ownership verbs | `hands_off_senior` |
-| **Impossible / honeypot profiles** | Timeline inconsistencies (e.g., tenure vs company age) | Not special-cased by ID; avoided by reading structured fields and penalizing weak evidence. Organizers note honeypot rate >10% in top-100 is a Stage 3 disqualifier. |
+---
 
-We do **not** claim perfect trap or honeypot detection. The design favors **career-text grounding** so keyword-only profiles naturally score lower.
+## 3. Evidence calibration
 
-## 5. RedRob behavioral signals
+After base scoring, we apply a bounded ±0.10 adjustment from `evidence_calibrator.py`.
 
-Behavioral signals are **secondary modifiers**, applied mainly as a small tie-breaker when technical evidence is already present (`_behavioral_tie_breaker` in `evidence_calibrator.py`).
+The calibrator looks at career text for:
+- **Production ownership evidence**: terms like "built," "owned," "shipped" combined with production-context words
+- **Retrieval system indicators**: vector database, ranking, recommendation, embedding language in a work context
+- **Red flags**: trap patterns described in the next section
 
-Signals considered in reasoning text (when notable):
+Calibration is intentionally bounded. A weak base scorer cannot be rescued by calibration, and a strong base scorer cannot be punished unfairly. The maximum swing is ±0.10.
 
-- `open_to_work_flag`
-- `recruiter_response_rate` (high values surfaced in reasoning)
-- `github_activity_score`
-- Relocation / work-mode / notice period (available in schema; surfaced when relevant to close calls)
+---
 
-**Important:** Behavioral signals do **not** override much stronger JD technical evidence. A highly available candidate with weak career AI-infra evidence should not outrank a strong builder.
+## 4. Production disclaimer detection
 
-## 6. NDCG optimization strategy
+The JD contains this disqualifier: *"If you've spent your career in pure research environments without any production deployment — we will not move forward."*
 
-Official composite (see `data/submission_spec.docx`):
+During testing, we found profiles where candidates explicitly described themselves as working on "the pure ML side" while "production deployment was handled by the platform team." Those candidates were ranking too high because the word "production" appeared in their career text — even in a sentence explaining they hadn't done it.
 
-- **NDCG@10 (50%)** — top of list matters most
-- **NDCG@50 (30%)** — depth of strong ordering
-- **MAP (15%)** — precision across relevance tiers
-- **P@10 (5%)** — fraction of top-10 that are truly relevant
+We detect a set of explicit disclaimer phrases in career text. When detected, the career evidence term receives a 0.5× multiplier — not a hard exclusion, since the candidate may still have genuine ML depth — but enough to ensure they don't outrank candidates who actually owned the production systems.
 
-**Optimization focus:**
+---
 
-| Metric | Strategy |
-|--------|----------|
-| **NDCG@10** | Heap-retained top 100 after scoring; calibration boosts career-backed retrieval/ranking excellence; traps penalized before final ordering |
-| **NDCG@50** | Same score function across the heap cutoff; monotonic scores with deterministic tie-break on `candidate_id` |
-| **MAP** | Prefer candidates with verifiable production + ownership language over keyword-only skill overlap |
-| **P@10** | Avoid promoting framework-only and keyword-stuffed profiles even if skill overlap is high |
+## 5. Reranking
 
-## 7. Reasoning generation (Stage 4 compliance)
+After base scoring and calibration, we maintain a pool of the top 300 candidates. Over this pool, we apply per-candidate adjustments:
 
-Reasoning is generated **deterministically** in `backend/competition/rank.py` (`_competition_reasoning`). For each top-100 candidate:
+**Headroom-scaled depth bonus:** The calibrator already rewards some evidence signals. The reranker adds a bonus proportional to the *unused headroom* in the calibration adjustment — so candidates who already received the full calibration bonus get near-zero extra credit, while candidates with strong evidence depth who were slightly underrewarded get a modest lift. Maximum effect: +0.030.
 
-1. **Actual candidate facts** — years of experience, current title, current company (from structured profile)
-2. **JD connection** — career-backed AI-infra terms when calibration found them; otherwise explicit skill overlap wording
-3. **Evidence** — best career sentence or evidence snippet (truncated), not invented employers or skills
-4. **Strengths / limitations** — RedRob signal clause when notable; weak profiles get weaker JD-connection phrasing rather than generic praise
+**Behavioral bonus:** A small additional signal from `open_to_work_flag`, `recruiter_response_rate`, and engagement patterns. This is not a primary driver — it acts as a tie-breaker when technical evidence is comparable. Maximum effect: ~+0.010.
 
-**No hosted LLM generates reasoning during ranking.** `ENABLE_GROQ_SYNTHESIS=0` and offline transformers flags are set in `configure_offline_environment()`.
+**Surface-match penalty (−0.030):** Applied to candidates who match system vocabulary (ranking, retrieval, recommendation) but show no production or ownership evidence. They look right on paper but the career evidence doesn't back it up.
 
-Stage 4 checks (specific facts, JD connection, honesty, no hallucination, variation, rank consistency) are design goals of the template; sampled rows should be reviewed against `candidates.jsonl` source records.
+**Trap penalty (−0.050):** Applied when the calibrator's trap flags fire (keyword stuffing, framework-only profile, research-only mismatch, hands-off seniority). Reinforces calibration for borderline cases.
 
-## 8. Efficiency
+The top 100 from this reranked pool become the final submission.
 
-Designed for **100,000 candidates on CPU in under 5 minutes**:
+---
 
-- **Streaming JSONL** — `iter_dataset_records()` reads one candidate at a time
-- **CPU-only execution** — no GPU; no network calls in ranking
-- **Top-100 min-heap** — retain only the best 100 candidates by score; skip clear non-contenders when heap is full
-- **Deferred expensive work** — full `build_candidate_intelligence()` for evidence/reasoning runs only on heap survivors, not every row
-- **No external APIs** — ranking does not call OpenAI, Anthropic, or other hosted services
+## 6. Trap handling
 
-Reference benchmark: **~82 seconds** for 100,000 candidates on the packaged reference environment (see `README.md`).
+The dataset documentation (`redrob_signals_doc.docx`) explicitly warns about honeypot profiles and behavioral anomalies. We do not hard-code candidate IDs — our trap detection is pattern-based.
 
-## 9. Reproducibility checklist (Stage 3)
+| Pattern | How we detect it |
+|---------|-----------------|
+| Keyword stuffing | AI-tagged skills with low endorsement/duration and no career AI infrastructure hits |
+| Framework-only AI profile | LangChain/OpenAI/LLM skill labels without retrieval, ranking, or production work history |
+| Research-only mismatch | Research-context vocabulary (papers, labs, thesis) without production/ownership evidence |
+| Hands-off seniority | Very long tenure with management-track language and weak ownership verbs in career text |
+| Impossible timelines | Implicit in career field parsing — we do not special-case IDs |
 
-1. Place `data/candidates.jsonl` (or `.gz`) and `data/job_description.docx`
-2. Run the single reproduction command in `README.md`
-3. Run `python -m backend.competition.validate_submission submission.csv`
-4. Optional: `python -m backend.competition.benchmark` for runtime/memory report
+We designed these heuristically, not programmatically tuned. The goal was to make keyword-only profiles naturally score lower, not to build a separate classifier.
 
-## 10. What this document does not cover
+---
 
-- The optional **recruiter web app** (`frontend/`, `backend/main.py`) uses hybrid retrieval and a separate ranking path for demos; it is **not** the competition submission path.
-- **AI tools** (Cursor, ChatGPT, etc.) may be used during development; they are **not** invoked during the official ranking step.
+## 7. Behavioral signals
+
+We use 23 RedRob behavioral signals, but carefully. A perfect technical fit candidate who is unavailable should still rank above a mediocre but very available candidate. The behavioral adjustment is small and secondary.
+
+Signals we explicitly consider:
+- `open_to_work_flag` — direct availability signal
+- `recruiter_response_rate` — reachability for hiring
+- `github_activity_score` — correlated with active engineering practice
+- `notice_period_days` — practical logistics
+- `willing_to_relocate` — relevant for Noida/Pune preference in JD
+
+We do not use all 23 signals. Signals like `endorsed_by_recruiters` and `linkedin_connected` are not used because they measure platform engagement, not candidate quality.
+
+---
+
+## 8. Reasoning generation
+
+Each top-100 candidate receives a 1–2 sentence explanation. We generate this deterministically from the candidate's own data — no hosted LLM during ranking.
+
+What each explanation contains:
+1. **A fact anchor**: years of experience, current title, current company (pulled from structured profile)
+2. **JD connection**: the specific retrieval/vector/evaluation technologies found in their career history, with action verbs (built, shipped, owned)
+3. **Behavioral note**: availability, notice period, or GitHub score when materially notable
+4. **Honest caveats**: if a candidate is below the experience target band, we say so. If their evidence is thinner than top candidates, the phrasing reflects that.
+
+We deliberately avoided labelling explanations with structured tags. The reasoning reads as a recruiter note, not a system output.
+
+---
+
+## 9. NDCG optimisation
+
+The official metric composite is NDCG@10 (50%) + NDCG@50 (30%) + MAP (15%) + P@10 (5%).
+
+This heavily weights getting the **top 10 right**. Our design reflects that:
+- The top of the heap should contain candidates with the strongest combination of career evidence, calibration rewards, and clean trap detection
+- The reranker bonus is designed to elevate candidates with deep evidence who were slightly underscored by the base formula
+- The surface-match penalty and trap penalty protect the top 10 from keyword-stuffed profiles
+
+We do not claim to have optimised NDCG@50 separately — our pipeline produces a consistent scoring function across the full 300-candidate pool, which should naturally handle ranking depth.
+
+---
+
+## 10. What we did not do
+
+- We did not use embeddings or semantic similarity during ranking (CPU budget and latency constraints)
+- We did not use any hosted LLM during the ranking step
+- We did not special-case specific candidate IDs
+- We did not train a machine learning model (the system is a hand-designed scoring function)
+- We did not tune weights using the ground truth (there is no ground truth available to us)
+
+Our weight choices were based on reading the JD carefully and reasoning about what each signal actually measures.
+
+---
+
+## 11. Reproducibility
+
+```bash
+python -m backend.competition.rank \
+  --candidates data/candidates.jsonl \
+  --job data/job_description.docx \
+  --output submission.csv
+
+python -m backend.competition.validate_submission submission.csv
+# Submission is valid.
+```
+
+Runtime: ~174s on Apple M4 16GB. Within the 300-second limit.
+
+The output is deterministic — same candidates, same scores, same reasoning — on every run.

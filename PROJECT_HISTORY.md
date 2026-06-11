@@ -9,7 +9,7 @@ Source of truth:
 - Git commits
 - Git tags
 - Official challenge documents
-- Phase reports in outputs/
+- Phase reports in research/
 
 ---
 
