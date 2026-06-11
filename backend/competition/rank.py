@@ -13,6 +13,7 @@ from typing import Any
 from xml.etree import ElementTree
 
 from backend.competition.evidence_calibrator import (
+    AI_INFRA_TERMS,
     EvidenceCalibration,
     best_evidence_for_calibration,
     calibrate_candidate_evidence,
@@ -28,9 +29,93 @@ from backend.utils.skill_taxonomy import (
     normalize_whitespace,
     unique_preserve_order,
 )
+from backend.competition.evaluate import _extract_career_signals, _extract_behavioral_signals
+from backend.competition.phase8e1_prose_reasoning import generate_prose_reasoning, _extract_career_signals as _prose_career_sigs
 
 TOP_K = 100
 MAX_EVIDENCE_ADJUSTMENT = 0.100
+
+# ---------------------------------------------------------------------------
+# Phase 8C.4: Production ownership disclaimer detection
+# JD requires: "handled embedding drift, index refresh, retrieval-quality
+# regression in production" (item 1, Things you absolutely need).
+# Candidates who explicitly state another team owned production deployment
+# are self-reporting a disqualifier and receive a 0.5x multiplier.
+# ---------------------------------------------------------------------------
+_PROD_DISCLAIMER_PHRASES: tuple[str, ...] = (
+    "production deployment was handled by",
+    "deployment was handled by the platform",
+    "pure ml side of the work",
+    "production was handled by",
+    "ops team handled",
+    "platform team handled",
+    "platform handled the deployment",
+    "infra team handled",
+)
+_PROD_DISCLAIMER_MULTIPLIER: float = 0.5
+# ---------------------------------------------------------------------------
+# Phase 8B.3 reranker configuration (headroom-scaled depth + behavioral bonuses)
+# ---------------------------------------------------------------------------
+_RERANK_POOL_SIZE: int = 300
+
+# ---------------------------------------------------------------------------
+# Phase 8B.3: Headroom-scaled depth bonus (inlined to avoid circular import
+# with rerank_experiment.py which imports rank at module level)
+#
+# Formula: bonus = (1 - p7_adj / P7_MAX_ADJ) * (effective_depth / 4) * MAX_RERANK_BONUS
+# Only adds credit for evidence NOT already captured by Phase 7 calibration.
+# ---------------------------------------------------------------------------
+_P7_MAX_ADJ: float = 0.100
+_MAX_RERANK_BONUS: float = 0.030
+
+# Context-pattern eval detection (verbatim from rerank_experiment.py Fix 2)
+_EVAL_CONTEXT_PATTERNS: list[tuple[str, tuple[str, ...] | None]] = [
+    ("relevance",         ("metric", "measure", "quality", "label", "judgment", "judgement", "feedback")),
+    ("ranking",           ("metric", "measure", "quality", "label", "judgment", "judgement", "improved", "improvement")),
+    ("retrieval",         ("metric", "measure", "quality", "label", "improved", "improvement")),
+    ("click",             ("through", "data", "feedback", "label")),
+    ("learning-to-rank",  None),
+    ("ltr",               None),
+    ("relevance label",   None),
+    ("relevance feedback",None),
+    ("held-out",          None),
+    ("held out eval",     None),
+    ("human judgment",    None),
+    ("human judgement",   None),
+    ("human label",       None),
+    ("eval set",          None),
+    ("eval workflow",     None),
+    ("offline",           ("eval", "evaluation", "test", "benchmark", "metric")),
+]
+
+
+def _has_eval_context(career_lower: str) -> bool:
+    """Return True if career text contains patterns implying evaluation maturity."""
+    for anchor, context_words in _EVAL_CONTEXT_PATTERNS:
+        if anchor not in career_lower:
+            continue
+        if context_words is None:
+            return True
+        pos = career_lower.find(anchor)
+        while pos != -1:
+            window = career_lower[max(0, pos - 100): pos + 200]
+            if any(cw in window for cw in context_words):
+                return True
+            pos = career_lower.find(anchor, pos + 1)
+    return False
+
+
+def _headroom_depth_bonus(p7_adjustment: float, career_lower: str, career_sigs: dict) -> float:
+    """Phase 8B.3 Fix 1: headroom-scaled evidence depth bonus."""
+    has_eval = career_sigs["has_eval_maturity"] or _has_eval_context(career_lower)
+    has_retrieval = career_sigs["has_retrieval"]
+    has_system = career_sigs["has_system"]
+    has_career_ev = career_sigs["has_career_evidence"]
+    effective_depth = sum([has_eval, has_retrieval, has_system, has_career_ev])
+    if effective_depth == 0:
+        return 0.0
+    headroom = max(0.0, 1.0 - p7_adjustment / _P7_MAX_ADJ)
+    return round(headroom * (effective_depth / 4.0) * _MAX_RERANK_BONUS, 6)
 
 
 @dataclass
@@ -46,11 +131,26 @@ class CompetitionCandidate:
 
 
 def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, output_path: str | Path) -> list[CompetitionCandidate]:
+    """
+    Full Phase 8 production pipeline:
+      Stage 1: Phase 8C.4 base scoring with production disclaimer detection
+               → top-300 heap (wider than top-100 to allow reranker to work)
+      Stage 2: Phase 8B.3 reranker (headroom depth bonus + behavioral + surface/trap penalties)
+      Stage 3: Phase 8E.1 prose reasoning (spec-compliant plain-language)
+    CPU-only. No external API calls.
+    """
     configure_offline_environment()
     job_text = read_job_text(job_path)
     job_analysis = analyze_job_description(job_text)
     job_terms = _important_terms(job_text)
-    top_candidates: list[tuple[float, str, CompetitionCandidate]] = []
+
+    # -----------------------------------------------------------------------
+    # Stage 1: Phase 8C.4 base scoring — stream all 100K candidates into a
+    # top-_RERANK_POOL_SIZE heap. The wider pool gives the Phase 8B.3 reranker
+    # room to elevate candidates with strong career evidence that were slightly
+    # depressed in the base score.
+    # -----------------------------------------------------------------------
+    top_pool: list[tuple[float, str, CompetitionCandidate]] = []
     seen_candidate_ids: set[str] = set()
 
     for raw_candidate in iter_dataset_records(candidates_path):
@@ -60,7 +160,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
         seen_candidate_ids.add(candidate_profile.candidate_id)
         core_signals = build_competition_core_signals(candidate_profile)
         base_score = _competition_score(candidate_profile, core_signals, job_analysis, job_terms)
-        if len(top_candidates) >= TOP_K and base_score + MAX_EVIDENCE_ADJUSTMENT < top_candidates[0][0]:
+        if len(top_pool) >= _RERANK_POOL_SIZE and base_score + MAX_EVIDENCE_ADJUSTMENT < top_pool[0][0]:
             continue
         calibration = calibrate_candidate_evidence(candidate_profile)
         score = _calibrated_score(base_score, calibration)
@@ -73,26 +173,75 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
             profile=candidate_profile,
         )
         heap_item = (candidate.score, candidate.candidate_id, candidate)
-        if len(top_candidates) < TOP_K:
-            heapq.heappush(top_candidates, heap_item)
-        elif heap_item > top_candidates[0]:
-            heapq.heapreplace(top_candidates, heap_item)
+        if len(top_pool) < _RERANK_POOL_SIZE:
+            heapq.heappush(top_pool, heap_item)
+        elif heap_item > top_pool[0]:
+            heapq.heapreplace(top_pool, heap_item)
 
-    ranked_candidates = [
+    pool = [
         item[2]
-        for item in sorted(top_candidates, key=lambda item: (-item[2].score, item[2].candidate_id))
+        for item in sorted(top_pool, key=lambda item: (-item[2].score, item[2].candidate_id))
     ]
-    for candidate in ranked_candidates:
-        if candidate.profile is not None:
-            _, evidence_library = build_candidate_intelligence(candidate.profile)
-            candidate.reasoning = _competition_reasoning(
-                candidate.profile,
-                job_analysis,
-                evidence_library,
-                candidate.calibration,
+
+    # Re-load full profiles for the pool (profile was kept in stage 1, but reload
+    # to ensure a clean state for evidence extraction).
+    pool_cids = {c.candidate_id for c in pool}
+    profiles: dict[str, Any] = {}
+    for raw_candidate in iter_dataset_records(candidates_path):
+        cid = raw_candidate.get("candidate_id", "")
+        if cid in pool_cids:
+            profiles[cid] = adapt_redrob_candidate(raw_candidate)
+            if len(profiles) == len(pool_cids):
+                break
+
+    # -----------------------------------------------------------------------
+    # Stage 2: Phase 8B.3 reranker
+    # Headroom-scaled evidence depth bonus + behavioral bonus + surface/trap penalties.
+    # -----------------------------------------------------------------------
+    reranked: list[dict[str, Any]] = []
+    for c in pool:
+        p = profiles[c.candidate_id]
+        career_text = normalize_whitespace(
+            " ".join(str(item.get("description", "")) for item in p.career_history)
+        ).lower()
+        career_sigs = _extract_career_signals(career_text)
+        beh_sigs = _extract_behavioral_signals(p.redrob_signals or {})
+
+        depth_bonus = _headroom_depth_bonus(c.calibration.adjustment, career_text, career_sigs)
+        beh_bonus = (beh_sigs["availability_score"] + beh_sigs["engagement_score"]) * 0.005
+        surface_penalty = -0.030 if career_sigs["surface_match_risk"] else 0.0
+        trap_penalty = -0.050 if c.calibration.trap_flags else 0.0
+
+        reranked.append({
+            "candidate_id": c.candidate_id,
+            "score": round(c.score + depth_bonus + beh_bonus + surface_penalty + trap_penalty, 6),
+            "calibration": c.calibration,
+        })
+
+    reranked.sort(key=lambda x: (-x["score"], x["candidate_id"]))
+    top100_items = reranked[:TOP_K]
+
+    # -----------------------------------------------------------------------
+    # Stage 3: Phase 8E.1 prose reasoning
+    # Natural plain-language sentences meeting all 6 Stage 4 spec checks.
+    # -----------------------------------------------------------------------
+    ranked_candidates: list[CompetitionCandidate] = []
+    for rank_pos, item in enumerate(top100_items, start=1):
+        p = profiles[item["candidate_id"]]
+        cal = item["calibration"]
+        career_text = normalize_whitespace(
+            " ".join(str(h.get("description", "")) for h in p.career_history)
+        ).lower()
+        career_sigs_prose = _prose_career_sigs(career_text)
+        reasoning = generate_prose_reasoning(p, cal, career_text, career_sigs_prose, rank_pos)
+        ranked_candidates.append(
+            CompetitionCandidate(
+                candidate_id=item["candidate_id"],
+                score=item["score"],
+                reasoning=reasoning,
             )
-            candidate.profile = None
-            candidate.evidence_library = None
+        )
+
     write_submission_csv(ranked_candidates, output_path)
     errors = validate_submission(output_path)
     if errors:
@@ -134,7 +283,25 @@ def write_submission_csv(candidates: list[CompetitionCandidate], output_path: st
             )
 
 
+def _career_evidence_score(profile) -> float:
+    """
+    Phase 8C.4: Normalized count of JD-relevant AI infra terms in career text.
+    Applies a 0.5x penalty when the candidate explicitly disclaims production ownership.
+    """
+    career_text = normalize_whitespace(
+        " ".join(str(item.get("description") or "") for item in profile.career_history)
+    ).lower()
+    if not career_text:
+        return 0.0
+    hits = sum(1 for term in AI_INFRA_TERMS if term in career_text)
+    base_score = min(hits, 5) / 5.0
+    if any(phrase in career_text for phrase in _PROD_DISCLAIMER_PHRASES):
+        base_score *= _PROD_DISCLAIMER_MULTIPLIER
+    return base_score
+
+
 def _competition_score(profile, core_signals: dict[str, float], job_analysis, job_terms: set[str]) -> float:
+    """Phase 8C.4 base score: 6-term weighted formula with career evidence term."""
     candidate_skills = set(profile.skills)
     # Use core_skills (excluding contextual AI mentions like OpenAI/LLM/RAG)
     # for precise skill matching to prevent generic AI terms from inflating scores.
@@ -155,13 +322,15 @@ def _competition_score(profile, core_signals: dict[str, float], job_analysis, jo
         + core_signals.get("domain_relevance", 0.0),
         500.0,
     )
+    career_evidence = _career_evidence_score(profile)
 
     score = (
-        skill_overlap * 0.34
-        + group_overlap * 0.16
-        + term_overlap * 0.18
+        skill_overlap    * 0.26
+        + group_overlap  * 0.16
+        + term_overlap   * 0.18
         + experience_fit * 0.12
         + signal_average * 0.20
+        + career_evidence * 0.08
     )
     return round(max(0.0, min(1.0, score)), 6)
 
