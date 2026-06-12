@@ -28,6 +28,35 @@ python -m backend.competition.rank \
   --output submission.csv
 ```
 
+**Example terminal output:**
+
+```
+[rank] Reading job description: data/job_description.docx
+[rank] JD parsed — 28 core skills, 312 term signals
+[rank] Stage 1 — base scoring + evidence calibration (streaming candidates)
+[rank]    10,000 candidates scored  |  pool size: 300  |  17s
+[rank]    20,000 candidates scored  |  pool size: 300  |  34s
+...
+[rank]   100,000 candidates scored  |  pool size: 300  |  165s
+[rank] Stage 1 complete — 100,000 candidates scored in 165.3s
+[rank]   Shortlist pool: 300 candidates (top-300 by calibrated score)
+[rank] Reloading 300 pool profiles for reranking...
+[rank] Stage 2 — reranking 300 candidates (evidence depth + behavioral signals)
+[rank] Stage 2 complete — 300 candidates reranked in 0.1s  →  top 100 selected
+[rank] Stage 3 — generating reasoning for 100 candidates
+[rank] Stage 3 complete — reasoning generated in 0.2s
+[rank] Writing submission: submission.csv
+[rank] Validation PASS
+[rank] ──────────────────────────────────────────
+[rank]  Candidates processed : 100,000
+[rank]  Shortlist pool size   : 300
+[rank]  Top-100 written to    : submission.csv
+[rank]  Total runtime         : ~174s
+[rank] ──────────────────────────────────────────
+```
+
+Progress prints every 10,000 candidates during Stage 1. Actual timing will vary by machine; expect **150–200 seconds** on a modern laptop (CPU-only).
+
 Validate the output:
 
 ```bash
@@ -36,6 +65,7 @@ python -m backend.competition.validate_submission submission.csv
 ```
 
 The ranked CSV is also committed as `submission.csv` at the root.
+
 
 ## Architecture
 

@@ -1,4 +1,5 @@
-from typing import Literal
+from __future__ import annotations
+from typing import Literal, Optional
 
 from pydantic import BaseModel
 
@@ -16,4 +17,4 @@ class EvidenceRef(BaseModel):
 class EvidenceSnippet(EvidenceRef):
     snippet: str
     evidence_strength: EvidenceStrength
-    retrieval_score: float | None = None
+    retrieval_score: Optional[float] = None

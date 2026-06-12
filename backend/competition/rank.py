@@ -6,6 +6,7 @@ import csv
 import heapq
 import os
 import re
+import time
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path
@@ -139,10 +140,15 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
       Stage 3: Phase 8E.1 prose reasoning (spec-compliant plain-language)
     CPU-only. No external API calls.
     """
+    pipeline_start = time.time()
     configure_offline_environment()
+
+    # -- Input preparation ---------------------------------------------------
+    print(f"[rank] Reading job description: {job_path}", flush=True)
     job_text = read_job_text(job_path)
     job_analysis = analyze_job_description(job_text)
     job_terms = _important_terms(job_text)
+    print(f"[rank] JD parsed — {len(job_analysis.core_skills)} core skills, {len(job_terms)} term signals", flush=True)
 
     # -----------------------------------------------------------------------
     # Stage 1: Phase 8C.4 base scoring — stream all 100K candidates into a
@@ -150,8 +156,11 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     # room to elevate candidates with strong career evidence that were slightly
     # depressed in the base score.
     # -----------------------------------------------------------------------
+    print(f"[rank] Stage 1 — base scoring + evidence calibration (streaming candidates)", flush=True)
+    stage1_start = time.time()
     top_pool: list[tuple[float, str, CompetitionCandidate]] = []
     seen_candidate_ids: set[str] = set()
+    _progress_interval = 10_000
 
     for raw_candidate in iter_dataset_records(candidates_path):
         candidate_profile = adapt_redrob_candidate(raw_candidate)
@@ -161,22 +170,31 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
         core_signals = build_competition_core_signals(candidate_profile)
         base_score = _competition_score(candidate_profile, core_signals, job_analysis, job_terms)
         if len(top_pool) >= _RERANK_POOL_SIZE and base_score + MAX_EVIDENCE_ADJUSTMENT < top_pool[0][0]:
-            continue
-        calibration = calibrate_candidate_evidence(candidate_profile)
-        score = _calibrated_score(base_score, calibration)
-        candidate = CompetitionCandidate(
-            candidate_id=candidate_profile.candidate_id,
-            score=score,
-            base_score=base_score,
-            evidence_adjustment=calibration.adjustment,
-            calibration=calibration,
-            profile=candidate_profile,
-        )
-        heap_item = (candidate.score, candidate.candidate_id, candidate)
-        if len(top_pool) < _RERANK_POOL_SIZE:
-            heapq.heappush(top_pool, heap_item)
-        elif heap_item > top_pool[0]:
-            heapq.heapreplace(top_pool, heap_item)
+            pass  # skipped: score too low to enter pool even with max calibration
+        else:
+            calibration = calibrate_candidate_evidence(candidate_profile)
+            score = _calibrated_score(base_score, calibration)
+            candidate = CompetitionCandidate(
+                candidate_id=candidate_profile.candidate_id,
+                score=score,
+                base_score=base_score,
+                evidence_adjustment=calibration.adjustment,
+                calibration=calibration,
+                profile=candidate_profile,
+            )
+            heap_item = (candidate.score, candidate.candidate_id, candidate)
+            if len(top_pool) < _RERANK_POOL_SIZE:
+                heapq.heappush(top_pool, heap_item)
+            elif heap_item > top_pool[0]:
+                heapq.heapreplace(top_pool, heap_item)
+        n = len(seen_candidate_ids)
+        if n % _progress_interval == 0:
+            elapsed = time.time() - stage1_start
+            print(f"[rank]   {n:>7,} candidates scored  |  pool size: {len(top_pool)}  |  {elapsed:.0f}s", flush=True)
+
+    stage1_elapsed = time.time() - stage1_start
+    print(f"[rank] Stage 1 complete — {len(seen_candidate_ids):,} candidates scored in {stage1_elapsed:.1f}s", flush=True)
+    print(f"[rank]   Shortlist pool: {len(top_pool)} candidates (top-{_RERANK_POOL_SIZE} by calibrated score)", flush=True)
 
     pool = [
         item[2]
@@ -185,6 +203,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
 
     # Re-load full profiles for the pool (profile was kept in stage 1, but reload
     # to ensure a clean state for evidence extraction).
+    print(f"[rank] Reloading {len(pool)} pool profiles for reranking...", flush=True)
     pool_cids = {c.candidate_id for c in pool}
     profiles: dict[str, Any] = {}
     for raw_candidate in iter_dataset_records(candidates_path):
@@ -198,6 +217,8 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     # Stage 2: Phase 8B.3 reranker
     # Headroom-scaled evidence depth bonus + behavioral bonus + surface/trap penalties.
     # -----------------------------------------------------------------------
+    print(f"[rank] Stage 2 — reranking {len(pool)} candidates (evidence depth + behavioral signals)", flush=True)
+    stage2_start = time.time()
     reranked: list[dict[str, Any]] = []
     for c in pool:
         p = profiles[c.candidate_id]
@@ -220,11 +241,15 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
 
     reranked.sort(key=lambda x: (-x["score"], x["candidate_id"]))
     top100_items = reranked[:TOP_K]
+    stage2_elapsed = time.time() - stage2_start
+    print(f"[rank] Stage 2 complete — {len(reranked)} candidates reranked in {stage2_elapsed:.1f}s  →  top {TOP_K} selected", flush=True)
 
     # -----------------------------------------------------------------------
     # Stage 3: Phase 8E.1 prose reasoning
     # Natural plain-language sentences meeting all 6 Stage 4 spec checks.
     # -----------------------------------------------------------------------
+    print(f"[rank] Stage 3 — generating reasoning for {TOP_K} candidates", flush=True)
+    stage3_start = time.time()
     ranked_candidates: list[CompetitionCandidate] = []
     for rank_pos, item in enumerate(top100_items, start=1):
         p = profiles[item["candidate_id"]]
@@ -241,11 +266,24 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
                 reasoning=reasoning,
             )
         )
+    stage3_elapsed = time.time() - stage3_start
+    print(f"[rank] Stage 3 complete — reasoning generated in {stage3_elapsed:.1f}s", flush=True)
 
+    # -- Export + validation -------------------------------------------------
+    print(f"[rank] Writing submission: {output_path}", flush=True)
     write_submission_csv(ranked_candidates, output_path)
     errors = validate_submission(output_path)
     if errors:
         raise ValueError("Invalid competition submission: " + " ".join(errors))
+
+    total_elapsed = time.time() - pipeline_start
+    print(f"[rank] Validation PASS", flush=True)
+    print(f"[rank] ──────────────────────────────────────────", flush=True)
+    print(f"[rank]  Candidates processed : {len(seen_candidate_ids):,}", flush=True)
+    print(f"[rank]  Shortlist pool size   : {len(pool)}", flush=True)
+    print(f"[rank]  Top-{TOP_K} written to    : {output_path}", flush=True)
+    print(f"[rank]  Total runtime         : {total_elapsed:.1f}s", flush=True)
+    print(f"[rank] ──────────────────────────────────────────", flush=True)
     return ranked_candidates
 
 
@@ -574,7 +612,6 @@ def main() -> int:
     parser.add_argument("--output", required=True, help="Path to write submission CSV.")
     args = parser.parse_args()
     run_competition_ranking(args.candidates, args.job, args.output)
-    print(f"Wrote valid submission to {args.output}")
     return 0
 
 
