@@ -281,7 +281,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     print(f"[rank] Validation PASS", flush=True)
     print(f"[rank] ──────────────────────────────────────────", flush=True)
     print(f"[rank]  Candidates processed : {len(seen_candidate_ids):,}", flush=True)
-    print(f"[rank]  Shortlist pool size  : {len(pool)}", flush=True)
+    print(f"[rank]  Ranked candidates    : {len(ranked_candidates)}", flush=True)
     print(f"[rank]  Output CSV           : {resolved_output}", flush=True)
     print(f"[rank]  Total runtime        : {total_elapsed:.1f}s", flush=True)
     print(f"[rank] ──────────────────────────────────────────", flush=True)

@@ -18,6 +18,13 @@ Place the official data files under `data/`:
 data/candidates.jsonl       # (or candidates.jsonl.gz)
 data/job_description.docx
 ```
+## Dependency installation
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+The competition pipeline uses the minimal dependencies listed in `backend/requirements.txt`.
 
 Run the ranker from the repository root:
 
@@ -29,7 +36,7 @@ python -m backend.competition.rank --candidates data/candidates.jsonl --job data
 
 ```
 [rank] Reading job description: data/job_description.docx
-[rank] JD parsed — 28 core skills, 312 term signals
+[rank] JD parsed — <detected> core skills, <detected> term signals
 [rank] Stage 1 — base scoring + evidence calibration (streaming candidates)
 [rank]   ...  10,000 candidates scored  |  pool: 300  |  elapsed time
 [rank]   ...  20,000 candidates scored  |  pool: 300  |  elapsed time
@@ -39,16 +46,16 @@ python -m backend.competition.rank --candidates data/candidates.jsonl --job data
 [rank]   Shortlist pool: 300 candidates (top-300 by calibrated score)
 [rank] Reloading 300 pool profiles for reranking...
 [rank] Stage 2 — reranking 300 candidates (evidence depth + behavioral signals)
-[rank] Stage 2 complete — 300 candidates reranked in 0.045s  →  top 100 selected
+[rank] Stage 2 complete — 300 candidates reranked  →  top 100 selected
 [rank] Stage 3 — generating reasoning for 100 candidates
-[rank] Stage 3 complete — reasoning generated in 0.182s
+[rank] Stage 3 complete — reasoning generated
 [rank] Writing submission: /Users/username/talent-intelligence-ai/OctaOps.csv
 [rank] Validation PASS
 [rank] ──────────────────────────────────────────
 [rank]  Candidates processed : 100,000
-[rank]  Shortlist pool size  : 300
+[rank]  Ranked candidates    : 100
 [rank]  Output CSV           : /Users/username/talent-intelligence-ai/OctaOps.csv
-[rank]  Total runtime        : ~105s
+[rank]  Total runtime        : machine-dependent
 [rank] ──────────────────────────────────────────
 ```
 
@@ -159,13 +166,6 @@ A strong builder who hasn't engaged recently is slightly depressed but not disqu
 | GPU | Not permitted | CPU only |
 | Network during ranking | Not permitted | None — `configure_offline_environment()` enforces this |
 
-## Dependency installation
-
-```bash
-pip install -r backend/requirements.txt
-```
-
-The competition pipeline uses the minimal dependencies listed in `backend/requirements.txt`.
 
 ## Benchmark
 
