@@ -13,7 +13,7 @@ Extracted from `data/submission_spec.docx`.
 |---|---|---|
 | CSV: 100 rows, columns `candidate_id,rank,score,reasoning` | **REQUIRED** | ✅ |
 | Ranks 1–100, unique IDs, monotonic scores | **REQUIRED** | ✅ |
-| Runtime ≤ 300s, RAM ≤ 16GB, CPU-only, no network | **REQUIRED** | ✅ 174s |
+| Runtime ≤ 300s, RAM ≤ 16GB, CPU-only, no network | **REQUIRED** | ✅ ~105s |
 | Single reproduction command in README | **REQUIRED** | ✅ |
 | Full source code, no hidden steps | **REQUIRED** | ✅ |
 | `requirements.txt` or equivalent | **REQUIRED** | ✅ (pandas, numpy, pydantic) |

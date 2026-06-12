@@ -51,11 +51,11 @@ python -m backend.competition.rank \
 [rank]  Candidates processed : 100,000
 [rank]  Shortlist pool size  : 300
 [rank]  Output CSV           : /Users/username/talent-intelligence-ai/submission.csv
-[rank]  Total runtime        : ~174s
+[rank]  Total runtime        : ~105s
 [rank] ──────────────────────────────────────────
 ```
 
-Progress prints every 10,000 candidates during Stage 1. Actual timing will vary by machine; expect **150–200 seconds** on a modern laptop (CPU-only).
+Progress prints every 10,000 candidates during Stage 1. Actual timing will vary by machine; expect **90–120 seconds** on a modern laptop (CPU-only).
 
 Validate the output:
 
@@ -157,7 +157,7 @@ A strong builder who hasn't engaged recently is slightly depressed but not disqu
 
 | Constraint | Limit | Our result |
 |------------|-------|------------|
-| Runtime | ≤ 300s | **~174s** |
+| Runtime | ≤ 300s | **~105s** |
 | RAM | ≤ 16 GB | Well within (streaming, no full-pool load) |
 | GPU | Not permitted | CPU only |
 | Network during ranking | Not permitted | None — `configure_offline_environment()` enforces this |

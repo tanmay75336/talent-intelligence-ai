@@ -17,8 +17,9 @@ compute_environment: "MacBook Air 13-inch (M4, 2025), Apple M4 10-core CPU, 16GB
 
 ai_tools_used:
   - ChatGPT
+  - Cursor
   - Gemini
-  - Codex
+  - Other  # Codex (OpenAI code generation)
 
 ai_tool_usage_note: |
   AI tools assisted with implementation, debugging, and documentation review.
@@ -27,7 +28,7 @@ ai_tool_usage_note: |
 
 external_api_usage_during_ranking: false
 
-runtime_seconds: 174
+runtime_seconds: 105
 
 team_members:
   - name: Sarth Sacchidanand Patkar
@@ -47,4 +48,4 @@ methodology_summary: |
   behavioral bonus, a surface-match penalty, and a trap penalty over the pool; top
   100 selected by reranked score. Stage 3 generates deterministic natural-prose
   reasoning from candidate facts and JD-aligned career evidence — no hosted LLM.
-  CPU-only, no network, ~174s on Apple M4 16GB.
+  CPU-only, no network, ~105s on Apple M4 16GB.
