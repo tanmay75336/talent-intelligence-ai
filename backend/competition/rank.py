@@ -242,7 +242,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     reranked.sort(key=lambda x: (-x["score"], x["candidate_id"]))
     top100_items = reranked[:TOP_K]
     stage2_elapsed = time.time() - stage2_start
-    print(f"[rank] Stage 2 complete — {len(reranked)} candidates reranked in {stage2_elapsed:.1f}s  →  top {TOP_K} selected", flush=True)
+    print(f"[rank] Stage 2 complete — {len(reranked)} candidates reranked in {stage2_elapsed:.3f}s  →  top {TOP_K} selected", flush=True)
 
     # -----------------------------------------------------------------------
     # Stage 3: Phase 8E.1 prose reasoning
@@ -267,7 +267,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
             )
         )
     stage3_elapsed = time.time() - stage3_start
-    print(f"[rank] Stage 3 complete — reasoning generated in {stage3_elapsed:.1f}s", flush=True)
+    print(f"[rank] Stage 3 complete — reasoning generated in {stage3_elapsed:.3f}s", flush=True)
 
     # -- Export + validation -------------------------------------------------
     print(f"[rank] Writing submission: {output_path}", flush=True)
@@ -280,9 +280,9 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     print(f"[rank] Validation PASS", flush=True)
     print(f"[rank] ──────────────────────────────────────────", flush=True)
     print(f"[rank]  Candidates processed : {len(seen_candidate_ids):,}", flush=True)
-    print(f"[rank]  Shortlist pool size   : {len(pool)}", flush=True)
-    print(f"[rank]  Top-{TOP_K} written to    : {output_path}", flush=True)
-    print(f"[rank]  Total runtime         : {total_elapsed:.1f}s", flush=True)
+    print(f"[rank]  Shortlist pool size  : {len(pool)}", flush=True)
+    print(f"[rank]  Output CSV           : {output_path}", flush=True)
+    print(f"[rank]  Total runtime        : {total_elapsed:.1f}s", flush=True)
     print(f"[rank] ──────────────────────────────────────────", flush=True)
     return ranked_candidates
 

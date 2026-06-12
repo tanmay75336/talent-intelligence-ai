@@ -42,16 +42,16 @@ python -m backend.competition.rank \
 [rank]   Shortlist pool: 300 candidates (top-300 by calibrated score)
 [rank] Reloading 300 pool profiles for reranking...
 [rank] Stage 2 — reranking 300 candidates (evidence depth + behavioral signals)
-[rank] Stage 2 complete — 300 candidates reranked in 0.1s  →  top 100 selected
+[rank] Stage 2 complete — 300 candidates reranked in 0.045s  →  top 100 selected
 [rank] Stage 3 — generating reasoning for 100 candidates
-[rank] Stage 3 complete — reasoning generated in 0.2s
+[rank] Stage 3 complete — reasoning generated in 0.182s
 [rank] Writing submission: submission.csv
 [rank] Validation PASS
 [rank] ──────────────────────────────────────────
 [rank]  Candidates processed : 100,000
-[rank]  Shortlist pool size   : 300
-[rank]  Top-100 written to    : submission.csv
-[rank]  Total runtime         : ~174s
+[rank]  Shortlist pool size  : 300
+[rank]  Output CSV           : submission.csv
+[rank]  Total runtime        : ~174s
 [rank] ──────────────────────────────────────────
 ```
 
