@@ -1,7 +1,7 @@
 backend/__pycache__/
 backend/**/__pycache__/
-frontend/.next/
-frontend/tsconfig.tsbuildinfo
+demo/.next/
+demo/tsconfig.tsbuildinfo
 
 backend/.chroma/
 backend/data/

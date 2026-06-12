@@ -1,0 +1,2061 @@
+{
+  "adjacent_close_decisions": [
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0030031",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production",
+          "shipped"
+        ],
+        "rank": 2,
+        "score": 0.640878,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "learning-to-rank",
+          "pinecone",
+          "rag",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0088025",
+        "production_hits": [
+          "a/b test",
+          "pipeline"
+        ],
+        "rank": 3,
+        "score": 0.634952,
+        "weaknesses": []
+      },
+      "score_gap": 0.005926,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "learning-to-rank",
+          "pinecone",
+          "rag",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0088025",
+        "production_hits": [
+          "a/b test",
+          "pipeline"
+        ],
+        "rank": 3,
+        "score": 0.634952,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0096142",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped",
+          "users"
+        ],
+        "rank": 4,
+        "score": 0.631562,
+        "weaknesses": []
+      },
+      "score_gap": 0.00339,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking"
+        ],
+        "candidate_id": "CAND_0068351",
+        "production_hits": [
+          "pipeline",
+          "production",
+          "users"
+        ],
+        "rank": 6,
+        "score": 0.616583,
+        "weaknesses": [
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0002025",
+        "production_hits": [
+          "a/b test",
+          "deployed",
+          "inference",
+          "latency",
+          "pipeline",
+          "production"
+        ],
+        "rank": 7,
+        "score": 0.612262,
+        "weaknesses": []
+      },
+      "score_gap": 0.004321,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0002025",
+        "production_hits": [
+          "a/b test",
+          "deployed",
+          "inference",
+          "latency",
+          "pipeline",
+          "production"
+        ],
+        "rank": 7,
+        "score": 0.612262,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0022894",
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "shipped"
+        ],
+        "rank": 8,
+        "score": 0.611863,
+        "weaknesses": [
+          "keyword_heavy"
+        ]
+      },
+      "score_gap": 0.000399,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0022894",
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "shipped"
+        ],
+        "rank": 8,
+        "score": 0.611863,
+        "weaknesses": [
+          "keyword_heavy"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0091254",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "production"
+        ],
+        "rank": 9,
+        "score": 0.611235,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000628,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0091254",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "production"
+        ],
+        "rank": 9,
+        "score": 0.611235,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "learning-to-rank",
+          "pinecone",
+          "ranking",
+          "recommendation",
+          "retrieval"
+        ],
+        "candidate_id": "CAND_0008425",
+        "production_hits": [
+          "a/b test",
+          "deployed",
+          "inference",
+          "latency",
+          "monitoring",
+          "pipeline"
+        ],
+        "rank": 10,
+        "score": 0.610542,
+        "weaknesses": []
+      },
+      "score_gap": 0.000693,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "learning-to-rank",
+          "pinecone",
+          "ranking",
+          "recommendation",
+          "retrieval"
+        ],
+        "candidate_id": "CAND_0008425",
+        "production_hits": [
+          "a/b test",
+          "deployed",
+          "inference",
+          "latency",
+          "monitoring",
+          "pipeline"
+        ],
+        "rank": 10,
+        "score": 0.610542,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "rag",
+          "ranking",
+          "recommendation",
+          "retrieval"
+        ],
+        "candidate_id": "CAND_0077337",
+        "production_hits": [
+          "a/b test",
+          "latency",
+          "monitoring",
+          "production",
+          "scale",
+          "shipped"
+        ],
+        "rank": 11,
+        "score": 0.610169,
+        "weaknesses": []
+      },
+      "score_gap": 0.000373,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "rag",
+          "ranking",
+          "recommendation",
+          "retrieval"
+        ],
+        "candidate_id": "CAND_0077337",
+        "production_hits": [
+          "a/b test",
+          "latency",
+          "monitoring",
+          "production",
+          "scale",
+          "shipped"
+        ],
+        "rank": 11,
+        "score": 0.610169,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0061819",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "production"
+        ],
+        "rank": 12,
+        "score": 0.608571,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.001598,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0061819",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "production"
+        ],
+        "rank": 12,
+        "score": 0.608571,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "embedding",
+          "embeddings",
+          "faiss",
+          "pinecone",
+          "rag"
+        ],
+        "candidate_id": "CAND_0030953",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped",
+          "users"
+        ],
+        "rank": 13,
+        "score": 0.606452,
+        "weaknesses": []
+      },
+      "score_gap": 0.002119,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "embedding",
+          "embeddings",
+          "faiss",
+          "pinecone",
+          "rag"
+        ],
+        "candidate_id": "CAND_0030953",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped",
+          "users"
+        ],
+        "rank": 13,
+        "score": 0.606452,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "learning-to-rank",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0064326",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 14,
+        "score": 0.606206,
+        "weaknesses": []
+      },
+      "score_gap": 0.000246,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "learning-to-rank",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0064326",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 14,
+        "score": 0.606206,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0042029",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 15,
+        "score": 0.605182,
+        "weaknesses": []
+      },
+      "score_gap": 0.001024,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0042029",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 15,
+        "score": 0.605182,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "faiss",
+          "learning-to-rank",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0081846",
+        "production_hits": [
+          "latency",
+          "monitoring",
+          "pipeline",
+          "scale"
+        ],
+        "rank": 16,
+        "score": 0.603566,
+        "weaknesses": []
+      },
+      "score_gap": 0.001616,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "faiss",
+          "learning-to-rank",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0081846",
+        "production_hits": [
+          "latency",
+          "monitoring",
+          "pipeline",
+          "scale"
+        ],
+        "rank": 16,
+        "score": 0.603566,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0037944",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 17,
+        "score": 0.601543,
+        "weaknesses": []
+      },
+      "score_gap": 0.002023,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0037944",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 17,
+        "score": 0.601543,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0010257",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production",
+          "shipped"
+        ],
+        "rank": 18,
+        "score": 0.601169,
+        "weaknesses": []
+      },
+      "score_gap": 0.000374,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0010257",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production",
+          "shipped"
+        ],
+        "rank": 18,
+        "score": 0.601169,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0017960",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 19,
+        "score": 0.598668,
+        "weaknesses": []
+      },
+      "score_gap": 0.002501,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "pinecone",
+          "rag",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0017960",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "shipped"
+        ],
+        "rank": 19,
+        "score": 0.598668,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "faiss",
+          "learning-to-rank",
+          "ranking",
+          "retrieval",
+          "semantic search"
+        ],
+        "candidate_id": "CAND_0043228",
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 20,
+        "score": 0.595782,
+        "weaknesses": []
+      },
+      "score_gap": 0.002886,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "faiss",
+          "learning-to-rank",
+          "ranking",
+          "retrieval",
+          "semantic search"
+        ],
+        "candidate_id": "CAND_0043228",
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 20,
+        "score": 0.595782,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "embedding",
+          "embeddings",
+          "faiss",
+          "learning-to-rank",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0081686",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 21,
+        "score": 0.59292,
+        "weaknesses": []
+      },
+      "score_gap": 0.002862,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "embedding",
+          "embeddings",
+          "faiss",
+          "learning-to-rank",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0081686",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 21,
+        "score": 0.59292,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "faiss",
+          "ranking",
+          "retrieval",
+          "semantic search"
+        ],
+        "candidate_id": "CAND_0070398",
+        "production_hits": [
+          "a/b test",
+          "shipped"
+        ],
+        "rank": 22,
+        "score": 0.590917,
+        "weaknesses": []
+      },
+      "score_gap": 0.002003,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "faiss",
+          "ranking",
+          "retrieval",
+          "semantic search"
+        ],
+        "candidate_id": "CAND_0070398",
+        "production_hits": [
+          "a/b test",
+          "shipped"
+        ],
+        "rank": 22,
+        "score": 0.590917,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking"
+        ],
+        "candidate_id": "CAND_0006567",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "shipped",
+          "users"
+        ],
+        "rank": 23,
+        "score": 0.590831,
+        "weaknesses": [
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 8.6e-05,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking"
+        ],
+        "candidate_id": "CAND_0006567",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "shipped",
+          "users"
+        ],
+        "rank": 23,
+        "score": 0.590831,
+        "weaknesses": [
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0028287",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 24,
+        "score": 0.586645,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.004186,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0028287",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 24,
+        "score": 0.586645,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0095528",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production",
+          "users"
+        ],
+        "rank": 25,
+        "score": 0.586092,
+        "weaknesses": []
+      },
+      "score_gap": 0.000553,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0095528",
+        "production_hits": [
+          "a/b test",
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production",
+          "users"
+        ],
+        "rank": 25,
+        "score": 0.586092,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "learning-to-rank",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0050876",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 26,
+        "score": 0.583905,
+        "weaknesses": []
+      },
+      "score_gap": 0.002187,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "learning-to-rank",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0050876",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 26,
+        "score": 0.583905,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0040200",
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 27,
+        "score": 0.582638,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.001267,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0040200",
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 27,
+        "score": 0.582638,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0008202",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 28,
+        "score": 0.582215,
+        "weaknesses": []
+      },
+      "score_gap": 0.000423,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0008202",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 28,
+        "score": 0.582215,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0080372",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "production"
+        ],
+        "rank": 29,
+        "score": 0.581769,
+        "weaknesses": []
+      },
+      "score_gap": 0.000446,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0080372",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "production"
+        ],
+        "rank": 29,
+        "score": 0.581769,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "learning-to-rank",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0012957",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 30,
+        "score": 0.579915,
+        "weaknesses": []
+      },
+      "score_gap": 0.001854,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "embedding",
+          "embeddings",
+          "learning-to-rank",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0012957",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 30,
+        "score": 0.579915,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0081321",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 31,
+        "score": 0.579615,
+        "weaknesses": []
+      },
+      "score_gap": 0.0003,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0081321",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 31,
+        "score": 0.579615,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0011967",
+        "production_hits": [
+          "observability"
+        ],
+        "rank": 32,
+        "score": 0.578977,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000638,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0011967",
+        "production_hits": [
+          "observability"
+        ],
+        "rank": 32,
+        "score": 0.578977,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0055139",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 33,
+        "score": 0.576314,
+        "weaknesses": []
+      },
+      "score_gap": 0.002663,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0055139",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 33,
+        "score": 0.576314,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "learning-to-rank",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0072660",
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 34,
+        "score": 0.576074,
+        "weaknesses": []
+      },
+      "score_gap": 0.00024,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "learning-to-rank",
+          "ranking"
+        ],
+        "candidate_id": "CAND_0072660",
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 34,
+        "score": 0.576074,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0023184",
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "shipped"
+        ],
+        "rank": 35,
+        "score": 0.575498,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000576,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0023184",
+        "production_hits": [
+          "pipeline",
+          "pipelines",
+          "shipped"
+        ],
+        "rank": 35,
+        "score": 0.575498,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0054703",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 36,
+        "score": 0.57532,
+        "weaknesses": []
+      },
+      "score_gap": 0.000178,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0054703",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 36,
+        "score": 0.57532,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0088438",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 37,
+        "score": 0.573945,
+        "weaknesses": []
+      },
+      "score_gap": 0.001375,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0088438",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 37,
+        "score": 0.573945,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0035653",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 38,
+        "score": 0.572975,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.00097,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0035653",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 38,
+        "score": 0.572975,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking"
+        ],
+        "candidate_id": "CAND_0061257",
+        "production_hits": [
+          "pipeline",
+          "production",
+          "users"
+        ],
+        "rank": 39,
+        "score": 0.572548,
+        "weaknesses": [
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000427,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking"
+        ],
+        "candidate_id": "CAND_0061257",
+        "production_hits": [
+          "pipeline",
+          "production",
+          "users"
+        ],
+        "rank": 39,
+        "score": 0.572548,
+        "weaknesses": [
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0059795",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 40,
+        "score": 0.572068,
+        "weaknesses": []
+      },
+      "score_gap": 0.00048,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0059795",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 40,
+        "score": 0.572068,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "embedding",
+          "embeddings",
+          "faiss",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0096172",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 41,
+        "score": 0.571938,
+        "weaknesses": []
+      },
+      "score_gap": 0.00013,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "elasticsearch",
+          "embedding",
+          "embeddings",
+          "faiss",
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0096172",
+        "production_hits": [
+          "a/b test",
+          "pipeline",
+          "users"
+        ],
+        "rank": 41,
+        "score": 0.571938,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0031703",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 42,
+        "score": 0.57152,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000418,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0031703",
+        "production_hits": [
+          "inference",
+          "observability",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 42,
+        "score": 0.57152,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0026007",
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines"
+        ],
+        "rank": 43,
+        "score": 0.571406,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000114,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Higher-ranked candidate has comparable or stronger audited evidence.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0026007",
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines"
+        ],
+        "rank": 43,
+        "score": 0.571406,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0086801",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 44,
+        "score": 0.569938,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.001468,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0086801",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 44,
+        "score": 0.569938,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0084077",
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines",
+          "shipped"
+        ],
+        "rank": 45,
+        "score": 0.569618,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.00032,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0084077",
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines",
+          "shipped"
+        ],
+        "rank": 45,
+        "score": 0.569618,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0010541",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 46,
+        "score": 0.569378,
+        "weaknesses": []
+      },
+      "score_gap": 0.00024,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0010541",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 46,
+        "score": 0.569378,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0050425",
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines"
+        ],
+        "rank": 47,
+        "score": 0.569138,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.00024,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Lower-ranked candidate appears stronger on AI infrastructure evidence; manual top-order review is warranted.",
+      "higher_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0050425",
+        "production_hits": [
+          "observability",
+          "pipeline",
+          "pipelines"
+        ],
+        "rank": 47,
+        "score": 0.569138,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "rag"
+        ],
+        "candidate_id": "CAND_0089198",
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 48,
+        "score": 0.568917,
+        "weaknesses": []
+      },
+      "score_gap": 0.000221,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "rag"
+        ],
+        "candidate_id": "CAND_0089198",
+        "production_hits": [
+          "monitoring",
+          "pipeline",
+          "pipelines",
+          "production"
+        ],
+        "rank": 48,
+        "score": 0.568917,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0003609",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 49,
+        "score": 0.568391,
+        "weaknesses": []
+      },
+      "score_gap": 0.000526,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    },
+    {
+      "audit_note": "Evidence tradeoff is mixed; no automatic conclusion.",
+      "higher_rank": {
+        "ai_hits": [
+          "ranking",
+          "recommendation"
+        ],
+        "candidate_id": "CAND_0003609",
+        "production_hits": [
+          "observability",
+          "production"
+        ],
+        "rank": 49,
+        "score": 0.568391,
+        "weaknesses": []
+      },
+      "lower_rank": {
+        "ai_hits": [],
+        "candidate_id": "CAND_0048219",
+        "production_hits": [
+          "inference",
+          "pipeline",
+          "production"
+        ],
+        "rank": 50,
+        "score": 0.567566,
+        "weaknesses": [
+          "keyword_heavy",
+          "wrong_ai_domain"
+        ]
+      },
+      "score_gap": 0.000825,
+      "why_current_order_exists": "current score is higher after existing base score plus Phase 4A evidence calibration; this audit does not reorder candidates"
+    }
+  ],
+  "close_score_threshold": 0.006,
+  "possible_missed_top10_candidates_from_ranks_11_50": [
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "rag",
+        "ranking",
+        "recommendation",
+        "retrieval",
+        "semantic search"
+      ],
+      "candidate_id": "CAND_0077337",
+      "production_hits": [
+        "a/b test",
+        "latency",
+        "monitoring",
+        "production",
+        "scale",
+        "shipped",
+        "users"
+      ],
+      "rank": 11,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.610169,
+      "score_gap_to_rank10": 0.000373,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "elasticsearch",
+        "embedding",
+        "embeddings",
+        "faiss",
+        "pinecone",
+        "rag",
+        "ranking",
+        "recommendation",
+        "retrieval",
+        "semantic search"
+      ],
+      "candidate_id": "CAND_0030953",
+      "production_hits": [
+        "a/b test",
+        "pipeline",
+        "shipped",
+        "users"
+      ],
+      "rank": 13,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.606452,
+      "score_gap_to_rank10": 0.00409,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "learning-to-rank",
+        "pinecone",
+        "rag",
+        "ranking"
+      ],
+      "candidate_id": "CAND_0064326",
+      "production_hits": [
+        "a/b test",
+        "pipeline",
+        "shipped"
+      ],
+      "rank": 14,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.606206,
+      "score_gap_to_rank10": 0.004336,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "pinecone",
+        "rag",
+        "ranking"
+      ],
+      "candidate_id": "CAND_0042029",
+      "production_hits": [
+        "a/b test",
+        "pipeline",
+        "shipped"
+      ],
+      "rank": 15,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.605182,
+      "score_gap_to_rank10": 0.00536,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "faiss",
+        "learning-to-rank",
+        "rag",
+        "ranking",
+        "retrieval",
+        "semantic search"
+      ],
+      "candidate_id": "CAND_0081846",
+      "production_hits": [
+        "latency",
+        "monitoring",
+        "pipeline",
+        "scale"
+      ],
+      "rank": 16,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.603566,
+      "score_gap_to_rank10": 0.006976,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "pinecone",
+        "rag",
+        "ranking"
+      ],
+      "candidate_id": "CAND_0037944",
+      "production_hits": [
+        "a/b test",
+        "pipeline",
+        "shipped"
+      ],
+      "rank": 17,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.601543,
+      "score_gap_to_rank10": 0.008999,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "ranking",
+        "recommendation"
+      ],
+      "candidate_id": "CAND_0010257",
+      "production_hits": [
+        "a/b test",
+        "monitoring",
+        "pipeline",
+        "pipelines",
+        "production",
+        "shipped",
+        "users"
+      ],
+      "rank": 18,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.601169,
+      "score_gap_to_rank10": 0.009373,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "pinecone",
+        "rag",
+        "ranking"
+      ],
+      "candidate_id": "CAND_0017960",
+      "production_hits": [
+        "a/b test",
+        "pipeline",
+        "shipped"
+      ],
+      "rank": 19,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.598668,
+      "score_gap_to_rank10": 0.011874,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "elasticsearch",
+        "faiss",
+        "learning-to-rank",
+        "ranking",
+        "retrieval",
+        "semantic search"
+      ],
+      "candidate_id": "CAND_0043228",
+      "production_hits": [
+        "monitoring",
+        "pipeline",
+        "pipelines",
+        "production"
+      ],
+      "rank": 20,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.595782,
+      "score_gap_to_rank10": 0.01476,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "elasticsearch",
+        "embedding",
+        "embeddings",
+        "faiss",
+        "learning-to-rank",
+        "ranking",
+        "recommendation",
+        "retrieval",
+        "semantic search"
+      ],
+      "candidate_id": "CAND_0081686",
+      "production_hits": [
+        "a/b test",
+        "pipeline",
+        "users"
+      ],
+      "rank": 21,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.59292,
+      "score_gap_to_rank10": 0.017622,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "elasticsearch",
+        "faiss",
+        "ranking",
+        "retrieval",
+        "semantic search"
+      ],
+      "candidate_id": "CAND_0070398",
+      "production_hits": [
+        "a/b test",
+        "shipped"
+      ],
+      "rank": 22,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.590917,
+      "score_gap_to_rank10": 0.019625,
+      "weaknesses": []
+    },
+    {
+      "ai_hits": [
+        "embedding",
+        "embeddings",
+        "ranking",
+        "recommendation"
+      ],
+      "candidate_id": "CAND_0095528",
+      "production_hits": [
+        "a/b test",
+        "monitoring",
+        "pipeline",
+        "pipelines",
+        "production",
+        "users"
+      ],
+      "rank": 25,
+      "reason_to_review": "near top-10 score with strong retrieval/ranking/vector and production evidence",
+      "score": 0.586092,
+      "score_gap_to_rank10": 0.02445,
+      "weaknesses": []
+    }
+  ]
+}

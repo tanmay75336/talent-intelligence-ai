@@ -1,62 +1,25 @@
 # Talent Intelligence AI — RedRob Track 1
 
-**Intelligent Candidate Discovery** — offline ranking pipeline for the RedRob Hackathon v4 challenge.
+**OctaOps** | Intelligent Candidate Discovery & Ranking Challenge
 
-## 1. Project overview
+---
 
-**Talent Intelligence AI** is a job-description–grounded candidate discovery system. Given a released job description and a pool of 100,000 RedRob candidate profiles, it produces a ranked top-100 CSV with per-candidate reasoning.
+## What this system does
 
-The system does **not** rank candidates by AI keyword count. It prioritizes **career evidence** (what someone built and shipped) over skill-list keywords.
+We built an offline candidate ranking system that scores 100,000 RedRob profiles against a specific job description and returns the top 100, ranked best-to-worst, with a plain-language explanation for each.
 
-It is designed to handle common dataset traps, including:
+The core design decision: **career evidence over keyword matching.** A candidate who built production retrieval and ranking systems should rank above someone who merely lists vector database names on their skills page. Our scoring reflects that.
 
-- **Keyword stuffing** — many low-support AI skills with little career backing
-- **Framework-only AI profiles** — LangChain/OpenAI/LLM labels without retrieval/ranking/production work history
-- **Fake seniority** — long tenure with management-only language and weak ownership signals
-- **Unavailable candidates** — strong on-paper profiles with weak engagement (addressed via secondary RedRob behavioral signals, not as a primary rank driver)
+## How to reproduce the submission
 
-Official dataset files live under `data/` (see [Data setup](#7-data-setup)). The committed `submission.csv` at the repository root is the frozen competition output.
+Place the official data files under `data/`:
 
-## 2. Architecture
-
-```text
-candidates.jsonl(.gz)
-        |
-Streaming Loader          (backend/dataset_intelligence/loader.py)
-        |
-RedRob Adapter            (backend/competition/redrob_adapter.py)
-        |
-Candidate Intelligence    (backend/intelligence/candidate_engine.py)
-        |
-JD Evidence Matching      (backend/parsers/jd_analyzer.py + competition score)
-        |
-Evidence Calibration      (backend/competition/evidence_calibrator.py)
-        |
-Top-100 Heap Ranking      (backend/competition/rank.py)
-        |
-submission.csv
+```
+data/candidates.jsonl       # (or candidates.jsonl.gz)
+data/job_description.docx
 ```
 
-### Repository layout
-
-| Path | Purpose |
-|------|---------|
-| `backend/competition/` | Official **offline** challenge ranking pipeline (adapter, calibration, heap ranker, validation, benchmark). |
-| `backend/intelligence/` | Candidate understanding, core signals, and evidence snippet extraction. |
-| `backend/dataset_intelligence/` | Dataset exploration, profiling, audits, and evaluation reports. |
-| `frontend/` | Optional recruiter interface (FastAPI + Next.js demo app; not required for competition reproduction). |
-| `sandbox/` | Small-sample reproduction instructions for hosted demo environments. |
-| `submission.csv` | Frozen top-100 submission (do not hand-edit). |
-| `METHODOLOGY.md` | Judge-facing design narrative (Stages 4–5). |
-| `submission_metadata.yaml` | Portal metadata mirror (fill `TODO` fields before upload). |
-
-## 3. Exact reproduction command
-
-**Stage 3 requires a single command** that regenerates the submission CSV from the official candidate pool and job description.
-
-Run from the repository root (with official files in `data/`).
-
-### macOS / Linux
+Run the ranker from the repository root:
 
 ```bash
 python -m backend.competition.rank \
@@ -65,60 +28,119 @@ python -m backend.competition.rank \
   --output submission.csv
 ```
 
-### Windows PowerShell
-
-Use backtick continuation:
-
-```powershell
-python -m backend.competition.rank `
-  --candidates data/candidates.jsonl `
-  --job data/job_description.docx `
-  --output submission.csv
-```
-
-### Universal single-line version
-
-Works on macOS, Linux, and Windows:
-
-```bash
-python -m backend.competition.rank --candidates data/candidates.jsonl --job data/job_description.docx --output submission.csv
-```
-
-Compressed pool (`.jsonl.gz`) — single line:
-
-```bash
-python -m backend.competition.rank --candidates data/candidates.jsonl.gz --job data/job_description.docx --output submission.csv
-```
-
-### Windows note
-
-**Windows users:** PowerShell uses the backtick character (`` ` ``) for multiline commands.
-
-Unix/macOS backslash (`\`) continuation will **not** work in PowerShell.
-
-If unsure, use the [universal single-line](#universal-single-line-version) commands above.
-
-The ranking step runs **CPU-only**, with **no external API calls** and **no hosted LLM** (see `configure_offline_environment()` in `backend/competition/rank.py`).
-
-Dependencies: install from `backend/requirements.txt` (Python 3.10+ recommended). Run commands with the repository root on `PYTHONPATH` (default when using `python -m` from the repo root).
-
-## 4. Validation command
-
-Validate format before upload (100 rows, ranks 1–100, unique IDs, monotonic non-increasing scores).
-
-Universal command (macOS, Linux, Windows):
+Validate the output:
 
 ```bash
 python -m backend.competition.validate_submission submission.csv
+# Expected: Submission is valid.
 ```
 
-Expected output on success: `Submission is valid.`
+The ranked CSV is also committed as `submission.csv` at the root.
 
-## 5. Benchmark command
+## Architecture
 
-Measure runtime, memory, and validation against official constraints.
+Our pipeline runs in three sequential stages inside `backend/competition/rank.py`:
 
-### macOS / Linux
+```
+candidates.jsonl(.gz)
+        |
+Streaming loader              (dataset_intelligence/loader.py)
+        |
+Profile normalisation         (competition/redrob_adapter.py)
+        |
+Signal extraction             (intelligence/candidate_engine.py)
+        |
+Base scoring                  (competition/rank.py)
+  — 6-term weighted formula
+  — Career evidence term from history text
+  — Production disclaimer detection
+  — Evidence calibration ±0.10
+  — Top-300 min-heap across 100K candidates
+        |
+Reranking                     (competition/rank.py)
+  — Headroom-scaled evidence depth bonus
+  — Behavioral availability/engagement bonus
+  — Surface-match penalty
+  — Trap flag penalty
+  — Top 100 selected
+        |
+Reasoning generation          (competition/reasoning_generator.py)
+  — Deterministic natural prose from candidate facts
+  — No hosted LLM
+        |
+submission.csv
+```
+
+## Scoring design
+
+We use a weighted combination of six signals:
+
+| Signal | Weight | Source |
+|--------|--------|--------|
+| JD skill overlap | 0.26 | Candidate skills vs JD core skills |
+| Skill-group overlap | 0.16 | Skill taxonomy groups (broader categories) |
+| Important-term overlap | 0.18 | Domain keywords from JD and profile |
+| Experience-band fit | 0.12 | Penalty outside the 5–9y target band |
+| Execution signals | 0.20 | Depth, domain relevance, startup readiness |
+| Career evidence | 0.08 | AI infrastructure terms in career history text |
+
+Evidence calibration adds a bounded ±0.10 adjustment based on production ownership language, retrieval system indicators, and trap patterns found in career text.
+
+**Production disclaimer detection:** The JD explicitly disqualifies candidates who have not personally operated production systems. We detect phrases like "production deployment was handled by the platform team" and apply a 0.5× multiplier to the career evidence signal for those candidates — not a hard exclusion, but a meaningful penalty.
+
+## Reasoning generation
+
+Each of the top-100 candidates receives a 1–2 sentence explanation drawn from:
+- Their actual years of experience, title, and employer (no invented facts)
+- The specific retrieval/vector/evaluation terms found in their career history
+- Relevant RedRob behavioral signals (availability, notice period, GitHub score) when notable
+
+The tone scales with rank confidence: candidates in the top 30 receive confident, specific explanations; candidates near rank 100 receive honest boundary-acknowledgment language.
+
+## Trap handling
+
+The dataset includes honeypot and trap profiles. Our calibrator applies explicit penalties for:
+
+| Pattern | Detection |
+|---------|-----------|
+| Keyword stuffing | AI skill tags with low duration/endorsements and no career AI infrastructure hits |
+| Framework-only profiles | LangChain/OpenAI labels without career retrieval/ranking/production evidence |
+| Research-only profiles | Research vocabulary without production ownership language |
+| Hands-off seniority | Long tenure + management language, no ownership verbs |
+
+We do not hard-code candidate IDs. Detection is text-pattern based, so it generalises.
+
+## Behavioral signals
+
+We use the 23 RedRob behavioral signals as **secondary modifiers only**. They do not override strong JD-evidence matches.
+
+Signals used:
+- `open_to_work_flag` — availability
+- `recruiter_response_rate` — hiring reachability
+- `github_activity_score` — engineering signal
+- `notice_period_days` — practical consideration
+- `willing_to_relocate` — logistics
+
+A strong builder who hasn't engaged recently is slightly depressed but not disqualified.
+
+## Compute constraints
+
+| Constraint | Limit | Our result |
+|------------|-------|------------|
+| Runtime | ≤ 300s | **~174s** |
+| RAM | ≤ 16 GB | Well within (streaming, no full-pool load) |
+| GPU | Not permitted | CPU only |
+| Network during ranking | Not permitted | None — `configure_offline_environment()` enforces this |
+
+## Dependency installation
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+The competition pipeline requires only three packages: `pandas`, `numpy`, `pydantic`.
+
+## Benchmark
 
 ```bash
 python -m backend.competition.benchmark \
@@ -126,80 +148,43 @@ python -m backend.competition.benchmark \
   --job data/job_description.docx
 ```
 
-### Windows PowerShell
+Outputs: runtime, peak memory, and validation status.
 
-```powershell
-python -m backend.competition.benchmark `
-  --candidates data/candidates.jsonl `
-  --job data/job_description.docx
-```
-
-### Universal single-line version
-
-```bash
-python -m backend.competition.benchmark --candidates data/candidates.jsonl --job data/job_description.docx
-```
-
-Reported on the reference machine used for final packaging:
-
-| Metric | Value |
-|--------|--------|
-| Candidates processed | **100,000** |
-| Runtime | **~82 seconds** |
-| Compute | **CPU only** |
-| Network during ranking | **None** |
-
-Limits enforced by the benchmark helper (`backend/competition/benchmark.py`): runtime ≤ 300s, peak RAM ≤ 16 GB.
-
-## 6. Compute constraints
-
-Per the official RedRob submission specification:
-
-| Constraint | Limit |
-|------------|--------|
-| **Runtime** | < 5 minutes (wall-clock for ranking step) |
-| **RAM** | < 16 GB |
-| **GPU** | Not required (CPU-only ranking) |
-| **External APIs** | None during ranking (no OpenAI, Anthropic, Cohere, Gemini, or other hosted LLM calls) |
-
-Intermediate disk usage should stay within organizer limits; the pipeline streams JSONL and does not load the full pool into memory.
-
-## 7. Data setup
-
-**Dataset files are not committed to this repository** (see `data/.gitignore`).
-
-After cloning the repository:
-
-1. Create the folder:
-
-   ```text
-   data/
-   ```
-
-2. Place official hackathon bundle files:
-
-   - `data/candidates.jsonl` (or `data/candidates.jsonl.gz`)
-   - `data/job_description.docx`
-
-3. Run the ranking command in [Section 3](#3-exact-reproduction-command).
-
-**Useful references** (included in many bundles, not required to run rank):
-
-- `sample_candidates.json` — small schema inspection set
-- `candidate_schema.json` — JSON Schema
-- `submission_spec.docx`, `README.docx`, `redrob_signals_doc.docx` — official documentation
-
-## 8. Tests
+## Tests
 
 ```bash
 python -m unittest backend.test_redrob_competition
 ```
 
-Uses `data/sample_candidates.json`, `data/candidates.jsonl` (first 100 lines), and `data/job_description.docx` when present locally.
+Uses `data/sample_candidates.json` when present.
 
-## 9. Further reading
+## Repository layout
 
-- `METHODOLOGY.md` — ranking philosophy, trap handling, reasoning, and metric alignment (Stages 4–5)
-- `submission_metadata.yaml` — portal submission mirror
-- `sandbox/README.md` — small-sample hosted demo
-- `docs/system-technical-report.md` — full product architecture (optional recruiter UI)
+| Path | Purpose |
+|------|---------|
+| `backend/competition/rank.py` | **Entry point** — full ranking pipeline |
+| `backend/competition/evidence_calibrator.py` | Evidence calibration ±0.10 |
+| `backend/competition/redrob_adapter.py` | JSONL → CandidateProfile normalisation |
+| `backend/competition/reasoning_generator.py` | Deterministic prose reasoning |
+| `backend/competition/evaluate.py` | Career and behavioral signal extraction |
+| `backend/competition/validate_submission.py` | Format validator |
+| `backend/competition/benchmark.py` | Runtime/memory benchmark |
+| `backend/intelligence/` | Core execution signal extraction |
+| `backend/models/` | Shared data models (`CandidateProfile`, etc.) |
+| `backend/parsers/jd_analyzer.py` | JD skill and term extraction |
+| `backend/dataset_intelligence/loader.py` | Streaming JSONL/gz loader |
+| `backend/reasoning/evidence_quality.py` | Evidence quality scoring (used by signal extraction) |
+| `backend/utils/skill_taxonomy.py` | Skill normalisation and domain keywords |
+| `backend/test_redrob_competition.py` | Competition pipeline unit tests |
+| `experiments/` | Development experiment scripts (not in production path) |
+| `research/` | Phase reports and audit trail |
+| `archive/prototype/` | Early recruiter app prototype (separate system, kept for history) |
+| `sandbox/` | Colab sandbox instructions |
+| `docs/` | System technical report and release documentation |
+
+## Further reading
+
+- `METHODOLOGY.md` — design rationale, trap handling, scoring decisions
+- `sandbox/README.md` — Colab sandbox setup for Stage 1 link
+- `experiments/README.md` — what each experiment explored
+- `research/` — full phase audit trail

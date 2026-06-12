@@ -2,14 +2,14 @@ project_name: Talent Intelligence AI
 
 track: Intelligent Candidate Discovery
 
-team_name: TODO
+team_name: OctaOps
 
 primary_contact:
-  name: TODO
-  email: TODO
-  phone: TODO
+  name: Sarth Sacchidanand Patkar
+  email: sarthpatkar70@gmail.com
+  phone: "9209594418"
 
-github_repository: TODO
+github_repository: https://github.com/tanmay75336/talent-intelligence-ai
 
 sandbox_demo_link: TODO
 
@@ -17,24 +17,34 @@ compute_environment: "MacBook Air 13-inch (M4, 2025), Apple M4 10-core CPU, 16GB
 
 ai_tools_used:
   - ChatGPT
+  - Gemini
   - Codex
-  - Cursor
+
+ai_tool_usage_note: |
+  AI tools assisted with implementation, debugging, and documentation review.
+  Architecture decisions, evaluation criteria, signal design, and final validation
+  were owned by the OctaOps team.
 
 external_api_usage_during_ranking: false
 
-runtime_seconds: 82
+runtime_seconds: 174
+
+team_members:
+  - name: Sarth Sacchidanand Patkar
+    email: sarthpatkar70@gmail.com
+  - name: Tanmay Kiran Vishe
+    email: tanmayvishe9@gmail.com
 
 methodology_summary: |
-  Talent Intelligence AI ranks candidates against the released job description using
-  offline, deterministic evidence—not AI keyword density. Each profile is streamed from
-  JSONL, adapted to a unified schema, and scored on JD skill overlap, domain terms,
-  experience fit, and core execution signals extracted from career history. An evidence
-  calibrator applies bounded adjustments: it rewards career-backed retrieval, ranking,
-  embeddings, and production ownership language while penalizing framework-only profiles,
-  keyword stuffing, research-only mismatch, and hands-off seniority patterns. RedRob
-  behavioral signals (response rate, GitHub activity, open-to-work) act only as
-  secondary tie-breakers when technical evidence is comparable—they do not override
-  strong JD fit. The top 100 are retained via a min-heap over 100k candidates; reasoning
-  is templated from real profile facts, JD connection, and career snippets with no
-  hosted LLM during ranking. The pipeline runs CPU-only in ~82 seconds with no network
-  calls, meeting the 5-minute / 16GB reproduction constraints.
+  We built an offline, deterministic three-stage pipeline. Stage 1 streams all 100K
+  candidates through a 6-term weighted base scorer combining JD skill overlap,
+  skill-group overlap, term overlap, experience-band fit, core execution signals, and
+  a career evidence term (AI infrastructure hits in career history text only, capped
+  at 5). Candidates who explicitly disclaim production ownership receive a 0.5x
+  penalty on the career evidence term, grounded in the JD disqualifier clause.
+  Evidence calibration applies a bounded ±0.10 adjustment. A top-300 min-heap is
+  maintained. Stage 2 applies a headroom-scaled evidence depth bonus, a small
+  behavioral bonus, a surface-match penalty, and a trap penalty over the pool; top
+  100 selected by reranked score. Stage 3 generates deterministic natural-prose
+  reasoning from candidate facts and JD-aligned career evidence — no hosted LLM.
+  CPU-only, no network, ~174s on Apple M4 16GB.
