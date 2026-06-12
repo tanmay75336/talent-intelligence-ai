@@ -2,7 +2,6 @@
 # These are the only packages required to run the ranking pipeline:
 #   python -m backend.competition.rank --candidates ... --job ... --output ...
 pandas>=2.0.0
-numpy>=1.24.0
 pydantic>=2.0.0
 
 # Optional: recruiter web app (backend/main.py) — NOT part of the competition submission path

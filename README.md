@@ -25,7 +25,7 @@ Run the ranker from the repository root:
 python -m backend.competition.rank \
   --candidates data/candidates.jsonl \
   --job data/job_description.docx \
-  --output submission.csv
+  --output OctaOps.csv
 ```
 
 **Example terminal output:**
@@ -45,12 +45,12 @@ python -m backend.competition.rank \
 [rank] Stage 2 complete — 300 candidates reranked in 0.045s  →  top 100 selected
 [rank] Stage 3 — generating reasoning for 100 candidates
 [rank] Stage 3 complete — reasoning generated in 0.182s
-[rank] Writing submission: /Users/username/talent-intelligence-ai/submission.csv
+[rank] Writing submission: /Users/username/talent-intelligence-ai/OctaOps.csv
 [rank] Validation PASS
 [rank] ──────────────────────────────────────────
 [rank]  Candidates processed : 100,000
 [rank]  Shortlist pool size  : 300
-[rank]  Output CSV           : /Users/username/talent-intelligence-ai/submission.csv
+[rank]  Output CSV           : /Users/username/talent-intelligence-ai/OctaOps.csv
 [rank]  Total runtime        : ~105s
 [rank] ──────────────────────────────────────────
 ```
@@ -60,11 +60,11 @@ Progress prints every 10,000 candidates during Stage 1. Actual timing will vary 
 Validate the output:
 
 ```bash
-python -m backend.competition.validate_submission submission.csv
+python -m backend.competition.validate_submission OctaOps.csv
 # Expected: Submission is valid.
 ```
 
-The ranked CSV is also committed as `submission.csv` at the root.
+The ranked CSV is also committed as `OctaOps.csv` at the root.
 
 
 ## Architecture

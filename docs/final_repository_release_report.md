@@ -72,10 +72,10 @@ Every folder can be explained in one sentence.
 
 ```
 talent-intelligence-ai/
-├── README.md                        # How to run the ranker and reproduce submission.csv
+├── README.md                        # How to run the ranker and reproduce OctaOps.csv
 ├── METHODOLOGY.md                   # Why we designed the ranking system this way
 ├── PROJECT_HISTORY.md               # Iteration checkpoint timeline
-├── submission.csv                   # Final submission (100 ranked candidates)
+├── OctaOps.csv                      # Final submission (100 ranked candidates)
 ├── submission_metadata.yaml         # Portal metadata — all fields complete except sandbox link
 │
 ├── backend/                         # All code required by the competition pipeline
@@ -234,7 +234,7 @@ c2ec0d86ef341f1a170fe8e9f135987e5e1aee0e6e0f9c20700ad2d192111662
 | Fill `sandbox_demo_link` in `submission_metadata.yaml` | ⚠️ User action |
 | Review and approve all git changes | ⚠️ User approval |
 | Push to GitHub: `https://github.com/tanmay75336/talent-intelligence-ai` | ⚠️ After approval |
-| Upload `submission.csv` to portal | ⚠️ User action |
+| Upload `OctaOps.csv` to portal | ⚠️ User action |
 | Submit portal metadata form | ⚠️ User action |
 
 ---

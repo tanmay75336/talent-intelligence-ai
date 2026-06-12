@@ -154,9 +154,9 @@ Our weight choices were based on reading the JD carefully and reasoning about wh
 python -m backend.competition.rank \
   --candidates data/candidates.jsonl \
   --job data/job_description.docx \
-  --output submission.csv
+  --output OctaOps.csv
 
-python -m backend.competition.validate_submission submission.csv
+python -m backend.competition.validate_submission OctaOps.csv
 # Submission is valid.
 ```
 
