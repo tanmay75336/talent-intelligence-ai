@@ -190,7 +190,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
         n = len(seen_candidate_ids)
         if n % _progress_interval == 0:
             elapsed = time.time() - stage1_start
-            print(f"[rank]   {n:>7,} candidates scored  |  pool size: {len(top_pool)}  |  {elapsed:.0f}s", flush=True)
+            print(f"[rank]   ... {n:>7,} candidates scored  |  pool: {len(top_pool):<3}  |  {elapsed:>3.0f}s elapsed", flush=True)
 
     stage1_elapsed = time.time() - stage1_start
     print(f"[rank] Stage 1 complete — {len(seen_candidate_ids):,} candidates scored in {stage1_elapsed:.1f}s", flush=True)
@@ -270,7 +270,8 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     print(f"[rank] Stage 3 complete — reasoning generated in {stage3_elapsed:.3f}s", flush=True)
 
     # -- Export + validation -------------------------------------------------
-    print(f"[rank] Writing submission: {output_path}", flush=True)
+    resolved_output = Path(output_path).resolve()
+    print(f"[rank] Writing submission: {resolved_output}", flush=True)
     write_submission_csv(ranked_candidates, output_path)
     errors = validate_submission(output_path)
     if errors:
@@ -281,7 +282,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     print(f"[rank] ──────────────────────────────────────────", flush=True)
     print(f"[rank]  Candidates processed : {len(seen_candidate_ids):,}", flush=True)
     print(f"[rank]  Shortlist pool size  : {len(pool)}", flush=True)
-    print(f"[rank]  Output CSV           : {output_path}", flush=True)
+    print(f"[rank]  Output CSV           : {resolved_output}", flush=True)
     print(f"[rank]  Total runtime        : {total_elapsed:.1f}s", flush=True)
     print(f"[rank] ──────────────────────────────────────────", flush=True)
     return ranked_candidates

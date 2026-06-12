@@ -34,10 +34,10 @@ python -m backend.competition.rank \
 [rank] Reading job description: data/job_description.docx
 [rank] JD parsed — 28 core skills, 312 term signals
 [rank] Stage 1 — base scoring + evidence calibration (streaming candidates)
-[rank]    10,000 candidates scored  |  pool size: 300  |  17s
-[rank]    20,000 candidates scored  |  pool size: 300  |  34s
+[rank]   ...  10,000 candidates scored  |  pool: 300  |   17s elapsed
+[rank]   ...  20,000 candidates scored  |  pool: 300  |   34s elapsed
 ...
-[rank]   100,000 candidates scored  |  pool size: 300  |  165s
+[rank]   ... 100,000 candidates scored  |  pool: 300  |  165s elapsed
 [rank] Stage 1 complete — 100,000 candidates scored in 165.3s
 [rank]   Shortlist pool: 300 candidates (top-300 by calibrated score)
 [rank] Reloading 300 pool profiles for reranking...
@@ -45,12 +45,12 @@ python -m backend.competition.rank \
 [rank] Stage 2 complete — 300 candidates reranked in 0.045s  →  top 100 selected
 [rank] Stage 3 — generating reasoning for 100 candidates
 [rank] Stage 3 complete — reasoning generated in 0.182s
-[rank] Writing submission: submission.csv
+[rank] Writing submission: /Users/username/talent-intelligence-ai/submission.csv
 [rank] Validation PASS
 [rank] ──────────────────────────────────────────
 [rank]  Candidates processed : 100,000
 [rank]  Shortlist pool size  : 300
-[rank]  Output CSV           : submission.csv
+[rank]  Output CSV           : /Users/username/talent-intelligence-ai/submission.csv
 [rank]  Total runtime        : ~174s
 [rank] ──────────────────────────────────────────
 ```
