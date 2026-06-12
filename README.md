@@ -22,10 +22,7 @@ data/job_description.docx
 Run the ranker from the repository root:
 
 ```bash
-python -m backend.competition.rank \
-  --candidates data/candidates.jsonl \
-  --job data/job_description.docx \
-  --output OctaOps.csv
+python -m backend.competition.rank --candidates data/candidates.jsonl --job data/job_description.docx --output OctaOps.csv
 ```
 
 **Example terminal output:**
@@ -34,11 +31,11 @@ python -m backend.competition.rank \
 [rank] Reading job description: data/job_description.docx
 [rank] JD parsed — 28 core skills, 312 term signals
 [rank] Stage 1 — base scoring + evidence calibration (streaming candidates)
-[rank]   ...  10,000 candidates scored  |  pool: 300  |   17s elapsed
-[rank]   ...  20,000 candidates scored  |  pool: 300  |   34s elapsed
+[rank]   ...  10,000 candidates scored  |  pool: 300  |  elapsed time
+[rank]   ...  20,000 candidates scored  |  pool: 300  |  elapsed time
 ...
-[rank]   ... 100,000 candidates scored  |  pool: 300  |  165s elapsed
-[rank] Stage 1 complete — 100,000 candidates scored in 165.3s
+[rank]   ... 100,000 candidates scored  |  pool: 300  |  elapsed time
+[rank] Stage 1 complete — 100,000 candidates scored
 [rank]   Shortlist pool: 300 candidates (top-300 by calibrated score)
 [rank] Reloading 300 pool profiles for reranking...
 [rank] Stage 2 — reranking 300 candidates (evidence depth + behavioral signals)
@@ -98,7 +95,7 @@ Reasoning generation          (competition/reasoning_generator.py)
   — Deterministic natural prose from candidate facts
   — No hosted LLM
         |
-submission.csv
+OctaOps.csv
 ```
 
 ## Scoring design
@@ -168,14 +165,12 @@ A strong builder who hasn't engaged recently is slightly depressed but not disqu
 pip install -r backend/requirements.txt
 ```
 
-The competition pipeline requires only three packages: `pandas`, `numpy`, `pydantic`.
+The competition pipeline uses the minimal dependencies listed in `backend/requirements.txt`.
 
 ## Benchmark
 
 ```bash
-python -m backend.competition.benchmark \
-  --candidates data/candidates.jsonl \
-  --job data/job_description.docx
+python -m backend.competition.benchmark --candidates data/candidates.jsonl --job data/job_description.docx
 ```
 
 Outputs: runtime, peak memory, and validation status.

@@ -151,15 +151,12 @@ Our weight choices were based on reading the JD carefully and reasoning about wh
 ## 11. Reproducibility
 
 ```bash
-python -m backend.competition.rank \
-  --candidates data/candidates.jsonl \
-  --job data/job_description.docx \
-  --output OctaOps.csv
+python -m backend.competition.rank --candidates data/candidates.jsonl --job data/job_description.docx --output OctaOps.csv
 
 python -m backend.competition.validate_submission OctaOps.csv
 # Submission is valid.
 ```
 
-Runtime: ~174s on Apple M4 16GB. Within the 300-second limit.
+Runtime: ~105s on Apple M4 16GB (measured benchmark run). Within the 300-second limit.
 
 The output is deterministic — same candidates, same scores, same reasoning — on every run.
