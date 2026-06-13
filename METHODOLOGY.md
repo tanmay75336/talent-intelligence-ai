@@ -156,7 +156,6 @@ We do not claim to have optimised NDCG@50 separately — our pipeline applies a 
 The weights were chosen by repeatedly comparing signals against the JD requirements and checking whether they represented real evidence of candidate fit.
 
 ---
-
 ## 11. Reproducibility
 
 ```bash
@@ -165,7 +164,6 @@ python -m backend.competition.rank --candidates data/candidates.jsonl --job data
 python -m backend.competition.validate_submission OctaOps.csv
 # Submission is valid.
 ```
-
 Runtime varies by CPU and execution environment. Tested benchmark runs complete within the official 300-second CPU-only limit.
 
 The ranking pipeline is deterministic for the same input files and code version.
