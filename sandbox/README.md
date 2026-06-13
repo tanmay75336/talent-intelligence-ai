@@ -114,3 +114,4 @@ cat demo_submission.csv
 - No external API calls during ranking
 
 The sandbox is intentionally lightweight and focused on execution verification. The full architecture details and complete 100K reproduction command are documented in the main `README.md` and `METHODOLOGY.md`.
+
