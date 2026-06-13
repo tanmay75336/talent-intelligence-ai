@@ -1,6 +1,6 @@
 # Methodology — OctaOps | RedRob Track 1
 
-This document is written for **Stage 4–5** review: methodology coherence, reasoning quality, and technical defense. It explains why we designed the system the way we did, not just what it does.
+This document explains the decisions behind our ranking system: what trade-offs we made, why certain signals were prioritized, and how we approached candidate quality beyond simple keyword matching.
 
 ---
 
@@ -80,7 +80,7 @@ The top 100 from this reranked pool become the final submission.
 
 ## 6. Trap handling
 
-The dataset documentation (`redrob_signals_doc.docx`) explicitly warns about honeypot profiles and behavioral anomalies. We do not hard-code candidate IDs — our trap detection is pattern-based.
+The dataset documentation describes additional candidate signals and behavioral fields. We use these signals carefully and avoid relying only on surface-level matches. We do not hard-code candidate IDs — our trap detection is pattern-based.
 
 | Pattern | How we detect it |
 |---------|-----------------|
@@ -90,13 +90,13 @@ The dataset documentation (`redrob_signals_doc.docx`) explicitly warns about hon
 | Hands-off seniority | Very long tenure with management-track language and weak ownership verbs in career text |
 | Impossible timelines | Implicit in career field parsing — we do not special-case IDs |
 
-We designed these heuristically, not programmatically tuned. The goal was to make keyword-only profiles naturally score lower, not to build a separate classifier.
+These rules came from inspecting candidate patterns and failure cases during development. The goal was to make keyword-only profiles naturally score lower, not to build a separate classifier.
 
 ---
 
 ## 7. Behavioral signals
 
-We use 23 RedRob behavioral signals, but carefully. A perfect technical fit candidate who is unavailable should still rank above a mediocre but very available candidate. The behavioral adjustment is small and secondary.
+We evaluate the documented RedRob behavioral signal set selectively. A perfect technical fit candidate who is unavailable should still rank above a mediocre but very available candidate. The behavioral adjustment is small and secondary.
 
 Signals we explicitly consider:
 - `open_to_work_flag` — direct availability signal
@@ -105,7 +105,7 @@ Signals we explicitly consider:
 - `notice_period_days` — practical logistics
 - `willing_to_relocate` — relevant for Noida/Pune preference in JD
 
-We do not use all 23 signals. Signals like `endorsed_by_recruiters` and `linkedin_connected` are not used because they measure platform engagement, not candidate quality.
+Not every available behavioral field is treated as a ranking-quality signal. Signals like `endorsed_by_recruiters` and `linkedin_connected` are intentionally excluded because they primarily measure platform engagement rather than evidence of role fit.
 
 ---
 
@@ -119,7 +119,7 @@ What each explanation contains:
 3. **Behavioral note**: availability, notice period, or GitHub score when materially notable
 4. **Honest caveats**: if a candidate is below the experience target band, we say so. If their evidence is thinner than top candidates, the phrasing reflects that.
 
-We deliberately avoided labelling explanations with structured tags. The reasoning reads as a recruiter note, not a system output.
+We avoided rigid explanation templates because the reasoning should be useful to a recruiter reviewing the candidate, not just a list of matched signals.
 
 ---
 
@@ -127,7 +127,7 @@ We deliberately avoided labelling explanations with structured tags. The reasoni
 
 The official metric composite is NDCG@10 (50%) + NDCG@50 (30%) + MAP (15%) + P@10 (5%).
 
-This heavily weights getting the **top 10 right**. Our design reflects that:
+Because the evaluation strongly rewards the highest-ranked candidates, we focused most on ranking quality at the top:
 - The top of the heap should contain candidates with the strongest combination of career evidence, calibration rewards, and clean trap detection
 - The reranker bonus is designed to elevate candidates with deep evidence who were slightly underscored by the base formula
 - The surface-match penalty and trap penalty protect the top 10 from keyword-stuffed profiles
@@ -144,7 +144,7 @@ We do not claim to have optimised NDCG@50 separately — our pipeline produces a
 - We did not train a machine learning model (the system is a hand-designed scoring function)
 - We did not tune weights using the ground truth (there is no ground truth available to us)
 
-Our weight choices were based on reading the JD carefully and reasoning about what each signal actually measures.
+The weights were chosen by repeatedly comparing signals against the JD requirements and checking whether they represented real evidence of candidate fit.
 
 ---
 
@@ -157,6 +157,6 @@ python -m backend.competition.validate_submission OctaOps.csv
 # Submission is valid.
 ```
 
-Runtime: ~105s on Apple M4 16GB (measured benchmark run). Within the 300-second limit.
+Runtime varies by CPU and execution environment. Tested benchmark runs complete within the official 300-second CPU-only limit.
 
-The output is deterministic — same candidates, same scores, same reasoning — on every run.
+The ranking pipeline is deterministic for the same input files and code version.

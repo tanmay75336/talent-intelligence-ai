@@ -11,20 +11,22 @@ primary_contact:
 
 github_repository: https://github.com/tanmay75336/talent-intelligence-ai
 
-sandbox_demo_link: TODO
+sandbox_demo_link: https://colab.research.google.com/drive/12h8SmdQUZcTO4LkyQdWoHNU0DGOsgciX?usp=sharing
 
 compute_environment: "MacBook Air 13-inch (M4, 2025), Apple M4 10-core CPU, 16GB unified memory, 256GB SSD, Python 3.13.5, CPU only"
 
 ai_tools_used:
+  - Claude
   - ChatGPT
-  - Cursor
   - Gemini
-  - Other  # Codex (OpenAI code generation)
+  - Other
 
 ai_tool_usage_note: |
-  AI tools assisted with implementation, debugging, and documentation review.
-  Architecture decisions, evaluation criteria, signal design, and final validation
-  were owned by the OctaOps team.
+  We used AI tools during development for implementation support,
+  debugging assistance, and documentation review. Antigravity was used
+  with Gemini and Claude models, and Codex extension usage is declared
+  under Other. The ranking approach, evaluation decisions, signal design,
+  testing, and final validation were handled by the OctaOps team.
 
 external_api_usage_during_ranking: false
 
@@ -48,4 +50,5 @@ methodology_summary: |
   behavioral bonus, a surface-match penalty, and a trap penalty over the pool; top
   100 selected by reranked score. Stage 3 generates deterministic natural-prose
   reasoning from candidate facts and JD-aligned career evidence — no hosted LLM.
-  CPU-only, no network, ~105s on Apple M4 16GB.
+  The pipeline runs CPU-only without network access during ranking and completes
+  within the official runtime limit on tested environments.

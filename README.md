@@ -8,7 +8,7 @@
 
 We built an offline candidate ranking system that scores 100,000 RedRob profiles against a specific job description and returns the top 100, ranked best-to-worst, with a plain-language explanation for each.
 
-The core design decision: **career evidence over keyword matching.** A candidate who built production retrieval and ranking systems should rank above someone who merely lists vector database names on their skills page. Our scoring reflects that.
+The main trade-off we focused on was **career evidence over keyword matching.** We wanted candidates with demonstrated production retrieval and ranking experience to score above profiles that only mention popular AI tools without deeper evidence.
 
 ## How to reproduce the submission
 
@@ -24,7 +24,7 @@ data/job_description.docx
 pip install -r backend/requirements.txt
 ```
 
-The competition pipeline uses the minimal dependencies listed in `backend/requirements.txt`.
+The ranking pipeline uses the dependencies listed in `backend/requirements.txt`.
 
 Run the ranker from the repository root:
 
@@ -59,7 +59,7 @@ python -m backend.competition.rank --candidates data/candidates.jsonl --job data
 [rank] ──────────────────────────────────────────
 ```
 
-Progress prints every 10,000 candidates during Stage 1. Actual timing will vary by machine; expect **90–120 seconds** on a modern laptop (CPU-only).
+Progress prints every 10,000 candidates during Stage 1. Actual timing varies by CPU and execution environment. Tested runs complete within the competition's 300-second CPU-only limit.
 
 Validate the output:
 
@@ -70,6 +70,25 @@ python -m backend.competition.validate_submission OctaOps.csv
 
 The ranked CSV is also committed as `OctaOps.csv` at the root.
 
+---
+
+## Hosted Sandbox Demo
+
+Google Colab sandbox:
+https://colab.research.google.com/drive/12h8SmdQUZcTO4LkyQdWoHNU0DGOsgciX?usp=sharing
+
+We use the sandbox as a quick reproducibility check with a small candidate sample.
+
+It demonstrates:
+
+- CPU-only execution
+- No hosted LLM or external API calls during ranking
+- Same ranking pipeline used for the final submission
+- Ranked CSV generation from sample candidates (≤100 candidates)
+
+The full 100,000-candidate reproduction is performed from this repository using the command documented above. The sandbox is meant only as a lightweight verification environment.
+
+---
 
 ## Architecture
 
@@ -133,7 +152,7 @@ The tone scales with rank confidence: candidates in the top 30 receive confident
 
 ## Trap handling
 
-The dataset includes honeypot and trap profiles. Our calibrator applies explicit penalties for:
+The dataset includes profiles where surface-level matches may not represent real role fit. Our calibrator applies pattern-based adjustments for:
 
 | Pattern | Detection |
 |---------|-----------|
@@ -142,11 +161,11 @@ The dataset includes honeypot and trap profiles. Our calibrator applies explicit
 | Research-only profiles | Research vocabulary without production ownership language |
 | Hands-off seniority | Long tenure + management language, no ownership verbs |
 
-We do not hard-code candidate IDs. Detection is text-pattern based, so it generalises.
+We do not hard-code candidate IDs. The checks are based on profile patterns, so the same logic applies across candidates.
 
 ## Behavioral signals
 
-We use the 23 RedRob behavioral signals as **secondary modifiers only**. They do not override strong JD-evidence matches.
+We use behavioral signals as **secondary modifiers only**. They do not override strong JD-evidence matches.
 
 Signals used:
 - `open_to_work_flag` — availability
@@ -155,13 +174,13 @@ Signals used:
 - `notice_period_days` — practical consideration
 - `willing_to_relocate` — logistics
 
-A strong builder who hasn't engaged recently is slightly depressed but not disqualified.
+A strong technical match with weaker engagement signals receives a small adjustment but is not removed from consideration.
 
 ## Compute constraints
 
 | Constraint | Limit | Our result |
 |------------|-------|------------|
-| Runtime | ≤ 300s | **~105s** |
+| Runtime | ≤ 300s | Verified under limit on tested CPU environments |
 | RAM | ≤ 16 GB | Well within (streaming, no full-pool load) |
 | GPU | Not permitted | CPU only |
 | Network during ranking | Not permitted | None — `configure_offline_environment()` enforces this |
@@ -201,15 +220,14 @@ Uses `data/sample_candidates.json` when present.
 | `backend/reasoning/evidence_quality.py` | Evidence quality scoring (used by signal extraction) |
 | `backend/utils/skill_taxonomy.py` | Skill normalisation and domain keywords |
 | `backend/test_redrob_competition.py` | Competition pipeline unit tests |
-| `experiments/` | Development experiment scripts (not in production path) |
+| `research/experiments/` | Development experiment scripts (not used by competition pipeline) |
 | `research/` | Phase reports and audit trail |
-| `archive/prototype/` | Early recruiter app prototype (separate system, kept for history) |
+| `archive/prototype/` | Archived experiments (not used by competition pipeline) |
 | `sandbox/` | Colab sandbox instructions |
-| `docs/` | System technical report and release documentation |
 
 ## Further reading
 
 - `METHODOLOGY.md` — design rationale, trap handling, scoring decisions
-- `sandbox/README.md` — Colab sandbox setup for Stage 1 link
-- `experiments/README.md` — what each experiment explored
+- `sandbox/README.md` — Colab sandbox setup instructions
+- `research/experiments/README.md` — what each experiment explored
 - `research/` — full phase audit trail
