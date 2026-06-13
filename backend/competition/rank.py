@@ -194,7 +194,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
 
     stage1_elapsed = time.time() - stage1_start
     print(f"[rank] Stage 1 complete — {len(seen_candidate_ids):,} candidates scored in {stage1_elapsed:.1f}s", flush=True)
-    print(f"[rank]   Shortlist pool: {len(top_pool)} candidates (top-{_RERANK_POOL_SIZE} by calibrated score)", flush=True)
+    print(f"[rank]   Shortlist pool: {len(top_pool)} candidates (highest calibrated scores)", flush=True)
 
     pool = [
         item[2]
@@ -242,13 +242,13 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     reranked.sort(key=lambda x: (-x["score"], x["candidate_id"]))
     top100_items = reranked[:TOP_K]
     stage2_elapsed = time.time() - stage2_start
-    print(f"[rank] Stage 2 complete — {len(reranked)} candidates reranked in {stage2_elapsed:.3f}s  →  top {TOP_K} selected", flush=True)
+    print(f"[rank] Stage 2 complete — {len(reranked)} candidates reranked in {stage2_elapsed:.3f}s  →  top {len(top100_items)} selected", flush=True)
 
     # -----------------------------------------------------------------------
     # Stage 3: Phase 8E.1 prose reasoning
     # Natural plain-language sentences meeting all 6 Stage 4 spec checks.
     # -----------------------------------------------------------------------
-    print(f"[rank] Stage 3 — generating reasoning for {TOP_K} candidates", flush=True)
+    print(f"[rank] Stage 3 — generating reasoning for {len(top100_items)} candidates", flush=True)
     stage3_start = time.time()
     ranked_candidates: list[CompetitionCandidate] = []
     for rank_pos, item in enumerate(top100_items, start=1):
