@@ -23,58 +23,70 @@ We use the sandbox for quick reproducibility checks. The complete 100,000-candid
 
 ## Google Colab Setup Steps
 
-Create a new Google Colab notebook and run the following cells.
+Open the hosted Colab notebook and run:
 
-```python
-# Cell 1 — Clone repository
-!git clone https://github.com/tanmay75336/talent-intelligence-ai.git
-%cd talent-intelligence-ai
+`Runtime → Run all`
+
+If Google Colab shows the standard external notebook warning, select **Run anyway**.
+
+By default, the sandbox uses the included sample files:
+
+```text
+sandbox/sample_data/sample_candidates.json
+sandbox/sample_data/job_description.docx
 ```
 
-```python
-# Cell 2 — Install dependencies
-!pip install -r backend/requirements.txt
+These files allow the notebook to run end-to-end without requiring manual uploads.
+
+For custom testing, the notebook also supports uploading another small candidate sample and job description.
+
+By default:
+
+```text
+USE_CUSTOM_UPLOAD = False
 ```
 
-```python
-# Cell 3 — Upload and arrange data
+The notebook automatically uses the included sandbox sample files.
 
-# Upload the official small sample from the hackathon bundle:
-# - sample_candidates.json
-# - job_description.docx
-# Then move them to the data/ directory:
-!mkdir -p data
-!mv sample_candidates.json data/
-!mv job_description.docx data/
+To test custom files, change:
+
+```text
+USE_CUSTOM_UPLOAD = True
 ```
 
-```python
-# Cell 4 — Run ranking pipeline
+When the cell runs, Google Colab opens a file upload prompt where a reviewer can provide their own candidate sample and job description files.
 
-!python -m backend.competition.rank \
+The notebook flow:
+
+```text
+Clone repository
+        ↓
+Install dependencies
+        ↓
+Load included sandbox sample data
+(or optional reviewer-uploaded input)
+        ↓
+Run ranking pipeline
+        ↓
+Generate demo_submission.csv
+```
+
+The ranking command executed inside the notebook is:
+
+```bash
+python -m backend.competition.rank \
   --candidates data/sample_candidates.json \
   --job data/job_description.docx \
   --output demo_submission.csv
 ```
 
-```python
-# Cell 5 — Validate generated CSV
-
-!python -m backend.competition.validate_submission demo_submission.csv
-```
-
-```python
-# Cell 6 — Download generated CSV
-
-from google.colab import files
-files.download("demo_submission.csv")
-```
+The generated CSV can then be inspected or downloaded from the Colab environment.
 
 ---
 
 ## Local Sandbox Run
 
-From the repository root (ensure `data/sample_candidates.json` and `data/job_description.docx` are present):
+From the repository root, copy the included sandbox sample files into `data/` or provide your own small sample inputs:
 
 Run:
 
