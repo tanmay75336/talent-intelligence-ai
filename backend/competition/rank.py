@@ -55,11 +55,6 @@ _PROD_DISCLAIMER_PHRASES: tuple[str, ...] = (
 )
 _PROD_DISCLAIMER_MULTIPLIER: float = 0.5
 # ---------------------------------------------------------------------------
-# Phase 8B.3 reranker configuration (headroom-scaled depth + behavioral bonuses)
-# ---------------------------------------------------------------------------
-_RERANK_POOL_SIZE: int = 300
-
-# ---------------------------------------------------------------------------
 # Phase 8B.3: Headroom-scaled depth bonus (inlined to avoid circular import
 # with rerank_experiment.py which imports rank at module level)
 #
@@ -151,13 +146,44 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
     print(f"[rank] JD parsed — {len(job_analysis.core_skills)} core skills, {len(job_terms)} term signals", flush=True)
 
     # -----------------------------------------------------------------------
-    # Stage 1: Phase 8C.4 base scoring — stream all 100K candidates into a
-    # top-_RERANK_POOL_SIZE heap. The wider pool gives the Phase 8B.3 reranker
-    # room to elevate candidates with strong career evidence that were slightly
-    # depressed in the base score.
+    # Stage 1: Phase 8C.4 base scoring — stream all candidates into a
+    # dynamic min-heap pool. The wider pool gives the Phase 8B.3 reranker
+    # room to elevate candidates with strong career evidence.
     # -----------------------------------------------------------------------
     print(f"[rank] Stage 1 — base scoring + evidence calibration (streaming candidates)", flush=True)
     stage1_start = time.time()
+    
+    path_str = str(candidates_path)
+    total_candidates = 100_000
+    if path_str.endswith(".jsonl"):
+        with open(path_str, "rb") as f:
+            total_candidates = sum(1 for _ in f)
+    elif path_str.endswith(".json"):
+        import json
+        try:
+            with open(path_str, "r", encoding="utf-8") as f:
+                payload = json.load(f)
+            if isinstance(payload, dict):
+                for key in ("candidates", "profiles", "data", "rows", "items", "results"):
+                    if isinstance(payload.get(key), list):
+                        payload = payload[key]
+                        break
+            if isinstance(payload, dict):
+                payload = [payload]
+            if isinstance(payload, list):
+                total_candidates = len(payload)
+        except Exception:
+            pass
+
+    if total_candidates <= 300:
+        rerank_pool_size = total_candidates
+    elif total_candidates < 1000:
+        rerank_pool_size = 300
+    else:
+        rerank_pool_size = max(300, int(total_candidates * 0.01))
+
+    print(f"[rank] Dynamic Stage 2 candidate recall pool: {rerank_pool_size} (from {total_candidates} candidates)", flush=True)
+
     top_pool: list[tuple[float, str, CompetitionCandidate]] = []
     seen_candidate_ids: set[str] = set()
     _progress_interval = 10_000
@@ -169,7 +195,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
         seen_candidate_ids.add(candidate_profile.candidate_id)
         core_signals = build_competition_core_signals(candidate_profile)
         base_score = _competition_score(candidate_profile, core_signals, job_analysis, job_terms)
-        if len(top_pool) >= _RERANK_POOL_SIZE and base_score + MAX_EVIDENCE_ADJUSTMENT < top_pool[0][0]:
+        if len(top_pool) >= rerank_pool_size and base_score + MAX_EVIDENCE_ADJUSTMENT < top_pool[0][0]:
             pass  # skipped: score too low to enter pool even with max calibration
         else:
             calibration = calibrate_candidate_evidence(candidate_profile)
@@ -183,7 +209,7 @@ def run_competition_ranking(candidates_path: str | Path, job_path: str | Path, o
                 profile=candidate_profile,
             )
             heap_item = (candidate.score, candidate.candidate_id, candidate)
-            if len(top_pool) < _RERANK_POOL_SIZE:
+            if len(top_pool) < rerank_pool_size:
                 heapq.heappush(top_pool, heap_item)
             elif heap_item > top_pool[0]:
                 heapq.heapreplace(top_pool, heap_item)

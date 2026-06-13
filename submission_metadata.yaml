@@ -45,8 +45,11 @@ methodology_summary: |
   a career evidence term (AI infrastructure hits in career history text only, capped
   at 5). Candidates who explicitly disclaim production ownership receive a 0.5x
   penalty on the career evidence term, grounded in the JD disqualifier clause.
-  Evidence calibration applies a bounded ±0.10 adjustment. A top-300 min-heap is
-  maintained. Stage 2 applies a headroom-scaled evidence depth bonus, a small
+  Evidence calibration applies a bounded ±0.10 adjustment. A dynamic Stage 2 candidate recall pool
+  controls how many high-potential candidates advance into reranking. Small datasets pass all available
+  candidates forward, medium datasets preserve the stable recall window, and large datasets expand the
+  candidate pool proportionally. This affects only recall before Stage 2; scoring weights, evidence
+  extraction, and ranking formulas remain unchanged. Stage 2 applies a headroom-scaled evidence depth bonus, a small
   behavioral bonus, a surface-match penalty, and a trap penalty over the pool; top
   100 selected by reranked score. Stage 3 generates deterministic natural-prose
   reasoning from candidate facts and JD-aligned career evidence — no hosted LLM.

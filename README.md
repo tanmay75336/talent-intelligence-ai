@@ -38,15 +38,16 @@ python -m backend.competition.rank --candidates data/candidates.jsonl --job data
 [rank] Reading job description: data/job_description.docx
 [rank] JD parsed — <detected> core skills, <detected> term signals
 [rank] Stage 1 — base scoring + evidence calibration (streaming candidates)
-[rank]   ...  10,000 candidates scored  |  pool: 300  |  elapsed time
-[rank]   ...  20,000 candidates scored  |  pool: 300  |  elapsed time
+[rank] Dynamic Stage 2 candidate recall pool: 1000 (from 100000 candidates)
+[rank]   ...  10,000 candidates scored  |  pool: 1000  |  elapsed time
+[rank]   ...  20,000 candidates scored  |  pool: 1000  |  elapsed time
 ...
-[rank]   ... 100,000 candidates scored  |  pool: 300  |  elapsed time
+[rank]   ... 100,000 candidates scored  |  pool: 1000  |  elapsed time
 [rank] Stage 1 complete — 100,000 candidates scored
-[rank]   Shortlist pool: 300 candidates (top-300 by calibrated score)
-[rank] Reloading 300 pool profiles for reranking...
-[rank] Stage 2 — reranking 300 candidates (evidence depth + behavioral signals)
-[rank] Stage 2 complete — 300 candidates reranked  →  top 100 selected
+[rank]   Shortlist pool: 1000 candidates (highest calibrated scores)
+[rank] Reloading 1000 pool profiles for reranking...
+[rank] Stage 2 — reranking 1000 candidates (evidence depth + behavioral signals)
+[rank] Stage 2 complete — 1000 candidates reranked  →  top 100 selected
 [rank] Stage 3 — generating reasoning for 100 candidates
 [rank] Stage 3 complete — reasoning generated
 [rank] Writing submission: /Users/username/talent-intelligence-ai/OctaOps.csv
@@ -108,7 +109,7 @@ Base scoring                  (competition/rank.py)
   — Career evidence term from history text
   — Production disclaimer detection
   — Evidence calibration ±0.10
-  — Top-300 min-heap across 100K candidates
+  — Dynamic Stage 2 candidate recall pool (scales candidate recall before reranking)
         |
 Reranking                     (competition/rank.py)
   — Headroom-scaled evidence depth bonus
@@ -123,6 +124,8 @@ Reasoning generation          (competition/reasoning_generator.py)
         |
 OctaOps.csv
 ```
+
+Stage 2 candidate recall uses a dynamic pool size. Small datasets pass all available candidates forward, medium datasets preserve the stable minimum recall window, and large datasets expand the candidate pool proportionally before applying the same evidence reranker. This changes only how many candidates reach reranking; scoring, evidence extraction, behavioral signals, and final CSV rules remain unchanged.
 
 ## Scoring design
 

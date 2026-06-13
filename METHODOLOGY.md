@@ -64,7 +64,16 @@ We detect a set of explicit disclaimer phrases in career text. When detected, th
 
 ## 5. Reranking
 
-After base scoring and calibration, we maintain a pool of the top 300 candidates. Over this pool, we apply per-candidate adjustments:
+After base scoring and calibration, we maintain a dynamic Stage 2 candidate recall pool that controls how many high-potential candidates advance into evidence reranking.
+
+The pool adapts to dataset size:
+- Small datasets pass all available candidates into reranking
+- Medium datasets preserve the stable minimum recall window
+- Large datasets expand the recall pool proportionally before reranking
+
+This scaling only changes candidate recall before Stage 2. It does not modify scoring weights, evidence extraction, behavioral signals, or reranking formulas.
+
+Over this dynamically selected pool, we apply per-candidate adjustments:
 
 **Headroom-scaled depth bonus:** The calibrator already rewards some evidence signals. The reranker adds a bonus proportional to the *unused headroom* in the calibration adjustment — so candidates who already received the full calibration bonus get near-zero extra credit, while candidates with strong evidence depth who were slightly underrewarded get a modest lift. Maximum effect: +0.030.
 
@@ -132,7 +141,7 @@ Because the evaluation strongly rewards the highest-ranked candidates, we focuse
 - The reranker bonus is designed to elevate candidates with deep evidence who were slightly underscored by the base formula
 - The surface-match penalty and trap penalty protect the top 10 from keyword-stuffed profiles
 
-We do not claim to have optimised NDCG@50 separately — our pipeline produces a consistent scoring function across the full 300-candidate pool, which should naturally handle ranking depth.
+We do not claim to have optimised NDCG@50 separately — our pipeline applies a consistent scoring function and uses a dynamic candidate recall pool so the existing evidence reranker can evaluate an appropriately sized candidate set before final top-candidate selection.
 
 ---
 
