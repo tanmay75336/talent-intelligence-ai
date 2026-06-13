@@ -22,20 +22,22 @@ Create a new Google Colab notebook and run the following cells.
 ```
 
 ```python
-# Cell 3 — Prepare sandbox sample
+# Cell 3 — Upload and arrange data
 
-# The official sandbox only requires a small sample run.
-# Use exactly 100 candidates so the generated CSV follows the same
-# 100-row submission structure.
-
-!head -n 100 data/candidates.jsonl > data/sample_100.jsonl
+# Upload the official small sample from the hackathon bundle:
+# - sample_candidates.json
+# - job_description.docx
+# Then move them to the data/ directory:
+!mkdir -p data
+!mv sample_candidates.json data/
+!mv job_description.docx data/
 ```
 
 ```python
 # Cell 4 — Run ranking pipeline
 
 !python -m backend.competition.rank \
-  --candidates data/sample_100.jsonl \
+  --candidates data/sample_candidates.json \
   --job data/job_description.docx \
   --output demo_submission.csv
 ```
@@ -57,22 +59,18 @@ files.download("demo_submission.csv")
 
 ## Local Sandbox Run
 
-From the repository root:
-
-```bash
-head -n 100 data/candidates.jsonl > data/sample_100.jsonl
-```
+From the repository root (ensure `data/sample_candidates.json` and `data/job_description.docx` are present):
 
 Run:
 
 ```bash
-python -m backend.competition.rank --candidates data/sample_100.jsonl --job data/job_description.docx --output demo_submission.csv
+python -m backend.competition.rank --candidates data/sample_candidates.json --job data/job_description.docx --output demo_submission.csv
 ```
 
-Validate:
+Inspect the output (validation is skipped for <100 candidates):
 
 ```bash
-python -m backend.competition.validate_submission demo_submission.csv
+cat demo_submission.csv
 ```
 
 ---
