@@ -1,79 +1,91 @@
 # Sandbox — Small-sample Reproducibility
 
-This folder documents how to run the competition ranker on a small candidate sample for the **Stage 1 sandbox link** requirement.
+This folder documents the hosted sandbox setup for verifying the OctaOps ranking pipeline on a small candidate sample.
 
-The sandbox only needs to demonstrate end-to-end ranking on a subset — full reproduction (100K candidates) happens at Stage 3 from the GitHub repo.
+The sandbox demonstrates that the ranking system runs end-to-end. Full 100,000-candidate reproduction is handled from the GitHub repository during the official reproduction stage.
 
 ---
 
-## Quickest option: Google Colab
+## Google Colab Sandbox
 
-Create a new Colab notebook and run these cells:
-
-```python
-# Cell 1 — Install dependencies
-!pip install pandas numpy pydantic
-```
+Create a new Google Colab notebook and run the following cells.
 
 ```python
-# Cell 2 — Clone repository
+# Cell 1 — Clone repository
 !git clone https://github.com/tanmay75336/talent-intelligence-ai.git
 %cd talent-intelligence-ai
 ```
 
 ```python
-# Cell 3 — Upload data files
-# Upload: job_description.docx and a small candidate JSONL (e.g. first 200 lines)
-# from Google Drive or via Colab file upload widget
-
-# Slice 200 candidates from the official pool:
-!head -n 200 data/candidates.jsonl > data/sample_200.jsonl
+# Cell 2 — Install dependencies
+!pip install -r backend/requirements.txt
 ```
 
 ```python
-# Cell 4 — Run the ranker
+# Cell 3 — Prepare sandbox sample
+
+# The official sandbox only requires a small sample run.
+# Use exactly 100 candidates so the generated CSV follows the same
+# 100-row submission structure.
+
+!head -n 100 data/candidates.jsonl > data/sample_100.jsonl
+```
+
+```python
+# Cell 4 — Run ranking pipeline
+
 !python -m backend.competition.rank \
-  --candidates data/sample_200.jsonl \
+  --candidates data/sample_100.jsonl \
   --job data/job_description.docx \
   --output demo_submission.csv
 ```
 
 ```python
-# Cell 5 — Validate
+# Cell 5 — Validate generated CSV
+
 !python -m backend.competition.validate_submission demo_submission.csv
 ```
 
 ```python
-# Cell 6 — Download result
-from google.colab import files
-files.download('demo_submission.csv')
-```
+# Cell 6 — Download generated CSV
 
-> **Note:** With fewer than 100 unique candidates, validation will fail the 100-row check. Use ≥100 candidates or treat the output as a pipeline smoke test rather than a valid submission format.
+from google.colab import files
+files.download("demo_submission.csv")
+```
 
 ---
 
-## Local quick run
+## Local Sandbox Run
 
-From the repository root with data files in `data/`:
+From the repository root:
 
 ```bash
-# Slice 200 candidates
-head -n 200 data/candidates.jsonl > /tmp/sample_200.jsonl
+head -n 100 data/candidates.jsonl > data/sample_100.jsonl
+```
 
-# Run ranker
-python -m backend.competition.rank \
-  --candidates /tmp/sample_200.jsonl \
-  --job data/job_description.docx \
-  --output demo_submission.csv
+Run:
+
+```bash
+python -m backend.competition.rank --candidates data/sample_100.jsonl --job data/job_description.docx --output demo_submission.csv
+```
+
+Validate:
+
+```bash
+python -m backend.competition.validate_submission demo_submission.csv
 ```
 
 ---
 
 ## What this demonstrates
 
-- Streaming JSONL load → profile normalisation → scoring → calibration → reasoning → CSV
-- CPU-only execution with no external API calls
-- Same pipeline code path as full 100K reproduction
+- Same ranking code path as the full submission pipeline
+- Streaming candidate loading
+- Candidate scoring and calibration
+- Final ranking selection
+- Reasoning generation
+- CSV creation and validation
+- CPU-only execution
+- No external API calls during ranking
 
-The sandbox is intentionally minimal. The full system design is documented in `README.md` and `METHODOLOGY.md`.
+The sandbox is intentionally lightweight. Full architecture details and the complete 100K reproduction command are documented in the main `README.md` and `METHODOLOGY.md`.
