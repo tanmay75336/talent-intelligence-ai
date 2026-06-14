@@ -25,6 +25,8 @@ score = skill_overlap    × 0.26
       + experience_fit   × 0.12
       + execution_signals × 0.20
       + career_evidence   × 0.08
+
+The base score is designed as a high-recall first stage, not the final ranking decision. Skill and term signals intentionally identify candidates with potential JD alignment, while evidence calibration and Stage 2 reranking verify whether those signals are supported by real production experience. This prevents keyword-heavy profiles from winning purely through vocabulary overlap.
 ```
 
 **Why these weights?**
