@@ -24,6 +24,8 @@ out/
 
 # Local datasets
 data/
+data new/
+research/stress test
 
 # Uploads
 uploads/

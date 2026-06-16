@@ -82,6 +82,8 @@ python -m backend.competition.rank \
 
 The generated CSV can then be inspected or downloaded from the Colab environment.
 
+Note: `demo_submission.csv` is only the sandbox demonstration output. The official full candidate reproduction generates `OctaOps.csv` as documented in the root README.
+
 ---
 
 ## Local Sandbox Run

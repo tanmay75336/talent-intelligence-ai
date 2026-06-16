@@ -1,57 +1,54 @@
-project_name: Talent Intelligence AI
-
-track: Intelligent Candidate Discovery
-
-team_name: OctaOps
+team_name: "OctaOps"
 
 primary_contact:
-  name: Sarth Sacchidanand Patkar
-  email: sarthpatkar70@gmail.com
-  phone: "9209594418"
+  name: "Sarth Sacchidanand Patkar"
+  email: "sarthpatkar70@gmail.com"
+  phone: "+91-9209594418"
 
-github_repository: https://github.com/tanmay75336/talent-intelligence-ai
+team_members:
+  - name: "Sarth Sacchidanand Patkar"
+    email: "sarthpatkar70@gmail.com"
+    role: "ML Engineer"
+  - name: "Tanmay Kiran Vishe"
+    email: "tanmayvishe9@gmail.com"
+    role: "Data Engineer"
 
-sandbox_demo_link: https://colab.research.google.com/drive/12h8SmdQUZcTO4LkyQdWoHNU0DGOsgciX?usp=sharing
+github_repo: "https://github.com/tanmay75336/talent-intelligence-ai"
 
-compute_environment: "MacBook Air 13-inch (M4, 2025), Apple M4 10-core CPU, 16GB unified memory, 256GB SSD, Python 3.13.5, CPU only"
+sandbox_link: "https://colab.research.google.com/drive/12h8SmdQUZcTO4LkyQdWoHNU0DGOsgciX?usp=sharing"
+
+reproduce_command: "python -m backend.competition.rank --candidates data/candidates.jsonl --job data/job_description.docx --output OctaOps.csv"
+
+compute:
+  platform: "MacBook Air 13-inch (M4, 2025)"
+  cpu_cores: 10
+  ram_gb: 16
+  python_version: "3.13.5"
+  os: "macOS"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
 
 ai_tools_used:
-  - Claude
-  - ChatGPT
-  - Gemini
-  - Other
+  - "Claude"
+  - "ChatGPT"
+  - "Gemini"
+  - "Other"
 
-ai_tool_usage_note: |
+ai_usage_summary: |
   We used AI tools during development for implementation support,
   debugging assistance, and documentation review. Antigravity was used
   with Gemini and Claude models, and Codex extension usage is declared
   under Other. The ranking approach, evaluation decisions, signal design,
   testing, and final validation were handled by the OctaOps team.
 
-external_api_usage_during_ranking: false
-
-runtime_seconds: 105
-
-team_members:
-  - name: Sarth Sacchidanand Patkar
-    email: sarthpatkar70@gmail.com
-  - name: Tanmay Kiran Vishe
-    email: tanmayvishe9@gmail.com
-
 methodology_summary: |
-  We built an offline, deterministic three-stage pipeline. Stage 1 streams all 100K
-  candidates through a 6-term weighted base scorer combining JD skill overlap,
-  skill-group overlap, term overlap, experience-band fit, core execution signals, and
-  a career evidence term (AI infrastructure hits in career history text only, capped
-  at 5). Candidates who explicitly disclaim production ownership receive a 0.5x
-  penalty on the career evidence term, grounded in the JD disqualifier clause.
-  Evidence calibration applies a bounded ±0.10 adjustment. A dynamic Stage 2 candidate recall pool
-  controls how many high-potential candidates advance into reranking. Small datasets pass all available
-  candidates forward, medium datasets preserve the stable recall window, and large datasets expand the
-  candidate pool proportionally. This affects only recall before Stage 2; scoring weights, evidence
-  extraction, and ranking formulas remain unchanged. Stage 2 applies a headroom-scaled evidence depth bonus, a small
-  behavioral bonus, a surface-match penalty, and a trap penalty over the pool; top
-  100 selected by reranked score. Stage 3 generates deterministic natural-prose
-  reasoning from candidate facts and JD-aligned career evidence — no hosted LLM.
-  The pipeline runs CPU-only without network access during ranking and completes
-  within the official runtime limit on tested environments.
+  We built an offline, deterministic three-stage candidate ranking pipeline. Stage 1 streams candidates through a hybrid scorer combining JD alignment, skill coverage, experience fit, production execution indicators, and verified career evidence extracted from candidate history. Evidence calibration reduces reliance on keyword-only matches and prioritizes demonstrated real-world relevance. A dynamic Stage 2 recall pool scales candidate selection before deeper evidence-based reranking, where career depth, behavioral signals, and profile quality are evaluated. Stage 3 generates deterministic candidate-specific reasoning explaining the final rankings. The system runs fully CPU-only without GPU inference, external APIs, or network access during ranking.
+
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true

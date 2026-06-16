@@ -158,6 +158,7 @@ We do not claim to have optimised NDCG@50 separately — our pipeline applies a 
 The weights were chosen by repeatedly comparing signals against the JD requirements and checking whether they represented real evidence of candidate fit.
 
 ---
+
 ## 11. Reproducibility
 
 ```bash
