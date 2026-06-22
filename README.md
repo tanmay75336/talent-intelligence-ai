@@ -228,6 +228,7 @@ Uses `data/sample_candidates.json` when present.
 | `archive/prototype/` | Archived experiments (not used by competition pipeline) |
 | `sandbox/` | Colab sandbox instructions |
 
+
 ## Further reading
 
 - `METHODOLOGY.md` — design rationale, trap handling, scoring decisions
